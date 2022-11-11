@@ -1,0 +1,19 @@
+# Ignore files
+.qt
+*.pyc
+*.swp
+*~
+*#
+*.spec
+tags
+ID
+*.js
+.repo
+.git
+Strata/*
+StrataApi/*
+StrataXgsApiV2/*
+External/*
+SandBroadcomSdk/*
+XpApi/*
+GitarBandMutDb/*

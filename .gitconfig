@@ -26,3 +26,5 @@
 	algorithm = histogram
 [pull]
 	ff = only
+[init]
+	defaultBranch = main

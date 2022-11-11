@@ -1,0 +1,8 @@
+[mail]
+program=chatmail
+
+[chatmail.google-chat-userhooks]
+jeff = https://chat.googleapis.com/v1/spaces/AAAA2eZ_Ia4/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=Xg1rbSCRUIRHiS38ztBr-DfgUffDV2bjZYJnjYZSjpc%3D
+
+[chatmail.google-chat-userids]
+jeff = 105271138013399676543

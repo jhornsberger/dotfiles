@@ -1,0 +1,4 @@
+#!/bin/sh
+
+nohup pip install pdbpp < /dev/null &> /dev/null &
+nohup ctags -R -L ~/.source_navigation < /dev/null &> /dev/null &

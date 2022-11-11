@@ -1,0 +1,13 @@
+--smart-case
+--type-add
+ar:*.{tac,tin,py,ar,am}
+--type-add
+tac:*.tac
+--type-add
+tin:*.tin
+--type-add
+arx:*.arx
+--ignore-file=/home/jeff/dotfiles/ignore
+--hidden
+--color=auto
+--no-ignore-vcs

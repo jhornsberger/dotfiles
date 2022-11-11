@@ -1,0 +1,28 @@
+[user]
+	name = Jeff Hornsberger
+	email = jeff@arista.com
+[alias]
+	logma = log --oneline --decorate --graph --branches --tags master~1..
+	loga = log --oneline --decorate --graph --branches --tags
+	logb = log --oneline --decorate --graph
+	cp = cherry-pick
+[push]
+	default = simple
+#[notes]
+#	displayRef = refs/notes/gitar-*
+[gitar]
+	configured = true
+	promptForTestingDone = false
+	scheduleTestBuild = true
+	autoLintChanges = true
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+[rebase]
+	autosquash = true
+[diff]
+	algorithm = histogram
+[pull]
+	ff = only

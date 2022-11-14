@@ -50,7 +50,6 @@ vim.o.splitbelow = true
 -- UI stuff
 vim.o.termguicolors = true
 vim.o.background = 'light'
-vim.o.cursorline = true
 vim.o.visualbell = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
@@ -68,14 +67,18 @@ vim.o.timeoutlen = 1000
 vim.o.fsync = false
 vim.o.previewheight = 20
 vim.cmd.colorscheme 'NeoSolarized'
-END
 
-" Highlight cursor line only in current window
-augroup CursorLine
-  au!
-  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-  au WinLeave * setlocal nocursorline
-augroup END
+-- Highlight cursor line only in current window
+vim.api.nvim_create_augroup("CursorLine", {})
+vim.api.nvim_create_autocmd({"VimEnter", "WinEnter", "BufWinEnter"},
+   { group = "CursorLine",
+     pattern = '*',
+     callback = function() vim.opt_local.cursorline = true end,})
+vim.api.nvim_create_autocmd({"WinLeave"},
+   { group = "CursorLine",
+     pattern = '*',
+     callback = function() vim.opt_local.cursorline = false end,})
+END
 
 " Options for folding
 set foldmethod=syntax           "fdm:   fold by the indentation by default

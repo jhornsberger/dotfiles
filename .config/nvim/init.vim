@@ -47,52 +47,32 @@ vim.o.virtualedit = 'all'
 vim.o.history = 5000
 vim.o.joinspaces = false
 vim.o.mouse='a'
+
+-- Make splits appear as expected
+vim.o.splitbelow = true
+
+-- UI stuff
+vim.o.termguicolors = true
+vim.o.background = 'light'
+vim.o.cursorline = true
+vim.o.visualbell = true
+vim.o.ignorecase = true
+vim.o.smartcase = true
+vim.o.guioptions = 'aeir'
+vim.o.hidden = true
+vim.o.hlsearch = true
+vim.o.incsearch = true
+vim.o.wrapscan = false
+vim.o.showcmd = true
+vim.o.lazyredraw = true
+vim.o.tags = 'tags;/'
+vim.o.path = '**'
+vim.o.numberwidth = 1
+vim.o.timeoutlen = 1000
+vim.o.fsync = false
+vim.o.previewheight = 20
+vim.cmd.colorscheme 'NeoSolarized'
 END
-
-"if has("multi_byte")
-"  if &termencoding == ""
-"    let &termencoding = &encoding
-"  endif
-"  set encoding=utf-8
-"  setglobal fileencoding=utf-8
-"  " Uncomment to have 'bomb' on by default for new files.
-"  " Note, this will not apply to the first, empty buffer created at Vim startup.
-"  "setglobal bomb
-"  set fileencodings=ucs-bom,utf-8,latin1
-"endif
-
-" Make splits appear as expected
-set splitbelow
-
-" Options for setting the bottom 2 lines
-set showmode
-
-" UI stuff
-set termguicolors
-set background=light
-colorscheme NeoSolarized
-set nocursorline
-set visualbell
-set ignorecase
-set smartcase
-set guioptions=aeir
-set hidden
-set hlsearch
-set incsearch
-set nowrapscan
-set showcmd
-set lazyredraw
-set tags=tags;/
-set path=**
-set numberwidth=1
-set timeoutlen=1000
-set nofsync
-set previewheight=20
-
-if !has( "nvim" )
-   set swapsync=
-   set completeopt=menu,popup
-endif
 
 " Highlight cursor line only in current window
 augroup CursorLine

@@ -1,7 +1,3 @@
-set runtimepath^=~/.vim runtimepath+=~/.vim/after
-let &packpath = &runtimepath
-"set rtp+=/usr/share/vim/vimfiles/
-
 lua << END
 -- Plugins via Packer
 require('packer').startup(function(use)

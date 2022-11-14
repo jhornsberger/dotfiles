@@ -426,7 +426,7 @@ vim.keymap.set('n', '<Leader>bl', "<cmd>lua require('fzf-lua').blines()<CR>", { 
 vim.keymap.set('n', '<Leader>h', "<cmd>lua require('fzf-lua').help_tags()<CR>", { noremap = true, silent = true })
 vim.keymap.set('n', '<Leader>:', "<cmd>lua require('fzf-lua').command_history()<CR>", { noremap = true, silent = true })
 vim.keymap.set('n', '<Leader>/', "<cmd>lua require('fzf-lua').search_history()<CR>", { noremap = true, silent = true })
-vim.keymap.set('n', '<Leader>o',
+vim.keymap.set('n', '<Leader>of',
    function()
       fzfFileListFunc( {
          prompt = 'OtherFiles❯ ',

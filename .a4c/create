@@ -1,4 +1,4 @@
 #!/bin/sh
 
-nohup pip install pdbpp < /dev/null &> /dev/null &
-nohup ctags -R -L ~/.source_navigation < /dev/null &> /dev/null &
+job pip install pdbpp
+(cd /src && job brew-enter ~/.local/bin/ctags -R -L ~/.source_navigation)

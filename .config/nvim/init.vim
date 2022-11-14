@@ -77,12 +77,6 @@ augroup CursorLine
   au WinLeave * setlocal nocursorline
 augroup END
 
-if has("gui_running")
-  if has("gui_win32")
-    set guifont=Lucida_Console:h10:cDEFAULT
-  endif
-endif
-
 " Options for folding
 set foldmethod=syntax           "fdm:   fold by the indentation by default
 set nofoldenable                "nofen: don't fold by default

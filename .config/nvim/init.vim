@@ -443,16 +443,16 @@ local otherMappings = {{
       }
    },}
 
-vim.api.nvim_set_keymap('n', '<Leader>f', "<cmd>FzfFiles<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>F', ":FzfFiles<space>", { noremap = true })
-vim.api.nvim_set_keymap('n', '<Leader>b', "<cmd>lua require('fzf-lua').buffers()<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<Leader>bt', "<cmd>lua require('fzf-lua').btags({ ctags_autogen = true })<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<Leader>t', "<cmd>lua require('fzf-lua').tags_live_grep()<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>g', ":FzfRg<space>", { noremap = true })
-vim.api.nvim_set_keymap('n', '<Leader>bl', "<cmd>lua require('fzf-lua').blines()<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<Leader>h', "<cmd>lua require('fzf-lua').help_tags()<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<Leader>:', "<cmd>lua require('fzf-lua').command_history()<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<Leader>/', "<cmd>lua require('fzf-lua').search_history()<CR>", { noremap = true, silent = true })
+vim.keymap.set('n', '<Leader>f', "<cmd>FzfFiles<CR>", { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>F', ":FzfFiles<space>", { noremap = true })
+vim.keymap.set('n', '<Leader>b', "<cmd>lua require('fzf-lua').buffers()<CR>", { noremap = true, silent = true })
+vim.keymap.set('n', '<Leader>bt', "<cmd>lua require('fzf-lua').btags({ ctags_autogen = true })<CR>", { noremap = true, silent = true })
+vim.keymap.set('n', '<Leader>t', "<cmd>lua require('fzf-lua').tags_live_grep()<CR>", { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>g', ":FzfRg<space>", { noremap = true })
+vim.keymap.set('n', '<Leader>bl', "<cmd>lua require('fzf-lua').blines()<CR>", { noremap = true, silent = true })
+vim.keymap.set('n', '<Leader>h', "<cmd>lua require('fzf-lua').help_tags()<CR>", { noremap = true, silent = true })
+vim.keymap.set('n', '<Leader>:', "<cmd>lua require('fzf-lua').command_history()<CR>", { noremap = true, silent = true })
+vim.keymap.set('n', '<Leader>/', "<cmd>lua require('fzf-lua').search_history()<CR>", { noremap = true, silent = true })
 vim.keymap.set('n', '<Leader>o',
    function()
       fzfFileListFunc( {
@@ -527,9 +527,9 @@ lua << END
 --   rememberBuffers = false,
 --})
 --
---vim.api.nvim_set_keymap("n", "<leader>o", "<cmd>:Other<CR>", { noremap = true, silent = true })
---vim.api.nvim_set_keymap("n", "<leader>os", "<cmd>:OtherSplit<CR>", { noremap = true, silent = true })
---vim.api.nvim_set_keymap("n", "<leader>ov", "<cmd>:OtherVSplit<CR>", { noremap = true, silent = true })
+--vim.keymap.set("n", "<leader>o", "<cmd>:Other<CR>", { noremap = true, silent = true })
+--vim.keymap.set("n", "<leader>os", "<cmd>:OtherSplit<CR>", { noremap = true, silent = true })
+--vim.keymap.set("n", "<leader>ov", "<cmd>:OtherVSplit<CR>", { noremap = true, silent = true })
 END
 
 " arvim plugin

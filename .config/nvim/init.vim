@@ -2,43 +2,39 @@ set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
 "set rtp+=/usr/share/vim/vimfiles/
 
-" Plugins via Vim-Plug
-call plug#begin()
-Plug 'tpope/vim-sensible'
-"Plug 'tmhedberg/matchit' " The matchit.vim script allows you to configure % to match more than just single characters.
-Plug 'majutsushi/tagbar'
-Plug 'haya14busa/vim-asterisk'
-Plug 'overcache/NeoSolarized'
-Plug 'tpope/vim-fugitive'
-"Plug 'tpope/vim-jdaddy' " JSON manipulation and pretty printing
-Plug 'tpope/vim-surround'
-"Plug 'vim-scripts/DirDiff.vim'
-Plug 'kana/vim-textobj-user'
-Plug 'bps/vim-textobj-python'
-Plug 'kana/vim-textobj-diff'
-"Plug 'derekwyatt/vim-fswitch' " Vim plug for switching between companion source files
-"Plug 'rgroli/other.nvim' " Open alternative files for the current buffer
-Plug 'tpope/vim-eunuch'
-"Plug 'junegunn/fzf'
-"Plug 'junegunn/fzf.vim'
-Plug 'ibhagwan/fzf-lua' " Improved fzf.vim written in lua
-Plug 'git@gitlab.aristanetworks.com:jeff/vim-alog.git'
-Plug 'git@gitlab.aristanetworks.com:the_third_man/arvim.git'
-Plug 'itchyny/lightline.vim'
-"Plug 'jeffkreeftmeijer/vim-numbertoggle' " Toggles between hybrid and absolute line numbers automatically
-Plug 'google/vim-maktaba'
-Plug 'google/vim-codefmt'
-Plug 'google/vim-glaive'
-"Plug 'ojroques/vim-oscyank'
-"Plug 'teranex/jk-jumps.vim' " Handle movements with j/k as if they were real jumps
-Plug 'rbong/vim-flog'
-Plug 'romainl/vim-qf' " Tame the quickfix window
-Plug 'wfxr/minimap.vim'
-Plug 'airblade/vim-gitgutter'
-Plug 'ggandor/leap.nvim'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-abolish' " easily search for, substitute, and abbreviate multiple variants of a word
-call plug#end()
+lua << END
+-- Plugins via Packer
+require('packer').startup(function(use)
+   -- Packer can manage itself
+   use 'wbthomason/packer.nvim'
+   use 'majutsushi/tagbar'
+   use 'haya14busa/vim-asterisk'
+   use 'overcache/NeoSolarized'
+   use 'tpope/vim-fugitive'
+   use 'tpope/vim-surround'
+   use 'kana/vim-textobj-user'
+   use 'bps/vim-textobj-python'
+   use 'kana/vim-textobj-diff'
+   use 'tpope/vim-eunuch'
+   -- Improved fzf.vim written in lua
+   use 'ibhagwan/fzf-lua'
+   use 'git@gitlab.aristanetworks.com:jeff/vim-alog.git'
+   use 'git@gitlab.aristanetworks.com:the_third_man/arvim.git'
+   use 'itchyny/lightline.vim'
+   use 'google/vim-maktaba'
+   use 'google/vim-codefmt'
+   use 'google/vim-glaive'
+   use 'rbong/vim-flog'
+   -- Tame the quickfix window
+   use 'romainl/vim-qf'
+   use 'wfxr/minimap.vim'
+   use 'airblade/vim-gitgutter'
+   use 'ggandor/leap.nvim'
+   use 'tpope/vim-repeat'
+   -- easily search for, substitute, and abbreviate multiple variants of a word
+   use 'tpope/vim-abolish'
+end)
+END
 
 " Options for editing
 set nocompatible

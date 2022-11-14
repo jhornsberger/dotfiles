@@ -34,43 +34,32 @@ require('packer').startup(function(use)
    -- easily search for, substitute, and abbreviate multiple variants of a word
    use 'tpope/vim-abolish'
 end)
+
+-- Options for editing
+vim.o.compatible = false
+vim.o.shiftwidth = 3
+vim.o.tabstop = 3
+vim.o.linebreak = true
+vim.o.cindent = true
+vim.o.expandtab = true
+vim.o.spell = false
+vim.o.virtualedit = 'all'
+vim.o.history = 5000
+vim.o.joinspaces = false
+vim.o.mouse='a'
 END
 
-" Options for editing
-set nocompatible
-set shiftwidth=3
-set tabstop=3
-set linebreak
-set cindent
-set expandtab
-set nospell
-set virtualedit=all
-set history=5000
-set nojoinspaces
-
-" Mouse support with tmux
-set mouse=a
-if &term =~ '^screen' && !has('nvim')
-   " tmux knows the extended mouse mode
-   " option was removed from Neovim
-   if has("mouse_sgr")
-      set ttymouse=sgr
-   else
-      set ttymouse=xterm2
-   endif
-endif
-
-if has("multi_byte")
-  if &termencoding == ""
-    let &termencoding = &encoding
-  endif
-  set encoding=utf-8
-  setglobal fileencoding=utf-8
-  " Uncomment to have 'bomb' on by default for new files.
-  " Note, this will not apply to the first, empty buffer created at Vim startup.
-  "setglobal bomb
-  set fileencodings=ucs-bom,utf-8,latin1
-endif
+"if has("multi_byte")
+"  if &termencoding == ""
+"    let &termencoding = &encoding
+"  endif
+"  set encoding=utf-8
+"  setglobal fileencoding=utf-8
+"  " Uncomment to have 'bomb' on by default for new files.
+"  " Note, this will not apply to the first, empty buffer created at Vim startup.
+"  "setglobal bomb
+"  set fileencodings=ucs-bom,utf-8,latin1
+"endif
 
 " Make splits appear as expected
 set splitbelow

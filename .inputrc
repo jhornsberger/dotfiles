@@ -1,0 +1,19 @@
+$include /etc/inputrc
+
+set editing-mode vi
+
+$if mode=vi
+   set show-mode-in-prompt on
+   set vi-ins-mode-string "\1\e[7;49;32m\2INSERT\1\e[0m\2"
+   set vi-cmd-mode-string "\1\e[44;1;37m\2NORMAL\1\e[0m\2"
+   set keymap vi-command
+   # these are for vi-command mode
+   "\e[A": history-search-backward
+   "\e[B": history-search-forward
+   "k": history-search-backward
+   "j": history-search-forward
+   set keymap vi-insert
+   # these are for vi-insert mode
+   "\e[A": history-search-backward
+   "\e[B": history-search-forward
+$endif

@@ -73,11 +73,11 @@ vim.api.nvim_create_augroup("CursorLine", {})
 vim.api.nvim_create_autocmd({"VimEnter", "WinEnter", "BufWinEnter"},
    { group = "CursorLine",
      pattern = '*',
-     callback = function() vim.opt_local.cursorline = true end,})
+     callback = function() vim.opt_local.cursorline = true end, })
 vim.api.nvim_create_autocmd({"WinLeave"},
    { group = "CursorLine",
      pattern = '*',
-     callback = function() vim.opt_local.cursorline = false end,})
+     callback = function() vim.opt_local.cursorline = false end, })
 END
 
 " Options for folding

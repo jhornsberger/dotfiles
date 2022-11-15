@@ -416,6 +416,7 @@ local otherMappings = {{
       }
    },}
 
+vim.keymap.set('n', '<Leader>r', "<cmd>lua require('fzf-lua').resume()<CR>", { noremap = true, silent = true })
 vim.keymap.set('n', '<Leader>f', "<cmd>FzfFiles<CR>", { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>F', ":FzfFiles<space>", { noremap = true })
 vim.keymap.set('n', '<Leader>b', "<cmd>lua require('fzf-lua').buffers()<CR>", { noremap = true, silent = true })

@@ -550,12 +550,12 @@ vim.keymap.set('n', '<Leader>gss',
    function() require('gitsigns').stage_hunk() end, { noremap = true })
 vim.keymap.set('n', '<Leader>gsr',
    function() require('gitsigns').reset_hunk() end, { noremap = true })
-vim.keymap.set('n', ']c', function()
+vim.keymap.set({'n', 'x'}, ']c', function()
    if vim.wo.diff then return ']c' end
    vim.schedule(function() require('gitsigns').next_hunk() end)
    return '<Ignore>'
  end, {expr=true})
-vim.keymap.set('n', '[c', function()
+vim.keymap.set({'n', 'x'}, '[c', function()
    if vim.wo.diff then return '[c' end
    vim.schedule(function() require('gitsigns').prev_hunk() end)
    return '<Ignore>'

@@ -119,7 +119,7 @@ vim.api.nvim_create_autocmd({'FileType'},
 vim.api.nvim_create_autocmd({'OptionSet'},
    { group = 'config',
      pattern = 'textwidth',
-     callback = function() vim.opt_local.colorcolumn = vim.o.textwidth end, })
+     callback = function() vim.opt_local.colorcolumn = { vim.o.textwidth } end, })
 END
 
 " define a group `vimrc` and initialize.

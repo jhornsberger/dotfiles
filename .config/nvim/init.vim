@@ -56,25 +56,30 @@ vim.o.previewheight = 20
 vim.o.splitbelow = true
 vim.cmd.colorscheme 'NeoSolarized'
 
+-- Autocommands
+vim.api.nvim_create_augroup('config', {})
+
 -- Highlight cursor line only in current window
-vim.api.nvim_create_augroup("config", {})
 vim.api.nvim_create_autocmd({"VimEnter", "WinEnter", "BufWinEnter"},
-   { group = "config",
+   { group = 'config',
      pattern = '*',
      callback = function() vim.opt_local.cursorline = true end, })
 vim.api.nvim_create_autocmd({"WinLeave"},
-   { group = "config",
+   { group = 'config',
      pattern = '*',
      callback = function() vim.opt_local.cursorline = false end, })
+
+-- Always equalize windows on resize
+vim.api.nvim_create_autocmd({"VimResized"},
+   { group = 'config',
+     pattern = '*',
+     command = 'wincmd =', })
 END
 
 " define a group `vimrc` and initialize.
 augroup vimrc
    autocmd!
 augroup END
-
-" Always equalize windows on resize
-autocmd vimrc VimResized * wincmd =
 
 " Options for vimdiff
 set diffopt+=vertical,algorithm:histogram

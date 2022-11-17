@@ -24,11 +24,12 @@ require('packer').startup(function(use)
    -- Tame the quickfix window
    use 'romainl/vim-qf'
    use 'wfxr/minimap.vim'
-   use 'airblade/vim-gitgutter'
    use 'ggandor/leap.nvim'
    use 'tpope/vim-repeat'
    -- easily search for, substitute, and abbreviate multiple variants of a word
    use 'tpope/vim-abolish'
+   -- Git integration for buffers
+   use 'lewis6991/gitsigns.nvim'
 end)
 
 -- Options for editing
@@ -553,8 +554,21 @@ map <Leader>mm :MinimapToggle<cr>
 let g:minimap_highlight_range = 1
 let g:minimap_git_colors = 1
 
-" vim-gitgutter
-nnoremap <Leader>gg :GitGutterToggle<cr>
+lua << END
+require('gitsigns').setup()
+vim.keymap.set('n', '<Leader>gS', function() require('gitsigns').toggle_signs() end, { noremap = true })
+vim.keymap.set('n', '<Leader>gp', function() require('gitsigns').preview_hunk_inline() end, { noremap = true })
+vim.keymap.set('n', ']c', function()
+   if vim.wo.diff then return ']c' end
+   vim.schedule(function() require('gitsigns').next_hunk() end)
+   return '<Ignore>'
+ end, {expr=true})
+vim.keymap.set('n', '[c', function()
+   if vim.wo.diff then return '[c' end
+   vim.schedule(function() require('gitsigns').prev_hunk() end)
+   return '<Ignore>'
+ end, {expr=true})
+END
 
 "" vim-oscyank
 "let g:oscyank_term = 'default'

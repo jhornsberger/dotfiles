@@ -32,41 +32,28 @@ require('packer').startup(function(use)
    use 'lewis6991/gitsigns.nvim'
 end)
 
--- Options for editing
-vim.o.compatible = false
+-- Options
 vim.o.shiftwidth = 3
 vim.o.tabstop = 3
 vim.o.linebreak = true
 vim.o.cindent = true
 vim.o.expandtab = true
-vim.o.spell = false
 vim.o.virtualedit = 'all'
-vim.o.history = 5000
-vim.o.joinspaces = false
 vim.o.mouse='a'
-
--- Make splits appear as expected
-vim.o.splitbelow = true
-
--- UI stuff
+vim.o.directory = '/tmp'
+vim.o.foldmethod = 'syntax'
+vim.o.foldenable = false
 vim.o.termguicolors = true
 vim.o.background = 'light'
 vim.o.visualbell = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
-vim.o.guioptions = 'aeir'
-vim.o.hidden = true
-vim.o.hlsearch = true
-vim.o.incsearch = true
 vim.o.wrapscan = false
-vim.o.showcmd = true
 vim.o.lazyredraw = true
-vim.o.tags = 'tags;/'
 vim.o.path = '**'
 vim.o.numberwidth = 1
-vim.o.timeoutlen = 1000
-vim.o.fsync = false
 vim.o.previewheight = 20
+vim.o.splitbelow = true
 vim.cmd.colorscheme 'NeoSolarized'
 
 -- Highlight cursor line only in current window
@@ -80,19 +67,6 @@ vim.api.nvim_create_autocmd({"WinLeave"},
      pattern = '*',
      callback = function() vim.opt_local.cursorline = false end, })
 END
-
-" Options for folding
-set foldmethod=syntax           "fdm:   fold by the indentation by default
-set nofoldenable                "nofen: don't fold by default
-
-" Options for backup files
-set nobackup
-set nowritebackup
-if has('unix')
-   set directory=/tmp
-else
-   set directory=$TEMP
-endif
 
 " define a group `vimrc` and initialize.
 augroup vimrc

@@ -61,54 +61,71 @@ vim.cmd.colorscheme 'NeoSolarized'
 vim.api.nvim_create_augroup('config', {})
 
 -- Highlight cursor line only in current window
-vim.api.nvim_create_autocmd({"VimEnter", "WinEnter", "BufWinEnter"},
+vim.api.nvim_create_autocmd({'VimEnter', 'WinEnter', 'BufWinEnter'},
    { group = 'config',
      pattern = '*',
      callback = function() vim.opt_local.cursorline = true end, })
-vim.api.nvim_create_autocmd({"WinLeave"},
+vim.api.nvim_create_autocmd({'WinLeave'},
    { group = 'config',
      pattern = '*',
      callback = function() vim.opt_local.cursorline = false end, })
 
 -- Always equalize windows on resize
-vim.api.nvim_create_autocmd({"VimResized"},
+vim.api.nvim_create_autocmd({'VimResized'},
    { group = 'config',
      pattern = '*',
      command = 'wincmd =', })
+
+-- Treat *.*tin files as C++
+vim.api.nvim_create_autocmd({'BufNewFile', 'BufReadPost'},
+   { group = 'config',
+     pattern = '*.*tin',
+     callback = function() vim.opt_local.filetype = 'cpp' end, })
+
+-- Set textwidth for programming
+vim.api.nvim_create_autocmd({'FileType'},
+   { group = 'config',
+     pattern = { 'tac', 'cpp', 'python', },
+     callback = function() vim.opt_local.textwidth = 85 end,
+     nested = true, })
+
+-- Better indenting for tac files
+vim.api.nvim_create_autocmd({'FileType'},
+   { group = 'config',
+     pattern = 'tac',
+     callback = function()
+         vim.opt_local.cindent = false
+         vim.opt_local.smartindent = true
+      end, })
+
+-- Treat *.md files as markdown instead of Modula-2
+vim.api.nvim_create_autocmd({'BufNewFile', 'BufReadPost'},
+   { group = 'config',
+     pattern = '*.md',
+     callback = function()
+         vim.opt_local.filetype = 'markdown'
+         vim.opt_local.textwidth = 0
+      end,
+     nested = true, })
+
+-- Special textwidth gitcommit
+vim.api.nvim_create_autocmd({'FileType'},
+   { group = 'config',
+     pattern = 'gitcommit',
+     callback = function() vim.opt_local.textwidth = 72 end,
+     nested = true, })
+
+-- Set colorcolumn to match textwidth
+vim.api.nvim_create_autocmd({'OptionSet'},
+   { group = 'config',
+     pattern = 'textwidth',
+     callback = function() vim.opt_local.colorcolumn = vim.o.textwidth end, })
 END
 
 " define a group `vimrc` and initialize.
 augroup vimrc
    autocmd!
 augroup END
-
-" Automatically diffupdate on write
-autocmd vimrc BufWritePost * if &diff == 1 | diffupdate | endif
-
-" Always move some windows to the bottom
-autocmd vimrc FileType qf wincmd J
-"autocmd vimrc FileType gitcommit wincmd J
-
-" Set textwidth for programming
-autocmd vimrc FileType tac,cpp,python ++nested setlocal textwidth=85
-
-autocmd vimrc FileType tac set nocindent | set smartindent
-
-" Treat *.md files as markdown instead of Modula-2
-autocmd vimrc BufNewFile,BufReadPost *.md set filetype=markdown
-autocmd vimrc BufNewFile,BufReadPost *.md ++nested setlocal textwidth=0
-
-" Special textwidth gitcommit
-autocmd vimrc FileType gitcommit ++nested setlocal textwidth=72
-
-" Treat *.*tin files as C++
-autocmd vimrc BufNewFile,BufReadPost *.*tin set filetype=cpp
-
-" Longer lines in go files
-autocmd vimrc FileType go ++nested setlocal textwidth=100
-
-" Set colorcolumn to match textwidth
-autocmd vimrc OptionSet textwidth let &l:colorcolumn=&l:textwidth
 
 " Mappings
 let g:mapleader = "\<Space>"

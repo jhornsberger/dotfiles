@@ -57,13 +57,13 @@ vim.o.splitbelow = true
 vim.cmd.colorscheme 'NeoSolarized'
 
 -- Highlight cursor line only in current window
-vim.api.nvim_create_augroup("CursorLine", {})
+vim.api.nvim_create_augroup("config", {})
 vim.api.nvim_create_autocmd({"VimEnter", "WinEnter", "BufWinEnter"},
-   { group = "CursorLine",
+   { group = "config",
      pattern = '*',
      callback = function() vim.opt_local.cursorline = true end, })
 vim.api.nvim_create_autocmd({"WinLeave"},
-   { group = "CursorLine",
+   { group = "config",
      pattern = '*',
      callback = function() vim.opt_local.cursorline = false end, })
 END

@@ -529,9 +529,22 @@ let g:minimap_highlight_range = 1
 let g:minimap_git_colors = 1
 
 lua << END
-require('gitsigns').setup()
-vim.keymap.set('n', '<Leader>gS', function() require('gitsigns').toggle_signs() end, { noremap = true })
-vim.keymap.set('n', '<Leader>gp', function() require('gitsigns').preview_hunk_inline() end, { noremap = true })
+require('gitsigns').setup({
+   worktrees = {
+      {
+         toplevel = vim.env.HOME,
+         gitdir = vim.env.HOME .. '/.cfg',
+      },
+   }})
+vim.keymap.set('n', '<Leader>gst',
+   function() require('gitsigns').toggle_signs() end, { noremap = true })
+vim.keymap.set('n', '<Leader>gsp',
+   function() require('gitsigns').preview_hunk_inline() end, { noremap = true })
+vim.keymap.set('n', '<Leader>gsd', ':Gitsigns diffthis<space>', { noremap = true })
+vim.keymap.set('n', '<Leader>gss',
+   function() require('gitsigns').stage_hunk() end, { noremap = true })
+vim.keymap.set('n', '<Leader>gsr',
+   function() require('gitsigns').reset_hunk() end, { noremap = true })
 vim.keymap.set('n', ']c', function()
    if vim.wo.diff then return ']c' end
    vim.schedule(function() require('gitsigns').next_hunk() end)

@@ -54,6 +54,7 @@ vim.o.path = '**'
 vim.o.numberwidth = 1
 vim.o.previewheight = 20
 vim.o.splitbelow = true
+vim.opt.diffopt:append( { 'vertical', 'algorithm:histogram', } )
 vim.cmd.colorscheme 'NeoSolarized'
 
 -- Autocommands
@@ -80,9 +81,6 @@ END
 augroup vimrc
    autocmd!
 augroup END
-
-" Options for vimdiff
-set diffopt+=vertical,algorithm:histogram
 
 " Automatically diffupdate on write
 autocmd vimrc BufWritePost * if &diff == 1 | diffupdate | endif

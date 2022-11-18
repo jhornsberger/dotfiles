@@ -583,11 +583,12 @@ END
 
 " leap.nvim
 lua << EOF
-leap = require('leap')
--- leap.add_default_mappings()
-vim.keymap.set({"n", "x", "o"}, "f", "<Plug>(leap-forward-to)")
+-- <Plug>(leap-forward-to) is incorrectly defined to be { offset = 1 } outside of Normal mode
+vim.keymap.set({"n", "x", "o"}, "f", function()
+   require('leap').leap( { offset = 0 } ) end)
 vim.keymap.set({"n", "x", "o"}, "F", "<Plug>(leap-backward-to)")
 vim.keymap.set({"n", "x", "o"}, "t", "<Plug>(leap-forward-till)")
-vim.keymap.set({"n", "x", "o"}, "T", "<Plug>(leap-backward-till)")
--- vim.keymap.set({"n", "x", "o"}, "gf", "<Plug>(leap-cross-window)")
+-- <Plug>(leap-backward-till) is incorrectly defined to be { backward = true, offset = 2 }
+vim.keymap.set({"n", "x", "o"}, "T", function()
+   require('leap').leap( { backward = true, offset = 1 } ) end)
 EOF

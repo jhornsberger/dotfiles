@@ -3,7 +3,7 @@ lua << END
 require('packer').startup(function(use)
    -- Packer can manage itself
    use 'wbthomason/packer.nvim'
-   use 'majutsushi/tagbar'
+   use 'preservim/tagbar'
    use 'haya14busa/vim-asterisk'
    use 'overcache/NeoSolarized'
    use 'tpope/vim-fugitive'

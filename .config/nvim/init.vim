@@ -23,7 +23,8 @@ require('packer').startup(function(use)
    use 'rbong/vim-flog'
    -- Tame the quickfix window
    use 'romainl/vim-qf'
-   use 'wfxr/minimap.vim'
+   -- Extensible Neovim Scrollbar
+   use 'petertriho/nvim-scrollbar'
    use 'ggandor/leap.nvim'
    use 'tpope/vim-repeat'
    -- easily search for, substitute, and abbreviate multiple variants of a word
@@ -145,7 +146,7 @@ nnoremap <Leader>co :copen<return>
 nnoremap <Leader>cc :cclose<return>
 nnoremap j gj
 nnoremap k gk
-noremap <silent><Leader>// :nohlsearch<CR>:call minimap#vim#ClearColorSearch()<CR>
+noremap <silent><Leader>// :nohlsearch<CR>
 nnoremap <Leader>ms :mksession! ~/.vim_session<CR>
 nnoremap <Leader>ls :source ~/.vim_session<CR>
 nnoremap <Leader>\| :vsp<cr>
@@ -543,12 +544,10 @@ END
 nmap <silent><c-p> <Plug>(qf_qf_previous)
 nmap <silent><c-n> <Plug>(qf_qf_next)
 
-" minimap
-map <Leader>mm :MinimapToggle<cr>
-let g:minimap_highlight_range = 1
-let g:minimap_git_colors = 1
-
 lua << END
+-- nvim-scrollbar
+require("scrollbar").setup({show_in_active_only = true})
+
 require('gitsigns').setup({
    worktrees = {
       {
@@ -556,6 +555,7 @@ require('gitsigns').setup({
          gitdir = vim.env.HOME .. '/.cfg',
       },
    }})
+require("scrollbar.handlers.gitsigns").setup()
 vim.keymap.set('n', '<Leader>gst',
    function() require('gitsigns').toggle_signs() end, { noremap = true })
 vim.keymap.set('n', '<Leader>gsp',

@@ -407,7 +407,7 @@ local otherMappings = {{
       }
    },{
       pattern = "(.*)/(.*).cpp",
-      target = {
+      targets = {
          "%1/%2.h",
       }
    },}

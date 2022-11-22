@@ -561,9 +561,9 @@ vim.keymap.set('n', '<Leader>gst',
 vim.keymap.set('n', '<Leader>gsp',
    function() require('gitsigns').preview_hunk_inline() end, { noremap = true })
 vim.keymap.set('n', '<Leader>gsd', ':Gitsigns diffthis<space>', { noremap = true })
-vim.keymap.set('n', '<Leader>gss',
+vim.keymap.set({'n', 'x'}, '<Leader>gss',
    function() require('gitsigns').stage_hunk() end, { noremap = true })
-vim.keymap.set('n', '<Leader>gsr',
+vim.keymap.set({'n', 'x'}, '<Leader>gsr',
    function() require('gitsigns').reset_hunk() end, { noremap = true })
 vim.keymap.set({'n', 'x'}, ']c', function()
    if vim.wo.diff then return ']c' end

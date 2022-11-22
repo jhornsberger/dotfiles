@@ -47,8 +47,9 @@ if [ -z ${ARTOOLS_NOPROMPTMUNGE} ] && [[ $- == *i* ]]; then  # check if interact
       PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
    fi
 
-   if [ -n ${NVIM_LISTEN_ADDRESS} ] && [ -x "$(command -v nvr)" ]; then
-      export EDITOR="nvr --remote-wait +'set bufhidden=wipe'"
+   if [ -n "${NVIM}" ] && [ -x "$(command -v nvr)" ]; then
+      EDITOR="nvr --servername ${NVIM} --remote-wait +'set bufhidden=wipe'"
+      alias nvim=${EDITOR}
    fi
 fi
 

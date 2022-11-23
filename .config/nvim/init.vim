@@ -56,6 +56,7 @@ vim.o.numberwidth = 1
 vim.o.previewheight = 20
 vim.o.splitbelow = true
 vim.opt.diffopt:append( { 'vertical', 'algorithm:histogram', } )
+vim.g.mapleader = ' '
 vim.cmd.colorscheme 'NeoSolarized'
 
 -- Autocommands
@@ -120,65 +121,117 @@ vim.api.nvim_create_autocmd({'FileType'},
 vim.api.nvim_create_autocmd({'OptionSet'},
    { group = 'config',
      pattern = 'textwidth',
-     callback = function() vim.opt_local.colorcolumn = { vim.o.textwidth } end, })
+     callback = function()
+        vim.api.nvim_set_option_value( 'colorcolumn',
+           tostring( vim.o.textwidth ), {} )
+        end, })
+
+-- Mappings
+vim.keymap.set({'n', 'v', 'o'}, 'Y', 'y$', { noremap = true })
+vim.keymap.set('n', '<C-J>', '<C-W><C-J>', { noremap = true })
+vim.keymap.set('n', '<C-K>', '<C-W><C-K>', { noremap = true })
+vim.keymap.set('n', '<C-L>', '<C-W><C-L>', { noremap = true })
+vim.keymap.set('n', '<C-H>', '<C-W><C-H>', { noremap = true })
+vim.keymap.set('n', '<Leader>tc', '<cmd>tabclose<cr>',
+   { noremap = true, silent = true })
+vim.keymap.set('n', '<Leader>tC', ':tabclose<space>', { noremap = true })
+vim.keymap.set('n', '<Leader>tn', '<cmd>tabnew<cr>',
+   { noremap = true, silent = true })
+vim.keymap.set('n', '<Leader>to', '<cmd>tabonly<cr>',
+   { noremap = true, silent = true })
+vim.keymap.set('n', '<Leader>te', ':tabedit<space>', { noremap = true })
+vim.keymap.set('n', '<Leader>tm', ':tabmove<space>', { noremap = true })
+vim.keymap.set('n', '<Leader>L', function()
+   current = vim.api.nvim_get_option_value( 'colorcolumn', {} )
+   if current == "" then
+      vim.api.nvim_set_option_value( 'colorcolumn',
+         tostring( vim.o.textwidth ), {} )
+   else
+      vim.api.nvim_set_option_value( 'colorcolumn', "", {} )
+   end
+   end, { noremap = true })
+vim.keymap.set('n', '<Leader>co', '<cmd>copen<cr>',
+   { noremap = true, silent = true })
+vim.keymap.set('n', '<Leader>cc', '<cmd>cclose<cr>',
+   { noremap = true, silent = true })
+vim.keymap.set('n', 'j', 'gj', { noremap = true })
+vim.keymap.set('n', 'k', 'gk', { noremap = true })
+vim.keymap.set('n', '<Leader>//', '<cmd>nohlsearch<cr>',
+   { noremap = true, silent = true })
+vim.keymap.set('n', '<Leader>ms', '<cmd>mksession! ~/.vim_session<cr>',
+   { noremap = true })
+vim.keymap.set('n', '<Leader>ls', '<cmd>source ~/.vim_session<cr>',
+   { noremap = true })
+vim.keymap.set('n', '<Leader>|', '<cmd>vsplit<cr>', { noremap = true })
+vim.keymap.set('n', '<Leader>-', '<cmd>split<cr>', { noremap = true })
+vim.keymap.set('n', '<Leader>=', '<C-w>=', { noremap = true })
+vim.keymap.set('n', '<Leader>mh', '<cmd>vertical resize<cr>', { noremap = true })
+vim.keymap.set('n', '<Leader>mv', '<cmd>resize<cr>', { noremap = true })
+vim.keymap.set('n', '<Leader>ma', '<cmd>resize | vertical resize<cr>',
+   { noremap = true })
+vim.keymap.set('n', '<Leader>O', '<cmd>only<cr>', { noremap = true })
+vim.keymap.set('n', '<Leader>c', '<cmd>close<cr>', { noremap = true })
+vim.keymap.set('n', '<Leader>D', '<cmd>bp|bd #<cr>', { noremap = true })
+vim.keymap.set('n', '<Leader>DC', '<cmd>bp|bd #|close<cr>', { noremap = true })
+vim.keymap.set('n', '<Leader>DD', '<cmd>bp!|bd! #<cr>', { noremap = true })
+vim.keymap.set('n', '<Leader>DDC', '<cmd>bp!|bd! #|close<cr>', { noremap = true })
+vim.keymap.set('n', '<Leader>sp', '<cmd>set paste!<cr>', { noremap = true })
+vim.keymap.set('n', '<Leader>R', '<cmd>redraw!<cr>', { noremap = true })
+vim.keymap.set('n', '<Leader>sn', '<cmd>set number!<cr>', { noremap = true })
+vim.keymap.set('n', '<Leader>w', '<cmd>set wrap!<cr>', { noremap = true })
+-- Open file under cursor in vertical split
+vim.keymap.set('n', '<C-W><C-F>', '<C-W>vgf', { noremap = true })
+vim.keymap.set('n', '<Leader>j', '<cmd>pedit +$ `job -g <cword>`<cr>',
+   { noremap = true })
+vim.keymap.set('n', '<Leader>J', '<cmd>edit +$ `job -g <cword>`<cr>',
+   { noremap = true })
+vim.keymap.set('n', '<Leader>jf',
+   '<cmd>split | terminal less +F `job -g <cword>`<cr>', { noremap = true })
+vim.keymap.set('n', '<Leader>JF', '<cmd>terminal less +F `job -g <cword>`<cr>',
+   { noremap = true })
+
+-- Generate opengrok/src links
+vim.keymap.set('n', '<Leader>og', function()
+   print( 'https://opengrok.infra.corp.arista.io/source/xref/eos-trunk'
+          .. vim.fn.expand( '%:p' ) ) end, { noremap = true, silent = true } )
+vim.keymap.set('n', '<Leader>ogl', function()
+   print( 'https://opengrok.infra.corp.arista.io/source/xref/eos-trunk'
+          .. vim.fn.expand( '%:p' ) .. '#' .. vim.fn.line( '.' ) ) end,
+   { noremap = true, silent = true } )
+vim.keymap.set('v', '<Leader>ogl', function()
+   print( 'https://opengrok.infra.corp.arista.io/source/xref/eos-trunk' ..
+          vim.fn.expand( '%:p' ) ..
+          '#' ..
+          vim.fn.line( "'<" ) ..
+          '-' ..
+          vim.fn.line( "'>" ) ) end,
+   { noremap = true, silent = true } )
+vim.keymap.set('n', '<Leader>s', function()
+   local pathList = vim.fn.split( vim.fn.expand( '%:p' ), '/' )
+   local package = pathList[ 2 ]
+   local restOfPathList = { unpack( pathList, 3, #pathList ) }
+   local restOfPath = vim.fn.join( restOfPathList, '/' )
+   print( 'https://src.infra.corp.arista.io/' ..
+          package ..
+          '/eos-trunk/' ..
+          restOfPath ) end, { noremap = true, silent = true } )
+vim.keymap.set('n', '<Leader>sl', function()
+   local pathList = vim.fn.split( vim.fn.expand( '%:p' ), '/' )
+   local package = pathList[ 2 ]
+   local restOfPathList = { unpack( pathList, 3, #pathList ) }
+   local restOfPath = vim.fn.join( restOfPathList, '/' )
+   print( 'https://src.infra.corp.arista.io/' ..
+          package ..
+          '/eos-trunk/' ..
+          restOfPath ..
+          '#line-' ..
+          vim.fn.line( '.' ) ) end, { noremap = true, silent = true } )
 END
 
 " define a group `vimrc` and initialize.
 augroup vimrc
    autocmd!
 augroup END
-
-" Mappings
-let g:mapleader = "\<Space>"
-map Y y$
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
-nnoremap <silent><Leader>tc :tabclose<return>
-nnoremap <Leader>tC :tabclose<space>
-nnoremap <silent><Leader>tn :tabnew<return>
-nnoremap <silent><Leader>to :tabonly<return>
-nnoremap <Leader>te :tabedit<space>
-nnoremap <Leader>tm :tabmove<space>
-nnoremap <Leader>L :let &colorcolumn = &colorcolumn == '' ? '85' : ''<CR>
-nnoremap <Leader>co :copen<return>
-nnoremap <Leader>cc :cclose<return>
-nnoremap j gj
-nnoremap k gk
-noremap <silent><Leader>// :nohlsearch<CR>
-nnoremap <Leader>ms :mksession! ~/.vim_session<CR>
-nnoremap <Leader>ls :source ~/.vim_session<CR>
-nnoremap <Leader>\| :vsp<cr>
-nnoremap <Leader>- :sp<cr>
-nnoremap <Leader>= <C-w>=
-nnoremap <Leader>mh :vertical resize<cr>
-nnoremap <Leader>mv :resize<cr>
-nnoremap <Leader>ma :resize \| vertical resize<cr>
-nnoremap <Leader>O :only<cr>
-nnoremap <Leader>c :close<cr>
-nnoremap <Leader>D :bp\|bd #<cr>
-nnoremap <Leader>DC :bp\|bd #\|close<cr>
-nnoremap <Leader>DD :bp!\|bd! #<cr>
-nnoremap <Leader>DDC :bp!\|bd! #\|close<cr>
-nnoremap <Leader>sp :set paste!<cr>
-nnoremap <Leader>C :call SetColours()<cr> " Fix colors when they get messed
-nnoremap <Leader>R :redraw!<cr>
-"nnoremap <Leader>n :set relativenumber!<cr>
-nnoremap <Leader>sn :set number!<cr>
-nnoremap <Leader>w :set wrap!<cr>
-nnoremap <C-W><C-F> <C-W>vgf " Open file under cursor in vertical split
-nnoremap <Leader>j :pedit +$ `job -g <cword>`<cr>
-nnoremap <Leader>J :edit +$ `job -g <cword>`<cr>
-nnoremap <Leader>jf :split \| terminal less +F `job -g <cword>`<cr>
-nnoremap <Leader>JF :terminal less +F `job -g <cword>`<cr>
-
-" Generate opengrok/src links
-noremap <silent><Leader>og :<C-u>echo 'https://opengrok.infra.corp.arista.io/source/xref/eos-trunk' . expand( '%:p' )<cr>
-nnoremap <silent><Leader>ogl :echo 'https://opengrok.infra.corp.arista.io/source/xref/eos-trunk' . expand( '%:p' ) . '#' . line( '.' )<cr>
-vnoremap <silent><Leader>ogl :<C-u>echo 'https://opengrok.infra.corp.arista.io/source/xref/eos-trunk' . expand( '%:p' ) . '#' . line( "'<" ) . '-' . line( "'>" )<cr>
-noremap <silent><Leader>s :<C-u>echo 'https://src.infra.corp.arista.io/' . split( expand( '%:p' ), '\/' )[ 1 ] . '/eos-trunk/' . join( split( expand( '%:p' ), '\/' )[ 2:-1 ], '/' )<cr>
-noremap <silent><Leader>sl :<C-u>echo 'https://src.infra.corp.arista.io/' . split( expand( '%:p' ), '\/' )[ 1 ] . '/eos-trunk/' . join( split( expand( '%:p' ), '\/' )[ 2:-1 ], '/' ) . '#' . line( '.' )<cr>
 
 " Terminal
 if has( "nvim" )

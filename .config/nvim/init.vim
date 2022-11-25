@@ -126,6 +126,23 @@ vim.api.nvim_create_autocmd({'OptionSet'},
            tostring( vim.o.textwidth ), {} )
         end, })
 
+-- Maximum number of lines kept beyond the visible terminal screen
+vim.api.nvim_create_autocmd({'TermOpen'},
+   { group = 'config',
+     pattern = '*',
+     callback = function()
+        vim.opt_local.scrollback = 100000
+        end, })
+-- Insert text in the same position as where Insert mode was stopped last time
+-- in the current buffer
+vim.api.nvim_create_autocmd({'TermOpen'},
+   { group = 'config',
+     pattern = '*',
+     callback = function()
+        vim.keymap.set('n', '<cr>', 'gi',
+           { noremap = true, silent = true, buffer = 0 })
+        end, })
+
 -- Mappings
 vim.keymap.set({'n', 'v', 'o'}, 'Y', 'y$', { noremap = true })
 vim.keymap.set('n', '<C-J>', '<C-W><C-J>', { noremap = true })
@@ -226,50 +243,30 @@ vim.keymap.set('n', '<Leader>sl', function()
           restOfPath ..
           '#line-' ..
           vim.fn.line( '.' ) ) end, { noremap = true, silent = true } )
+
+-- Terminal
+vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { noremap = true })
+vim.keymap.set('t', '<C-J>', '<Cmd>wincmd j<cr>', { noremap = true, silent = true })
+vim.keymap.set('t', '<C-K>', '<Cmd>wincmd k<cr>', { noremap = true, silent = true })
+vim.keymap.set('t', '<C-L>', '<Cmd>wincmd l<cr>', { noremap = true, silent = true })
+vim.keymap.set('t', '<C-H>', '<Cmd>wincmd h<cr>', { noremap = true, silent = true })
+vim.keymap.set('t', '<C-r><C-r>', function()
+      return '<C-\\><C-N>"' .. vim.fn.nr2char( vim.fn.getchar() ) .. 'pi'
+   end, { noremap = true, expr = true })
+vim.keymap.set('n', '<Leader>tth', '<Cmd>terminal<cr>', { noremap = true, silent = true })
+vim.keymap.set('n', '<Leader>tts', '<Cmd>split | terminal<cr>', { noremap = true, silent = true })
+vim.keymap.set('n', '<Leader>ttv', '<Cmd>vsplit | terminal<cr>', { noremap = true, silent = true })
+vim.keymap.set('n', '<Leader>ttt', '<Cmd>tabnew | terminal<cr>', { noremap = true, silent = true })
+vim.keymap.set('n', '<Leader>TTH', ':terminal<space>', { noremap = true })
+vim.keymap.set('n', '<Leader>TTS', ':split | terminal<space>', { noremap = true })
+vim.keymap.set('n', '<Leader>TTV', ':vsplit | terminal<space>', { noremap = true })
+vim.keymap.set('n', '<Leader>TTT', ':tabnew | terminal<space>', { noremap = true })
 END
 
 " define a group `vimrc` and initialize.
 augroup vimrc
    autocmd!
 augroup END
-
-" Terminal
-if has( "nvim" )
-   tnoremap <Esc><Esc> <C-\><C-n>
-   tnoremap <silent><C-J> <Cmd>wincmd j<cr>
-   tnoremap <silent><C-K> <Cmd>wincmd k<cr>
-   tnoremap <silent><C-L> <Cmd>wincmd l<cr>
-   tnoremap <silent><C-H> <Cmd>wincmd h<cr>
-	tnoremap <expr> <C-r><C-r> '<C-\><C-N>"'.nr2char(getchar()).'pi'
-   autocmd vimrc TermOpen * setlocal scrollback=100000
-   autocmd vimrc TermOpen * nnoremap <buffer> <silent><cr> gi
-
-   nnoremap <silent><Leader>tth :terminal<cr>
-   nnoremap <silent><Leader>tts :split \| terminal<cr>
-   nnoremap <silent><Leader>ttv :vsplit \| terminal<cr>
-   nnoremap <silent><Leader>ttt :tabnew \| terminal<cr>
-   nnoremap <Leader>TTH :terminal<space>
-   nnoremap <Leader>TTS :split \| terminal<space>
-   nnoremap <Leader>TTV :vsplit \| terminal<space>
-   nnoremap <Leader>TTT :tabnew \| terminal<space>
-elseif has( "terminal" )
-   tnoremap <Esc><Esc> <C-W>N
-   tnoremap <silent><C-J> <C-W>j
-   tnoremap <silent><C-K> <C-W>k
-   tnoremap <silent><C-L> <C-W>l
-   tnoremap <silent><C-H> <C-W>h
-   autocmd vimrc TerminalOpen * if &buftype == 'terminal' | nnoremap <buffer> <silent><cr> gi | endif
-   set termwinscroll=100000
-
-   nnoremap <silent><Leader>tts :terminal<cr>
-   nnoremap <silent><Leader>ttv :vertical terminal<cr>
-   nnoremap <silent><Leader>tth :terminal ++curwin<cr>
-   nnoremap <silent><Leader>ttt :tab terminal<cr>
-   nnoremap <Leader>TTS :terminal<space>
-   nnoremap <Leader>TTV :vertical terminal<space>
-   nnoremap <Leader>TTH :terminal ++curwin<space>
-   nnoremap <Leader>TTT :tab terminal<space>
-endif
 
 " Show hidden characters
 nnoremap <silent><Leader>H :set list!<cr>

@@ -196,6 +196,13 @@ vim.keymap.set('n', '<Leader>sp', '<cmd>set paste!<cr>', { noremap = true })
 vim.keymap.set('n', '<Leader>R', '<cmd>redraw!<cr>', { noremap = true })
 vim.keymap.set('n', '<Leader>sn', '<cmd>set number!<cr>', { noremap = true })
 vim.keymap.set('n', '<Leader>w', '<cmd>set wrap!<cr>', { noremap = true })
+-- Yank register to another register
+vim.keymap.set('n', 'yr', function()
+      sourceReg = vim.fn.nr2char( vim.fn.getchar() )
+      targetReg = vim.v.register
+      sourceRegInfo = vim.fn.getreginfo( sourceReg )
+      vim.fn.setreg( targetReg, sourceRegInfo )
+   end, { noremap = true })
 -- Open file under cursor in vertical split
 vim.keymap.set('n', '<C-W><C-F>', '<C-W>vgf', { noremap = true })
 vim.keymap.set('n', '<Leader>j', '<cmd>pedit +$ `job -g <cword>`<cr>',

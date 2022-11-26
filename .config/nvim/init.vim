@@ -322,32 +322,6 @@ map <Leader>gc :Git commit<space>
 map <Leader>gb :Git blame<cr>
 map <Leader>G :Git<space>
 
-"" DirDiff plugin
-"" ignore white space in diff
-"let g:DirDiffAddArgs = "-w"
-
-"" Fzf
-"let g:fzf_layout = { 'window': { 'width': 1, 'height': 0.4, 'yoffset': 1 } }
-"command! -bang -nargs=* -complete=file Rg
-"\ call fzf#vim#grep(
-"\   'rg --vimgrep '.<q-args>, 1,
-"\   <bang>0 ? fzf#vim#with_preview('up:60%')
-"\           : fzf#vim#with_preview('right:50%:hidden', '?'),
-"\   <bang>0)
-"map <Leader>f :Files<cr>
-"map <Leader>F :Files<space>
-"map <Leader>b :Buffers<cr>
-"map <Leader>bt :BTags<cr>
-"map <Leader>BT :BTags<space>
-"map <Leader>t :Tags<cr>
-"map <Leader>T :Tags<space>
-"map <Leader>W :Windows<cr>
-"map <Leader>g :Rg<space>
-"map <Leader>bl :BLines<cr>
-"map <Leader>h :Helptags<cr>
-"map <Leader>: :History:<cr>
-"map <Leader>/ :History/<cr>
-
 lua << END
 -- fzf-lua plugin
 require('fzf-lua').setup{
@@ -406,7 +380,7 @@ local otherFiles = function( mappings )
          end
       end
    end
-   
+
    -- Normalize the "set" to a list
    targets = {}
    for file, i in pairs( targetFiles ) do
@@ -505,60 +479,6 @@ nmap <silent> [dh <Plug>(textobj-diff-hunk-p)
 "autocmd vimrc BufEnter *.tac let b:fswitchdst = 'tin,itin' | let b:fswitchlocs = './'
 "nmap <silent> <Leader>of :FSHere<cr>
 
-lua << END
----- other.nvim plugin
---tacTarget = { target = "%1/%2.tac", context = "tac", }
---tinTarget = { target = "%1/%2.tin", context = "tin", }
---itinTarget = { target = "%1/%2.itin", context = "itin", }
---testTarget = { target = "%1/test/%2Test?.py", context = "test", }
---
---require("other-nvim").setup({
---   mappings = {{
---            pattern = "(.*)/(.*).tac",
---            target = {
---               tinTarget,
---               itinTarget,
---               testTarget,
---            }
---         },{
---            pattern = "(.*)/(.*).tin",
---            target = {
---               tacTarget,
---               itinTarget,
---               testTarget,
---            }
---         },{
---            pattern = "(.*)/(.*).itin",
---            target = {
---               tacTarget,
---               tinTarget,
---               testTarget,
---            }
---         },{
---            pattern = "(.*)/test/(.*)Tests?.py",
---            target = {
---               tacTarget,
---               tinTarget,
---               itinTarget,
---            }
---         },{
---            pattern = "(.*)/(.*).h",
---            target = "%1/%2.cpp",
---            context = "cpp"
---         },{
---            pattern = "(.*)/(.*).cpp",
---            target = "%1/%2.h",
---            context = "header"
---         },
---      },
---   rememberBuffers = false,
---})
---
---vim.keymap.set("n", "<leader>o", "<cmd>:Other<CR>", { noremap = true, silent = true })
---vim.keymap.set("n", "<leader>os", "<cmd>:OtherSplit<CR>", { noremap = true, silent = true })
---vim.keymap.set("n", "<leader>ov", "<cmd>:OtherVSplit<CR>", { noremap = true, silent = true })
-END
-
 " arvim plugin
 let a4_auto_edit = 0
 
@@ -567,9 +487,9 @@ set noshowmode
 let g:lightline = {
       \ 'colorscheme': 'solarized',
       \ 'active': {
-		\   'right': [ [ 'lineinfo' ],
-		\              [ 'percent' ],
-		\              [ 'gitbranch', 'fileformat', 'fileencoding', 'filetype' ] ]
+      \   'right': [ [ 'lineinfo' ],
+      \              [ 'percent' ],
+      \              [ 'gitbranch', 'fileformat', 'fileencoding', 'filetype' ] ]
       \ },
       \ 'component_function': {
       \   'gitbranch': 'FugitiveHead'
@@ -636,14 +556,8 @@ vim.keymap.set({'n', 'x'}, '[c', function()
    vim.schedule(function() require('gitsigns').prev_hunk() end)
    return '<Ignore>'
  end, {expr=true})
-END
 
-"" vim-oscyank
-"let g:oscyank_term = 'default'
-"autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '+' | execute 'OSCYankReg +' | endif
-
-" leap.nvim
-lua << EOF
+-- leap.nvim
 -- <Plug>(leap-forward-to) is incorrectly defined to be { offset = 1 } outside of Normal mode
 vim.keymap.set({"n", "x", "o"}, "f", function()
    require('leap').leap( { offset = 0 } ) end)
@@ -652,4 +566,4 @@ vim.keymap.set({"n", "x", "o"}, "t", "<Plug>(leap-forward-till)")
 -- <Plug>(leap-backward-till) is incorrectly defined to be { backward = true, offset = 2 }
 vim.keymap.set({"n", "x", "o"}, "T", function()
    require('leap').leap( { backward = true, offset = 1 } ) end)
-EOF
+END

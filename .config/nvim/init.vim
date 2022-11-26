@@ -7,7 +7,13 @@ require('packer').startup(function(use)
    use 'haya14busa/vim-asterisk'
    use 'overcache/NeoSolarized'
    use 'tpope/vim-fugitive'
-   use 'tpope/vim-surround'
+   -- Add/change/delete surrounding delimiter pairs with ease
+   use({
+      'kylechui/nvim-surround',
+      config = function()
+          require('nvim-surround').setup({})
+      end
+   })
    use 'kana/vim-textobj-user'
    use 'bps/vim-textobj-python'
    use 'kana/vim-textobj-diff'

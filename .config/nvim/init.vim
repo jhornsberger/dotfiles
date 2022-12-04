@@ -219,6 +219,9 @@ vim.keymap.set('n', '<Leader>jf',
    '<cmd>split | terminal less +F `job -g <cword>`<cr>', { noremap = true })
 vim.keymap.set('n', '<Leader>JF', '<cmd>terminal less +F `job -g <cword>`<cr>',
    { noremap = true })
+-- Show hidden characters
+vim.keymap.set('n', '<Leader>H', function() vim.wo.list = not vim.wo.list end,
+   { noremap = true })
 
 -- Generate opengrok/src links
 vim.keymap.set('n', '<Leader>og', function()
@@ -274,18 +277,18 @@ vim.keymap.set('n', '<Leader>TTH', ':terminal<space>', { noremap = true })
 vim.keymap.set('n', '<Leader>TTS', ':split | terminal<space>', { noremap = true })
 vim.keymap.set('n', '<Leader>TTV', ':vsplit | terminal<space>', { noremap = true })
 vim.keymap.set('n', '<Leader>TTT', ':tabnew | terminal<space>', { noremap = true })
+
+-- Commands
+
+-- Copy selected lines or complete file to Arista pb (http://pb/)
+vim.api.nvim_create_user_command(
+   'Pb', ':<line1>,<line2>w !curl -F c=@- pb', { range = '%' })
 END
 
 " define a group `vimrc` and initialize.
 augroup vimrc
    autocmd!
 augroup END
-
-" Show hidden characters
-nnoremap <silent><Leader>H :set list!<cr>
-
-" Copy selected lines or complete file to Arista pb (http://pb/)
-command! -range=% Pb :<line1>,<line2>w !curl -F c=@- pb
 
 " netrw settings
 let g:netrw_localrmdir='rm -r'

@@ -564,9 +564,15 @@ vim.keymap.set({'n', 'x'}, '[c', function()
  end, {expr=true})
 
 -- leap.nvim
--- <Plug>(leap-forward-to) is incorrectly defined to be { offset = 1 } outside of Normal mode
-vim.keymap.set({"n", "x", "o"}, "f", function()
+vim.keymap.set("n", "f", "<Plug>(leap-forward-to)")
+-- <Plug>(leap-forward-to) is incorrectly defined to be { offset = 1 } in
+-- Visual and Select mode
+vim.keymap.set("x", "f", function()
    require('leap').leap( { offset = 0 } ) end)
+-- <Plug>(leap-forward-to) is incorrectly defined to be { offset = -1 } in
+-- Operator-pending mode
+vim.keymap.set("o", "f", function()
+   require('leap').leap( { offset = 1 } ) end)
 vim.keymap.set({"n", "x", "o"}, "F", "<Plug>(leap-backward-to)")
 vim.keymap.set({"n", "x", "o"}, "t", "<Plug>(leap-forward-till)")
 -- <Plug>(leap-backward-till) is incorrectly defined to be { backward = true, offset = 2 }

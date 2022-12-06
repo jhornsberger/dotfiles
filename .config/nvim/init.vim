@@ -279,7 +279,6 @@ vim.keymap.set('n', '<Leader>TTV', ':vsplit | terminal<space>', { noremap = true
 vim.keymap.set('n', '<Leader>TTT', ':tabnew | terminal<space>', { noremap = true })
 
 -- Commands
-
 -- Copy selected lines or complete file to Arista pb (http://pb/)
 vim.api.nvim_create_user_command(
    'Pb', ':<line1>,<line2>w !curl -F c=@- pb', { range = '%' })
@@ -478,12 +477,6 @@ nmap <silent> ]df <Plug>(textobj-diff-file-n)
 nmap <silent> [df <Plug>(textobj-diff-file-p)
 nmap <silent> ]dh <Plug>(textobj-diff-hunk-n)
 nmap <silent> [dh <Plug>(textobj-diff-hunk-p)
-
-" vim-fswitch plugin
-"let g:fsnonewfiles = 'on'
-"autocmd vimrc BufEnter *.*tin let b:fswitchdst = 'tac' | let b:fswitchlocs = './'
-"autocmd vimrc BufEnter *.tac let b:fswitchdst = 'tin,itin' | let b:fswitchlocs = './'
-"nmap <silent> <Leader>of :FSHere<cr>
 
 " arvim plugin
 let a4_auto_edit = 0

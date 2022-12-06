@@ -283,36 +283,33 @@ vim.keymap.set('n', '<Leader>TTT', ':tabnew | terminal<space>', { noremap = true
 -- Copy selected lines or complete file to Arista pb (http://pb/)
 vim.api.nvim_create_user_command(
    'Pb', ':<line1>,<line2>w !curl -F c=@- pb', { range = '%' })
+
+-- netrw settings
+vim.g.netrw_localrmdir='rm -r'
+vim.g.netrw_banner = 0
+vim.g.netrw_liststyle = 3
+vim.g.netrw_altv = 1
+vim.g.netrw_winsize = 25
+vim.g.netrw_browse_split = 2
+vim.g.netrw_http_cmd="wget --compression=auto -O"
+
+-- Tagbar plugin
+vim.keymap.set('n', '<Leader>tb', '<cmd>TagbarToggle<cr>', { noremap = true })
+vim.g.tagbar_compact = 1
+vim.g.tagbar_autofocus = 1
+vim.g.tagbar_sort = 0
+vim.g.tagbar_position = 'leftabove vertical'
+vim.g.tagbar_sort = 0
+vim.g.tagbar_type_tac = {
+   ctagstype = 'tacc',
+   kinds = { 'd:definition' },
+   sort = 0 }
 END
 
 " define a group `vimrc` and initialize.
 augroup vimrc
    autocmd!
 augroup END
-
-" netrw settings
-let g:netrw_localrmdir='rm -r'
-let g:netrw_banner = 0
-let g:netrw_liststyle = 3
-let g:netrw_altv = 1
-let g:netrw_winsize = 25
-let g:netrw_browse_split = 2
-let g:netrw_http_cmd="wget --compression=auto -O"
-
-" Tagbar plugin
-map <Leader>tb :TagbarToggle<CR>
-let g:tagbar_compact = 1
-let g:tagbar_autofocus = 1
-let g:tagbar_sort = 0
-let g:tagbar_position = 'leftabove vertical'
-let g:tagbar_sort = 0
-let g:tagbar_type_tac = {
-   \ 'ctagstype' : 'tacc',
-   \ 'kinds'     : [
-       \ 'd:definition'
-   \ ],
-   \ 'sort'    : 0
-\ }
 
 " vim-asterisk plugin
 map <silent> *  <Plug>(asterisk-z*)

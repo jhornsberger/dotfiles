@@ -3,35 +3,48 @@ lua << END
 require('packer').startup(function(use)
    -- Packer can manage itself
    use 'wbthomason/packer.nvim'
+   -- Vim plugin that displays tags in a window, ordered by scope
    use 'preservim/tagbar'
+   -- *-Improved
    use 'haya14busa/vim-asterisk'
+   -- A fixed solarized colorscheme for better truecolor support
    use 'overcache/NeoSolarized'
+   -- A Git wrapper so awesome, it should be illegal
    use 'tpope/vim-fugitive'
    -- Add/change/delete surrounding delimiter pairs with ease
-   use({
-      'kylechui/nvim-surround',
-      config = function()
-          require('nvim-surround').setup({})
-      end
-   })
+   use( { 'kylechui/nvim-surround',
+          config = function() require('nvim-surround').setup({}) end } )
+   -- Create your own text objects
    use 'kana/vim-textobj-user'
+   -- Text objects for Python
    use 'bps/vim-textobj-python'
+   -- Text objects for ouputs of diff
    use 'kana/vim-textobj-diff'
+   -- Helpers for UNIX
    use 'tpope/vim-eunuch'
    -- Improved fzf.vim written in lua
    use 'ibhagwan/fzf-lua'
+   -- Vim syntax plugin for AutoTest logs
    use 'git@gitlab.aristanetworks.com:jeff/vim-alog.git'
+   -- Refactored Arista vim plugin
    use 'git@gitlab.aristanetworks.com:the_third_man/arvim.git'
+   -- A light and configurable statusline/tabline plugin for Vim
    use 'itchyny/lightline.vim'
+   -- Consistent Vimscript
    use 'google/vim-maktaba'
+   -- Vim plugin for syntax-aware code formatting
    use 'google/vim-codefmt'
+   -- Glaive is a utility for configuring maktaba plugins
    use 'google/vim-glaive'
+   -- A lightweight and powerful git branch viewer for vim
    use 'rbong/vim-flog'
    -- Tame the quickfix window
    use 'romainl/vim-qf'
    -- Extensible Neovim Scrollbar
    use 'petertriho/nvim-scrollbar'
+   -- Neovim's answer to the mouse
    use 'ggandor/leap.nvim'
+   -- enable repeating supported plugin maps with "."
    use 'tpope/vim-repeat'
    -- easily search for, substitute, and abbreviate multiple variants of a word
    use 'tpope/vim-abolish'

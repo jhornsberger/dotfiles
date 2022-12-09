@@ -50,6 +50,9 @@ require('packer').startup(function(use)
    use 'tpope/vim-abolish'
    -- Git integration for buffers
    use 'lewis6991/gitsigns.nvim'
+   -- Use Neovim as a language server to inject LSP diagnostics, code actions, and more
+   use( { 'jose-elias-alvarez/null-ls.nvim',
+          requires = 'nvim-lua/plenary.nvim', } )
 end)
 
 -- Options
@@ -584,4 +587,37 @@ vim.keymap.set({"n", "x", "o"}, "t", "<Plug>(leap-forward-till)")
 -- <Plug>(leap-backward-till) is incorrectly defined to be { backward = true, offset = 2 }
 vim.keymap.set({"n", "x", "o"}, "T", function()
    require('leap').leap( { backward = true, offset = 1 } ) end)
+
+-- null-ls.nvim
+local nullLs = require( 'null-ls' )
+local nullLsHelpers = require( 'null-ls.helpers' )
+nullLs.setup( {
+   sources = { {
+      name = 'pylint',
+      method = { nullLs.methods.DIAGNOSTICS,
+                 nullLs.methods.DIAGNOSTICS_ON_SAVE },
+      filetypes = { 'python' },
+      generator = nullLsHelpers.generator_factory( {
+         command = 'a',
+         args = { 'ws', 'pylint', '--py3Partial', '$FILENAME' },
+         check_exit_code = { 0, 1 },
+         format = 'line',
+         on_output = nullLsHelpers.diagnostics.from_pattern(
+            [[:(%d+)%s+(%u)(%d+)%(([%l-]+)%)]],
+            { 'row', 'severity', 'code', 'message' },
+            { severities = { 
+               [ 'F' ] = 1,
+               [ 'E' ] = 1,
+               [ 'W' ] = 2,
+               [ 'C' ] = 3,
+               [ 'R' ] = 4,
+            } }
+         ),
+         runtime_condition = function( params )
+            return vim.fn.filereadable( params.bufname ) == 1
+         end,
+      } ),
+   } },
+   debug = true,
+} )
 END

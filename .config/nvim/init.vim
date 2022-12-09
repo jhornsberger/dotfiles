@@ -618,6 +618,5 @@ nullLs.setup( {
          end,
       } ),
    } },
-   debug = true,
 } )
 END

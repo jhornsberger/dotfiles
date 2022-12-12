@@ -77,9 +77,14 @@ vim.o.path = '**'
 vim.o.numberwidth = 1
 vim.o.previewheight = 20
 vim.o.splitbelow = true
+vim.o.updatetime = 500
 vim.opt.diffopt:append( { 'vertical', 'algorithm:histogram', } )
 vim.g.mapleader = ' '
 vim.cmd.colorscheme 'NeoSolarized'
+-- NeoSolarized unreadable colours for the diagnostics float
+vim.api.nvim_set_hl( 0, 'NormalFloat', { link = 'LineNr' } )
+vim.api.nvim_set_hl( 0, 'DiagnosticInfo', { link = 'Directory' } )
+vim.api.nvim_set_hl( 0, 'DiagnosticHint', { link = 'cleared' } )
 
 -- Autocommands
 vim.api.nvim_create_augroup('config', {})
@@ -589,6 +594,30 @@ vim.keymap.set({"n", "x", "o"}, "T", function()
    require('leap').leap( { backward = true, offset = 1 } ) end)
 
 -- null-ls.nvim
+vim.diagnostic.config( {
+   underline = false,
+   virtual_text = false,
+   float = {
+       focusable = false,
+       close_events = { 'BufLeave', 'CursorMoved', 'InsertEnter', 'FocusLost' },
+       border = 'rounded',
+       source = 'if_many',
+       scope = 'cursor',
+       header = { '', 'Normal' },
+       --prefix = { '', 'Normal' },
+    }
+} )
+
+local onAttach = function( client, bufnr )
+   -- Show line diagnostics automatically in hover window
+   vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+     buffer = bufnr,
+     callback = function()
+       vim.diagnostic.open_float( nil, nil )
+     end
+   })
+end
+
 local nullLs = require( 'null-ls' )
 local nullLsHelpers = require( 'null-ls.helpers' )
 nullLs.setup( {
@@ -603,8 +632,8 @@ nullLs.setup( {
          check_exit_code = { 0, 1 },
          format = 'line',
          on_output = nullLsHelpers.diagnostics.from_pattern(
-            [[:(%d+)%s+(%u)(%d+)%(([%l-]+)%)]],
-            { 'row', 'severity', 'code', 'message' },
+            [[:(%d+)%s+((%u)(%d+).+)]],
+            { 'row', 'message', 'severity', 'code' },
             { severities = { 
                [ 'F' ] = 1,
                [ 'E' ] = 1,
@@ -618,5 +647,6 @@ nullLs.setup( {
          end,
       } ),
    } },
+   on_attach = onAttach,
 } )
 END

@@ -656,6 +656,70 @@ nullLs.setup( {
             return vim.fn.filereadable( params.bufname ) == 1
          end,
       } ),
+   }, {
+      name = 'lint',
+      method = { nullLs.methods.DIAGNOSTICS,
+                 nullLs.methods.DIAGNOSTICS_ON_SAVE },
+      filetypes = { '_all' },
+      generator = nullLsHelpers.generator_factory( {
+         command = 'bash',
+         args = { '-c', 'a git diff --unified 0 --type p4 $FILENAME | a ws formatdiff -' },
+         ignore_stderr = true,
+         format = nil,
+         on_output = function( params, done )
+            local diagnostics = {}
+            local currDiagnostic = nil
+            local currOrigLine = nil
+            if params.output == nil then
+               done()
+               return
+            end
+            for line in params.output:gmatch( '[^\r\n]+' ) do
+               local file = line:match( '^%-%-%-' ) ~= nil or
+                            line:match( '^%+%+%+' ) ~= nil
+               local hunk = line:match( '^@@ %-(%d+)' )
+               if hunk ~= nil then
+                  -- hunk start indicates the line of the next context line
+                  currOrigLine = tonumber( hunk )
+               end
+               local remove = line:match( '^%-' ) ~= nil and not file
+               local add = line:match( '^%+' ) ~= nil and not file
+               if remove and currDiagnostic == nil then
+                  assert( currOrigLine ~= nil )
+                  currDiagnostic = {
+                     row = currOrigLine,
+                     message = '',
+                     severity = 4,
+                  }
+               end
+               if remove or add then
+                  assert( currDiagnostic ~= nil )
+                  currDiagnostic.message = currDiagnostic.message .. line .. '\n'
+               end
+               if add then
+                  assert( currDiagnostic ~= nil )
+                  currDiagnostic.end_row = currOrigLine
+               end
+               if not remove and not add then
+                  -- Add current diagnostic if any
+                  if currDiagnostic ~= nil then
+                     table.insert( diagnostics, currDiagnostic )
+                     currDiagnostic = nil
+                  end
+               end
+               if hunk == nil and not add then
+                  if currOrigLine ~= nil then
+                     currOrigLine = currOrigLine + 1
+                  end
+               end
+            end
+            done( diagnostics )
+         end,
+         runtime_condition = function( params )
+            return vim.fn.filereadable( params.bufname ) == 1
+         end,
+         timeout = 10000,
+      } ),
    } },
    on_attach = onAttach,
 } )

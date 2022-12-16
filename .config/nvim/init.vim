@@ -256,12 +256,13 @@ vim.keymap.set('n', '<Leader>ogl', function()
           .. vim.fn.expand( '%:p' ) .. '#' .. vim.fn.line( '.' ) ) end,
    { noremap = true, silent = true } )
 vim.keymap.set('v', '<Leader>ogl', function()
-   print( 'https://opengrok.infra.corp.arista.io/source/xref/eos-trunk' ..
-          vim.fn.expand( '%:p' ) ..
-          '#' ..
-          vim.fn.line( "'<" ) ..
-          '-' ..
-          vim.fn.line( "'>" ) ) end,
+      local visual = tonumber( vim.fn.line( 'v' ) )
+      local cursor = tonumber( vim.fn.line( '.' ) )
+      local first = tostring( math.min( visual, cursor ) )
+      local last = tostring( math.max( visual, cursor ) )
+      print( 'https://opengrok.infra.corp.arista.io/source/xref/eos-trunk' ..
+             vim.fn.expand( '%:p' ) .. '#' .. first .. '-' .. last )
+   end,
    { noremap = true, silent = true } )
 vim.keymap.set('n', '<Leader>s', function()
    local pathList = vim.fn.split( vim.fn.expand( '%:p' ), '/' )

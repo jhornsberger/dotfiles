@@ -41,7 +41,10 @@ require('packer').startup(function(use)
    -- Tame the quickfix window
    use 'romainl/vim-qf'
    -- Extensible Neovim Scrollbar
-   use 'petertriho/nvim-scrollbar'
+   use( { 'petertriho/nvim-scrollbar',
+          config = function()
+             require("scrollbar").setup({show_in_active_only = true})
+          end } )
    -- Neovim's answer to the mouse
    use 'ggandor/leap.nvim'
    -- enable repeating supported plugin maps with "."
@@ -542,9 +545,7 @@ nmap <silent><c-p> <Plug>(qf_qf_previous)
 nmap <silent><c-n> <Plug>(qf_qf_next)
 
 lua << END
--- nvim-scrollbar
-require("scrollbar").setup({show_in_active_only = true})
-
+-- gitsigns.nvim
 require('gitsigns').setup({
    worktrees = {
       {
@@ -552,7 +553,7 @@ require('gitsigns').setup({
          gitdir = vim.env.HOME .. '/.cfg',
       },
    }})
-require("scrollbar.handlers.gitsigns").setup()
+require('scrollbar.handlers.gitsigns').setup()
 vim.keymap.set('n', '<Leader>gst',
    function() require('gitsigns').toggle_signs() end, { noremap = true })
 vim.keymap.set('n', '<Leader>gsp',

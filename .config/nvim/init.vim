@@ -596,6 +596,14 @@ vim.keymap.set({"n", "x", "o"}, "T", function()
    require('leap').leap( { backward = true, offset = 1 } ) end)
 
 -- null-ls.nvim
+-- Use internal formatting for bindings like gq.
+-- See https://github.com/jose-elias-alvarez/null-ls.nvim/issues/1131
+ vim.api.nvim_create_autocmd('LspAttach', { 
+   callback = function(args) 
+     vim.bo[args.buf].formatexpr = nil 
+   end, 
+ })
+
 vim.diagnostic.config( {
    underline = false,
    virtual_text = false,

@@ -337,7 +337,7 @@ vim.keymap.set( 'n', 'g#', '<Plug>(asterisk-gz#)' )
 
 -- vim-fugitive plugin
 vim.api.nvim_create_user_command(
-   'GitDir', '<cmd>silent cd <args> | topleft vertical Git | cd- | lcd <args>',
+   'GitDir', 'silent cd <args> | topleft vertical Git | cd- | lcd <args>',
    { nargs = 1 } )
 vim.keymap.set( 'n', '<Leader>gs', '<cmd>topleft vertical Git<cr>' )
 vim.keymap.set( 'n', '<Leader>gsd', ':GitDir<space>' )
@@ -528,7 +528,7 @@ vim.api.nvim_create_autocmd( { 'BufNewFile', 'BufReadPost' }, {
 -- vim-flog plugin
 vim.keymap.set( 'n', '<Leader>gl', '<cmd>Flog -date=local<cr>', { noremap = true } )
 vim.api.nvim_create_user_command(
-   'FlogDir', '<cmd>silent cd <args> | execute "Flog -date=local" | cd- | lcd <args>',
+   'FlogDir', 'silent cd <args> | execute "Flog -date=local" | cd- | lcd <args>',
    { nargs = 1 } )
 vim.keymap.set( 'n', '<Leader>gld', ':FlogDir<space>', { noremap = true } )
 vim.api.nvim_create_autocmd("FileType", {

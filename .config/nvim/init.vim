@@ -489,14 +489,14 @@ vim.keymap.set('n', '<Leader>of',
       } )
    end,
    { noremap = true, silent = true })
-END
 
-" vim-textobj-diff plugin
-"let g:textobj_diff_no_default_key_mappings = 1
-nmap <silent> ]df <Plug>(textobj-diff-file-n)
-nmap <silent> [df <Plug>(textobj-diff-file-p)
-nmap <silent> ]dh <Plug>(textobj-diff-hunk-n)
-nmap <silent> [dh <Plug>(textobj-diff-hunk-p)
+-- vim-textobj-diff plugin
+vim.g.textobj_diff_no_default_key_mappings = 1
+vim.keymap.set( 'n', ']df', '<Plug>(textobj-diff-file-n)', { silent = true } )
+vim.keymap.set( 'n', '[df', '<Plug>(textobj-diff-file-p)', { silent = true } )
+vim.keymap.set( 'n', ']dh', '<Plug>(textobj-diff-hunk-n)', { silent = true } )
+vim.keymap.set( 'n', '[dh', '<Plug>(textobj-diff-hunk-p)', { silent = true } )
+END
 
 " arvim plugin
 let a4_auto_edit = 0

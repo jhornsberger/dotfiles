@@ -515,15 +515,16 @@ vim.g.lightline = {
       gitbranch = 'FugitiveHead'
    }
 }
+
+-- vim-alog plugin
+vim.api.nvim_create_autocmd( { 'BufNewFile', 'BufReadPost' }, {
+   group = 'config',
+   pattern = '*.log',
+   callback = function ( args )
+      vim.keymap.set('n', '<leader>al', '<cmd>set filetype=alog<cr>',
+      { noremap = true, buffer = true } )
+   end } )
 END
-
-" define a group `vimrc` and initialize.
-augroup vimrc
-   autocmd!
-augroup END
-
-" vim-alog plugin
-autocmd vimrc BufNewFile,BufReadPost *.log nnoremap <buffer> <Leader>al :set filetype=alog<cr>
 
 " jk-jumps plugin
 let g:jk_jumps_minimum_lines = 2
@@ -534,7 +535,7 @@ command -nargs=1 FlogDir silent cd <args> | execute 'Flog -date=local' | cd- | l
 nnoremap <Leader>gld :FlogDir<space>
 lua << END
 vim.api.nvim_create_autocmd("FileType", {
-   group = "vimrc",
+   group = "config",
    pattern = "floggraph",
    callback = function ( args )
       vim.keymap.set("n", "<leader>aco", function()

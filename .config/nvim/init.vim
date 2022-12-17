@@ -496,10 +496,10 @@ vim.keymap.set( 'n', ']df', '<Plug>(textobj-diff-file-n)', { silent = true } )
 vim.keymap.set( 'n', '[df', '<Plug>(textobj-diff-file-p)', { silent = true } )
 vim.keymap.set( 'n', ']dh', '<Plug>(textobj-diff-hunk-n)', { silent = true } )
 vim.keymap.set( 'n', '[dh', '<Plug>(textobj-diff-hunk-p)', { silent = true } )
-END
 
-" arvim plugin
-let a4_auto_edit = 0
+-- arvim plugin
+vim.g.a4_auto_edit = 0
+END
 
 " Lightline plugin
 set noshowmode

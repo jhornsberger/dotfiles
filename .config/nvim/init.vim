@@ -328,18 +328,13 @@ vim.g.tagbar_type_tac = {
    ctagstype = 'tacc',
    kinds = { 'd:definition' },
    sort = 0 }
+
+-- vim-asterisk plugin
+vim.keymap.set( 'n', '*', '<Plug>(asterisk-z*)' )
+vim.keymap.set( 'n', '#', '<Plug>(asterisk-z#)' )
+vim.keymap.set( 'n', 'g*', '<Plug>(asterisk-gz*)' )
+vim.keymap.set( 'n', 'g#', '<Plug>(asterisk-gz#)' )
 END
-
-" define a group `vimrc` and initialize.
-augroup vimrc
-   autocmd!
-augroup END
-
-" vim-asterisk plugin
-map <silent> *  <Plug>(asterisk-z*)
-map <silent> #  <Plug>(asterisk-z#)
-map <silent> g* <Plug>(asterisk-gz*)
-map <silent> g# <Plug>(asterisk-gz#)
 
 " Fugitive plugin
 command -nargs=1 GitDir silent cd <args> | topleft vertical Git | cd- | lcd <args>
@@ -519,6 +514,11 @@ let g:lightline = {
       \   'gitbranch': 'FugitiveHead'
       \ },
       \ }
+
+" define a group `vimrc` and initialize.
+augroup vimrc
+   autocmd!
+augroup END
 
 " vim-alog plugin
 autocmd vimrc BufNewFile,BufReadPost *.log nnoremap <buffer> <Leader>al :set filetype=alog<cr>

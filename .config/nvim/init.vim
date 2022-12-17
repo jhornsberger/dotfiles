@@ -526,9 +526,6 @@ vim.api.nvim_create_autocmd( { 'BufNewFile', 'BufReadPost' }, {
    end } )
 END
 
-" jk-jumps plugin
-let g:jk_jumps_minimum_lines = 2
-
 " Flog plugin
 nnoremap <Leader>gl :Flog -date=local<cr>
 command -nargs=1 FlogDir silent cd <args> | execute 'Flog -date=local' | cd- | lcd <args>

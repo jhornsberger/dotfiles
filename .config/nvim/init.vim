@@ -658,7 +658,7 @@ nullLs.setup( {
          end,
       } ),
    }, {
-      name = 'lint',
+      name = 'formatdiff',
       method = { nullLs.methods.DIAGNOSTICS,
                  nullLs.methods.DIAGNOSTICS_ON_SAVE },
       filetypes = { '_all' },

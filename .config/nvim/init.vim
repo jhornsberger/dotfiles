@@ -539,13 +539,13 @@ vim.api.nvim_create_autocmd("FileType", {
             vim.api.nvim_call_function("flog#run_command", {"!agu checkout %b", 0, 1})
          end, { buffer = true } )
    end})
-END
 
-" vim-qf plugin
-nmap <silent><c-p> <Plug>(qf_qf_previous)
-nmap <silent><c-n> <Plug>(qf_qf_next)
+-- vim-qf plugin
+vim.keymap.set( 'n', '<c-p>', '<Plug>(qf_qf_previous)',
+   { noremap = true, silent = true } )
+vim.keymap.set( 'n', '<c-n>', '<Plug>(qf_qf_next)',
+   { noremap = true, silent = true } )
 
-lua << END
 -- gitsigns.nvim
 require('gitsigns').setup({
    worktrees = {

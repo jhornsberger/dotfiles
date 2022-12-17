@@ -1,4 +1,3 @@
-lua << END
 -- Plugins via Packer
 require('packer').startup(function(use)
    -- Packer can manage itself
@@ -144,7 +143,7 @@ vim.api.nvim_create_autocmd({'BufNewFile', 'BufReadPost'},
 vim.api.nvim_create_autocmd({'FileType'},
    { group = 'config',
      pattern = 'gitcommit',
-     callback = function() vim.opt_local.textwidth = 72 end,
+     callback = function() vim.o.textwidth = 72 end,
      nested = true, })
 
 -- Set colorcolumn to match textwidth
@@ -724,4 +723,3 @@ nullLs.setup( {
    } },
    on_attach = onAttach,
 } )
-END

@@ -499,21 +499,23 @@ vim.keymap.set( 'n', '[dh', '<Plug>(textobj-diff-hunk-p)', { silent = true } )
 
 -- arvim plugin
 vim.g.a4_auto_edit = 0
-END
 
-" Lightline plugin
-set noshowmode
-let g:lightline = {
-      \ 'colorscheme': 'solarized',
-      \ 'active': {
-      \   'right': [ [ 'lineinfo' ],
-      \              [ 'percent' ],
-      \              [ 'gitbranch', 'fileformat', 'fileencoding', 'filetype' ] ]
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'FugitiveHead'
-      \ },
-      \ }
+-- lightline.vim plugin
+vim.o.showmode = false
+vim.g.lightline = {
+   active = {
+      right = {
+         { 'lineinfo' },
+         { 'percent' },
+         { 'gitbranch', 'fileformat', 'fileencoding', 'filetype' }
+      }
+   },
+   colorscheme = 'solarized',
+   component_function = {
+      gitbranch = 'FugitiveHead'
+   }
+}
+END
 
 " define a group `vimrc` and initialize.
 augroup vimrc

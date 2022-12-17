@@ -524,13 +524,13 @@ vim.api.nvim_create_autocmd( { 'BufNewFile', 'BufReadPost' }, {
       vim.keymap.set('n', '<leader>al', '<cmd>set filetype=alog<cr>',
       { noremap = true, buffer = true } )
    end } )
-END
 
-" Flog plugin
-nnoremap <Leader>gl :Flog -date=local<cr>
-command -nargs=1 FlogDir silent cd <args> | execute 'Flog -date=local' | cd- | lcd <args>
-nnoremap <Leader>gld :FlogDir<space>
-lua << END
+-- vim-flog plugin
+vim.keymap.set( 'n', '<Leader>gl', '<cmd>Flog -date=local<cr>', { noremap = true } )
+vim.api.nvim_create_user_command(
+   'FlogDir', '<cmd>silent cd <args> | execute "Flog -date=local" | cd- | lcd <args>',
+   { nargs = 1 } )
+vim.keymap.set( 'n', '<Leader>gld', ':FlogDir<space>', { noremap = true } )
 vim.api.nvim_create_autocmd("FileType", {
    group = "config",
    pattern = "floggraph",

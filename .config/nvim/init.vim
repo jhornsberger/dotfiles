@@ -334,20 +334,20 @@ vim.keymap.set( 'n', '*', '<Plug>(asterisk-z*)' )
 vim.keymap.set( 'n', '#', '<Plug>(asterisk-z#)' )
 vim.keymap.set( 'n', 'g*', '<Plug>(asterisk-gz*)' )
 vim.keymap.set( 'n', 'g#', '<Plug>(asterisk-gz#)' )
-END
 
-" Fugitive plugin
-command -nargs=1 GitDir silent cd <args> | topleft vertical Git | cd- | lcd <args>
-map <Leader>gs :topleft vertical Git<cr>
-map <Leader>gsd :GitDir<space>
-map <Leader>ge :Gedit<space>
-map <Leader>gd :Gdiffsplit<space>
-map <Leader>ged :Gedit \| windo difft<cr>
-map <Leader>gc :Git commit<space>
-map <Leader>gb :Git blame<cr>
-map <Leader>G :Git<space>
+-- vim-fugitive plugin
+vim.api.nvim_create_user_command(
+   'GitDir', '<cmd>silent cd <args> | topleft vertical Git | cd- | lcd <args>',
+   { nargs = 1 } )
+vim.keymap.set( 'n', '<Leader>gs', '<cmd>topleft vertical Git<cr>' )
+vim.keymap.set( 'n', '<Leader>gsd', ':GitDir<space>' )
+vim.keymap.set( 'n', '<Leader>ge', ':Gedit<space>' )
+vim.keymap.set( 'n', '<Leader>gd', ':Gdiffsplit<space>' )
+vim.keymap.set( 'n', '<Leader>ged', '<cmd>Gedit | windo difft<cr>' )
+vim.keymap.set( 'n', '<Leader>gc', ':Git commit<space>' )
+vim.keymap.set( 'n', '<Leader>gb', '<cmd>Git blame<cr>' )
+vim.keymap.set( 'n', '<Leader>G', ':Git<space>' )
 
-lua << END
 -- fzf-lua plugin
 require('fzf-lua').setup{
   winopts = {

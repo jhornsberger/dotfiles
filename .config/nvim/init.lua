@@ -55,7 +55,8 @@ require('packer').startup(function(use)
    -- Use Neovim as a language server to inject LSP diagnostics, code actions, and more
    use( { 'jose-elias-alvarez/null-ls.nvim',
           requires = 'nvim-lua/plenary.nvim', } )
-  use 'ojroques/nvim-osc52'
+   -- copy text through SSH with OSC52
+   use 'ojroques/nvim-osc52'
 end)
 
 -- Options

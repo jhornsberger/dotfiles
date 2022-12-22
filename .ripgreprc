@@ -1,10 +1,14 @@
 --smart-case
 --type-add
-ar:*.{tac,tin,py,ar,am}
+ar:*.{tac,tin,itin,py,ar,qb}
 --type-add
 tac:*.tac
 --type-add
 tin:*.tin
+--type-add
+itin:*.itin
+--type-add
+qb:*.qb
 --type-add
 arx:*.arx
 --ignore-file=/home/jeff/dotfiles/ignore

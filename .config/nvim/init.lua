@@ -55,6 +55,7 @@ require('packer').startup(function(use)
    -- Use Neovim as a language server to inject LSP diagnostics, code actions, and more
    use( { 'jose-elias-alvarez/null-ls.nvim',
           requires = 'nvim-lua/plenary.nvim', } )
+  use 'ojroques/nvim-osc52'
 end)
 
 -- Options
@@ -723,3 +724,18 @@ nullLs.setup( {
    } },
    on_attach = onAttach,
 } )
+
+-- ojroques/nvim-osc52
+local function copy(lines, _)
+  require('osc52').copy(table.concat(lines, '\n'))
+end
+
+local function paste()
+  return {vim.fn.split(vim.fn.getreg(''), '\n'), vim.fn.getregtype('')}
+end
+
+vim.g.clipboard = {
+  name = 'osc52',
+  copy = {['+'] = copy, ['*'] = copy},
+  paste = {['+'] = paste, ['*'] = paste},
+}

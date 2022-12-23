@@ -627,11 +627,11 @@ vim.keymap.set({"n", "x", "o"}, "T", function()
 -- null-ls.nvim
 -- Use internal formatting for bindings like gq.
 -- See https://github.com/jose-elias-alvarez/null-ls.nvim/issues/1131
- vim.api.nvim_create_autocmd('LspAttach', { 
-   callback = function(args) 
-     vim.bo[args.buf].formatexpr = nil 
-   end, 
- })
+vim.api.nvim_create_autocmd('LspAttach', { 
+  callback = function(args) 
+    vim.bo[args.buf].formatexpr = nil 
+  end, 
+})
 
 vim.diagnostic.config( {
    underline = false,
@@ -644,7 +644,6 @@ vim.diagnostic.config( {
        source = 'if_many',
        scope = 'cursor',
        header = { '', 'Normal' },
-       --prefix = { '', 'Normal' },
     }
 } )
 

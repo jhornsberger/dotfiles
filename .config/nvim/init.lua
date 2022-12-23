@@ -249,42 +249,47 @@ vim.keymap.set('n', '<Leader>H', function() vim.wo.list = not vim.wo.list end,
    { noremap = true })
 
 -- Generate opengrok/src links
+local copyToSystemClipboard = function( value )
+   vim.fn.setreg( '+', value )
+   print( value .. ' (copied to system register)' )
+end
 vim.keymap.set('n', '<Leader>og', function()
-   print( 'https://opengrok.infra.corp.arista.io/source/xref/eos-trunk'
-          .. vim.fn.expand( '%:p' ) ) end, { noremap = true, silent = true } )
+      local link = 'https://opengrok.infra.corp.arista.io/source/xref/eos-trunk'
+             .. vim.fn.expand( '%:p' )
+      copyToSystemClipboard( link )
+    end, { noremap = true, silent = true } )
 vim.keymap.set('n', '<Leader>ogl', function()
-   print( 'https://opengrok.infra.corp.arista.io/source/xref/eos-trunk'
-          .. vim.fn.expand( '%:p' ) .. '#' .. vim.fn.line( '.' ) ) end,
-   { noremap = true, silent = true } )
+      local link = 'https://opengrok.infra.corp.arista.io/source/xref/eos-trunk'
+          .. vim.fn.expand( '%:p' ) .. '#' .. vim.fn.line( '.' )
+      copyToSystemClipboard( link )
+   end, { noremap = true, silent = true } )
 vim.keymap.set('v', '<Leader>ogl', function()
       local visual = tonumber( vim.fn.line( 'v' ) )
       local cursor = tonumber( vim.fn.line( '.' ) )
       local first = tostring( math.min( visual, cursor ) )
       local last = tostring( math.max( visual, cursor ) )
-      print( 'https://opengrok.infra.corp.arista.io/source/xref/eos-trunk' ..
-             vim.fn.expand( '%:p' ) .. '#' .. first .. '-' .. last )
-   end,
-   { noremap = true, silent = true } )
+      local link = 'https://opengrok.infra.corp.arista.io/source/xref/eos-trunk' ..
+         vim.fn.expand( '%:p' ) .. '#' .. first .. '-' .. last
+      copyToSystemClipboard( link )
+   end, { noremap = true, silent = true } )
 vim.keymap.set('n', '<Leader>s', function()
-   local pathList = vim.fn.split( vim.fn.expand( '%:p' ), '/' )
-   local package = pathList[ 2 ]
-   local restOfPathList = { unpack( pathList, 3, #pathList ) }
-   local restOfPath = vim.fn.join( restOfPathList, '/' )
-   print( 'https://src.infra.corp.arista.io/' ..
-          package ..
-          '/eos-trunk/' ..
-          restOfPath ) end, { noremap = true, silent = true } )
+      local pathList = vim.fn.split( vim.fn.expand( '%:p' ), '/' )
+      local package = pathList[ 2 ]
+      local restOfPathList = { unpack( pathList, 3, #pathList ) }
+      local restOfPath = vim.fn.join( restOfPathList, '/' )
+      local link = 'https://src.infra.corp.arista.io/' .. package ..
+         '/eos-trunk/' .. restOfPath
+      copyToSystemClipboard( link )
+   end, { noremap = true, silent = true } )
 vim.keymap.set('n', '<Leader>sl', function()
-   local pathList = vim.fn.split( vim.fn.expand( '%:p' ), '/' )
-   local package = pathList[ 2 ]
-   local restOfPathList = { unpack( pathList, 3, #pathList ) }
-   local restOfPath = vim.fn.join( restOfPathList, '/' )
-   print( 'https://src.infra.corp.arista.io/' ..
-          package ..
-          '/eos-trunk/' ..
-          restOfPath ..
-          '#line-' ..
-          vim.fn.line( '.' ) ) end, { noremap = true, silent = true } )
+      local pathList = vim.fn.split( vim.fn.expand( '%:p' ), '/' )
+      local package = pathList[ 2 ]
+      local restOfPathList = { unpack( pathList, 3, #pathList ) }
+      local restOfPath = vim.fn.join( restOfPathList, '/' )
+      local link = 'https://src.infra.corp.arista.io/' .. package .. '/eos-trunk/' ..
+          restOfPath .. '#line-' .. vim.fn.line( '.' )
+      copyToSystemClipboard( link )
+   end, { noremap = true, silent = true } )
 
 -- Terminal
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { noremap = true })

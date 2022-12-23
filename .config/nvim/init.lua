@@ -308,6 +308,34 @@ vim.keymap.set('n', '<Leader>TTT', ':tabnew | terminal<space>', { noremap = true
 -- Copy selected lines or complete file to Arista pb (http://pb/)
 vim.api.nvim_create_user_command(
    'Pb', ':<line1>,<line2>w !curl -F c=@- pb', { range = '%' })
+-- Diff modifications
+vim.api.nvim_create_user_command(
+   'DiffMods', function()
+      local bufName = vim.fn.bufname()
+      if vim.fn.filereadable( bufName ) ~= 1 then
+         print( "Buffer is not readable" )
+         return -1
+      end
+
+      if vim.t.diffModBuf == nil then
+         local ft = vim.o.filetype
+         vim.cmd( 'vnew' )
+         vim.t.diffModBuf = vim.fn.bufnr()
+         vim.o.buftype = 'nofile'
+         vim.cmd( 'read ' .. bufName )
+         vim.fn.deletebufline( vim.t.diffModBuf, 1 )
+         vim.bo.filetype = ft
+         vim.bo.modifiable = false
+         vim.cmd( 'diffthis' )
+         vim.cmd( 'wincmd p' )
+         vim.cmd( 'diffthis' )
+      else
+         vim.cmd( 'diffoff' )
+         vim.cmd( 'silent! bdelete! ' .. vim.t.diffModBuf )
+         vim.t.diffModBuf = nil
+      end
+   end, {} )
+vim.keymap.set( 'n', '<leader>dm', '<cmd>DiffMods<cr>', { noremap = true } )
 
 -- netrw settings
 vim.g.netrw_localrmdir='rm -r'

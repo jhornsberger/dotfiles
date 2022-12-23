@@ -647,6 +647,10 @@ vim.diagnostic.config( {
     }
 } )
 
+-- LSP formatting
+vim.keymap.set( 'n', '<leader>lf', function()
+   vim.lsp.buf.format( { timeout_ms=5000 } ) end )
+
 local onAttach = function( client, bufnr )
    -- Show line diagnostics automatically in hover window
    vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
@@ -748,6 +752,19 @@ nullLs.setup( {
             return vim.fn.filereadable( params.bufname ) == 1
          end,
          timeout = 10000,
+      } ),
+   }, {
+      name = 'formatdiff',
+      method = nullLs.methods.FORMATTING,
+      filetypes = { '_all' },
+      generator = nullLsHelpers.formatter_factory( {
+         command = 'bash',
+         args = { '-c', 'a git diff --unified 0 --type p4 $FILENAME | ' ..
+                        'a ws formatdiff - | ' ..
+                        'patch -i - -o - $FILENAME' },
+         runtime_condition = function( params )
+            return vim.fn.filereadable( params.bufname ) == 1
+         end,
       } ),
    } },
    on_attach = onAttach,

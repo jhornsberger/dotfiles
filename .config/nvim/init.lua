@@ -630,6 +630,16 @@ vim.keymap.set({"n", "x", "o"}, "T", function()
    require('leap').leap( { backward = true, offset = 1 } ) end)
 
 -- LSP
+local onAttach = function( client, bufnr )
+   -- Show line diagnostics automatically in hover window
+   vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+     buffer = bufnr,
+     callback = function()
+       vim.diagnostic.open_float( nil, nil )
+     end
+   })
+end
+
 vim.api.nvim_create_autocmd( { 'FileType' },
    { group = 'config',
      pattern = 'python',
@@ -639,6 +649,7 @@ vim.api.nvim_create_autocmd( { 'FileType' },
            cmd = { 'ar-pylint-ls' },
            root_dir = '/src',
            settings = { debug = false },
+           on_attach = onAttach,
         } )
      end, } )
 
@@ -651,6 +662,7 @@ vim.api.nvim_create_autocmd( { 'FileType' },
            cmd = { 'ar-formatdiff-ls' },
            root_dir = '/src',
            settings = { debug = false },
+           on_attach = onAttach,
         } )
      end, } )
 
@@ -680,16 +692,6 @@ vim.diagnostic.config( {
 -- LSP formatting
 vim.keymap.set( 'n', '<leader>lf', function()
    vim.lsp.buf.format( { timeout_ms=5000 } ) end )
-
-local onAttach = function( client, bufnr )
-   -- Show line diagnostics automatically in hover window
-   vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
-     buffer = bufnr,
-     callback = function()
-       vim.diagnostic.open_float( nil, nil )
-     end
-   })
-end
 
 local nullLs = require( 'null-ls' )
 local nullLsHelpers = require( 'null-ls.helpers' )

@@ -629,6 +629,19 @@ vim.keymap.set({"n", "x", "o"}, "t", "<Plug>(leap-forward-till)")
 vim.keymap.set({"n", "x", "o"}, "T", function()
    require('leap').leap( { backward = true, offset = 1 } ) end)
 
+-- LSP
+vim.api.nvim_create_autocmd( { 'FileType' },
+   { group = 'config',
+     pattern = 'python',
+     callback = function()
+        vim.lsp.start( {
+           name = 'ar-pylint-ls',
+           cmd = { 'ar-pylint-ls' },
+           root_dir = '/src',
+           settings = { debug = false },
+        } )
+     end, } )
+
 -- null-ls.nvim
 -- Use internal formatting for bindings like gq.
 -- See https://github.com/jose-elias-alvarez/null-ls.nvim/issues/1131
@@ -670,31 +683,6 @@ local nullLs = require( 'null-ls' )
 local nullLsHelpers = require( 'null-ls.helpers' )
 nullLs.setup( {
    sources = { {
-      name = 'pylint',
-      method = { nullLs.methods.DIAGNOSTICS,
-                 nullLs.methods.DIAGNOSTICS_ON_SAVE },
-      filetypes = { 'python' },
-      generator = nullLsHelpers.generator_factory( {
-         command = 'a',
-         args = { 'ws', 'pylint', '--py3Partial', '$FILENAME' },
-         check_exit_code = { 0, 1 },
-         format = 'line',
-         on_output = nullLsHelpers.diagnostics.from_pattern(
-            [[:(%d+)%s+((%u)(%d+).+)]],
-            { 'row', 'message', 'severity', 'code' },
-            { severities = { 
-               [ 'F' ] = 1,
-               [ 'E' ] = 1,
-               [ 'W' ] = 2,
-               [ 'C' ] = 3,
-               [ 'R' ] = 4,
-            } }
-         ),
-         runtime_condition = function( params )
-            return vim.fn.filereadable( params.bufname ) == 1
-         end,
-      } ),
-   }, {
       name = 'formatdiff',
       method = { nullLs.methods.DIAGNOSTICS,
                  nullLs.methods.DIAGNOSTICS_ON_SAVE },

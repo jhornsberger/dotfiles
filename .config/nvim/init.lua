@@ -52,9 +52,6 @@ require('packer').startup(function(use)
    use 'tpope/vim-abolish'
    -- Git integration for buffers
    use 'lewis6991/gitsigns.nvim'
-   -- Use Neovim as a language server to inject LSP diagnostics, code actions, and more
-   use( { 'jose-elias-alvarez/null-ls.nvim',
-          requires = 'nvim-lua/plenary.nvim', } )
    -- copy text through SSH with OSC52
    use 'ojroques/nvim-osc52'
 end)
@@ -666,15 +663,6 @@ vim.api.nvim_create_autocmd( { 'FileType' },
         } )
      end, } )
 
--- null-ls.nvim
--- Use internal formatting for bindings like gq.
--- See https://github.com/jose-elias-alvarez/null-ls.nvim/issues/1131
-vim.api.nvim_create_autocmd('LspAttach', { 
-  callback = function(args) 
-    vim.bo[args.buf].formatexpr = nil 
-  end, 
-})
-
 vim.diagnostic.config( {
    underline = false,
    virtual_text = false,
@@ -692,26 +680,6 @@ vim.diagnostic.config( {
 -- LSP formatting
 vim.keymap.set( 'n', '<leader>lf', function()
    vim.lsp.buf.format( { timeout_ms=5000 } ) end )
-
-local nullLs = require( 'null-ls' )
-local nullLsHelpers = require( 'null-ls.helpers' )
-nullLs.setup( {
-   sources = { {
-      name = 'formatdiff',
-      method = nullLs.methods.FORMATTING,
-      filetypes = { '_all' },
-      generator = nullLsHelpers.formatter_factory( {
-         command = 'bash',
-         args = { '-c', 'a git diff --unified 0 --type p4 $FILENAME | ' ..
-                        'a ws formatdiff - | ' ..
-                        'patch -i - -o - $FILENAME' },
-         runtime_condition = function( params )
-            return vim.fn.filereadable( params.bufname ) == 1
-         end,
-      } ),
-   } },
-   on_attach = onAttach,
-} )
 
 -- ojroques/nvim-osc52
 local function copy(lines, _)

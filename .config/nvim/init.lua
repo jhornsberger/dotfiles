@@ -627,7 +627,7 @@ vim.keymap.set({"n", "x", "o"}, "T", function()
    require('leap').leap( { backward = true, offset = 1 } ) end)
 
 -- LSP
-local onAttach = function( client, bufnr )
+local onAttachDiags = function( client, bufnr )
    -- Show line diagnostics automatically in hover window
    vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
      buffer = bufnr,
@@ -646,20 +646,20 @@ vim.api.nvim_create_autocmd( { 'FileType' },
            cmd = { 'ar-pylint-ls' },
            root_dir = '/src',
            settings = { debug = false },
-           on_attach = onAttach,
+           on_attach = onAttachDiags,
         } )
      end, } )
 
-vim.api.nvim_create_autocmd( { 'FileType' },
+vim.api.nvim_create_autocmd( { 'BufNewFile', 'BufReadPost' },
    { group = 'config',
-     pattern = { 'tac', 'cpp', 'python' },
+     pattern = '/src/**',
      callback = function()
         vim.lsp.start( {
            name = 'ar-formatdiff-ls',
            cmd = { 'ar-formatdiff-ls' },
            root_dir = '/src',
            settings = { debug = false },
-           on_attach = onAttach,
+           on_attach = onAttachDiags,
         } )
      end, } )
 

@@ -663,6 +663,26 @@ vim.api.nvim_create_autocmd( { 'BufNewFile', 'BufReadPost' },
         } )
      end, } )
 
+vim.api.nvim_create_autocmd( { 'BufNewFile', 'BufReadPost' },
+   { group = 'config',
+     pattern = '/src/**',
+     callback = function()
+        vim.lsp.start( {
+           name = 'ar-grok-ls',
+           cmd = { 'ar-grok-ls' },
+           root_dir = '/src',
+           settings = { debug = false },
+           on_attach = function()
+              vim.keymap.set('n', '<leader>ld', function()
+                 require( 'fzf-lua' ).lsp_definitions() 
+              end )
+              vim.keymap.set('n', '<leader>lr', function()
+                 require( 'fzf-lua' ).lsp_references() 
+              end )
+           end,
+        } )
+     end, } )
+
 vim.diagnostic.config( {
    underline = false,
    virtual_text = false,

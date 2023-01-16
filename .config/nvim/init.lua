@@ -637,6 +637,16 @@ local onAttachDiags = function( client, bufnr )
    })
 end
 
+local onAttachSymbols = function( client, bufnr )
+   -- Register key mappings for definitions and references
+   vim.keymap.set('n', '<leader>ld', function()
+      require( 'fzf-lua' ).lsp_definitions()
+   end, { buffer = true } )
+   vim.keymap.set('n', '<leader>lr', function()
+      require( 'fzf-lua' ).lsp_references()
+   end, { buffer = true } )
+end
+
 vim.api.nvim_create_autocmd( { 'FileType' },
    { group = 'config',
      pattern = 'python',
@@ -672,14 +682,7 @@ vim.api.nvim_create_autocmd( { 'BufNewFile', 'BufReadPost' },
            cmd = { 'ar-grok-ls' },
            root_dir = '/src',
            settings = { debug = false },
-           on_attach = function()
-              vim.keymap.set('n', '<leader>ld', function()
-                 require( 'fzf-lua' ).lsp_definitions() 
-              end )
-              vim.keymap.set('n', '<leader>lr', function()
-                 require( 'fzf-lua' ).lsp_references() 
-              end )
-           end,
+           on_attach = onAttachSymbols,
         } )
      end, } )
 

@@ -99,6 +99,7 @@ _gen_fzf_default_opts() {
   export FZF_DEFAULT_OPTS="
     --color fg:-1,bg:-1,hl:$blue,fg+:$base02,bg+:$base2,hl+:$blue,border:$base2
     --color info:$yellow,prompt:$yellow,pointer:$base03,marker:$base03,spinner:$yellow
+    --bind alt-a:select-all
     --bind alt-p:toggle-preview
     --height 50%
   "

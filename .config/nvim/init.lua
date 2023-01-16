@@ -171,6 +171,60 @@ vim.api.nvim_create_autocmd({'TermOpen'},
            { noremap = true, silent = true, buffer = 0 })
         end, })
 
+-- Open files from tarballs by saving them to a temporary file with the same
+-- extension and then opening that. This is what netrw does with remote files.
+-- The tar.vim plugin doesn't do that. It tries to :read the files from the
+-- output of the tar command. This fails miserably for binary files. That
+-- strategy can be made to work, but the better strategy that works in all
+-- cases is saving to a temporary file and then opening that. That allows all
+-- normal file handling to proceed.
+vim.api.nvim_create_autocmd( 'FileType',
+   { group = 'config',
+     pattern = 'tar',
+     callback = function()
+        -- Override the 'gf' mapping in tar files
+        vim.keymap.set('n', 'gf', function()
+           -- Get the inputs which are the name of the tar file and the file to
+           -- extract
+           local fname = vim.api.nvim_get_current_line()
+           local tarfile = vim.b.tarfile
+           local bufName = vim.fn.bufname()
+           local tmpfile = vim.fn.tempname()
+
+           local tarExt = tarfile:match( '.tar.gz$' )
+           if tarExt == nil then
+              print( 'Only extraction from .tar.gz files is supported' )
+              return
+           end
+
+           -- Add any file extensions from fname to tmpfile so it will be
+           -- treated correctly on opening
+           local ext = fname:match( '[^/]+(%.[^/]+)$' )
+           if ext ~= nil then
+              tmpfile = tmpfile .. ext
+           end
+
+           -- Extract the file to the temporary file
+           local cmdList = { 'tar', '-zxOf', tarfile, fname, '>', tmpfile }
+           local cmdStr = vim.fn.join( cmdList )
+           vim.fn.jobstart( cmdStr, {
+              on_exit = function( _, exitCode, _ )
+                 -- Edit the temporary file and set the buffer name
+                 if exitCode ~= 0 then
+                    print( 'File extraction failed with code ' .. exitCode )
+                    return
+                 end
+                 vim.cmd.edit( tmpfile )
+                 vim.api.nvim_buf_set_name( 0, bufName .. '/' .. fname )
+              end,
+              on_stderr = function( _, data, _ )
+                 for _, line in ipairs( data ) do
+                    print( line )
+                 end
+              end, } )
+        end, { noremap = true, buffer = true })
+	  end, } )
+
 -- Mappings
 vim.keymap.set({'n', 'v', 'o'}, 'Y', 'y$', { noremap = true })
 vim.keymap.set('n', '<C-J>', '<C-W><C-J>', { noremap = true })

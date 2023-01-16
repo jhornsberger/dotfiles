@@ -725,13 +725,13 @@ vim.diagnostic.config( {
    underline = false,
    virtual_text = false,
    float = {
-       focusable = false,
-       close_events = { 'BufLeave', 'CursorMoved', 'CursorMovedI', 'InsertEnter',
-                        'InsertLeave', 'FocusLost' },
-       border = 'rounded',
-       source = 'if_many',
-       scope = 'cursor',
-       header = { '', 'Normal' },
+      focusable = false,
+      close_events = { 'BufLeave', 'CursorMoved', 'CursorMovedI', 'InsertEnter',
+                       'InsertLeave', 'FocusLost' },
+      border = 'rounded',
+      source = 'if_many',
+      scope = 'cursor',
+      header = { '', 'Normal' },
     }
 } )
 

@@ -1,4 +1,3 @@
 #!/bin/sh
 
-job pip install pdbpp
 (cd /src && job brew-enter ~/.local/bin/ctags -R -L ~/.source_navigation)

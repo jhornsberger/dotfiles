@@ -418,6 +418,46 @@ vim.api.nvim_create_autocmd( 'FileType',
      pattern = 'qt',
      callback = qtCat, } )
 
+-- Pcap file handling
+vim.filetype.add( {
+   pattern = {
+      [ '.*%.pcap' ] = 'pcap',
+   } } )
+
+-- Open pcap in termshark
+local termShark = function()
+   if vim.o.filetype ~= 'pcap' then
+      print( 'Buffer is not a pcap file' )
+      return
+   end
+
+   if vim.fn.executable( 'termshark' ) == 0 then
+      print( 'termshark not available' )
+      return
+   end
+
+   local fileName = vim.fn.bufname()
+   if vim.fn.filereadable( bufName ) ~= 1 then
+      fileName = vim.fn.tempname() .. '.pcap'
+      vim.o.binary = true
+      vim.cmd( 'write ' .. fileName )
+   end
+
+   bufNrToClose = vim.fn.bufnr()
+   vim.cmd( 'terminal! termshark ' .. fileName )
+   vim.api.nvim_buf_delete( bufNrToClose, {} )
+end
+
+vim.api.nvim_create_user_command(
+   'TermShark', termShark, {} )
+
+vim.api.nvim_create_autocmd( { 'BufNewFile', 'BufReadPost' },
+   { group = 'config',
+     pattern = '*.pcap',
+     callback = function()
+		  vim.schedule( termShark )
+	  end, } )
+
 -- netrw settings
 vim.g.netrw_localrmdir='rm -r'
 vim.g.netrw_banner = 0

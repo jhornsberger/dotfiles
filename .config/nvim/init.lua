@@ -647,6 +647,24 @@ local onAttachSymbols = function( client, bufnr )
    end, { buffer = true } )
 end
 
+local onAttachHover = function( client, bufnr )
+   -- Display hover information about the symbol under the cursor in a
+   -- floating window
+   vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+     buffer = bufnr,
+     callback = function()
+       vim.lsp.buf.hover()
+     end
+   })
+end
+
+local onAttachCodeAction = function( client, bufnr )
+   -- Register key mappings for code action
+  vim.keymap.set('n', '<leader>la', function()
+     vim.lsp.buf.code_action()
+  end, { buffer = true } )
+end
+
 vim.api.nvim_create_autocmd( { 'FileType' },
    { group = 'config',
      pattern = 'python',
@@ -657,6 +675,23 @@ vim.api.nvim_create_autocmd( { 'FileType' },
            root_dir = '/src',
            settings = { debug = false },
            on_attach = onAttachDiags,
+        } )
+     end, } )
+
+vim.api.nvim_create_autocmd( { 'FileType' },
+   { group = 'config',
+     pattern = 'tac',
+     callback = function()
+        vim.lsp.start( {
+           name = 'artaclsp',
+           cmd = { 'artaclsp' },
+           root_dir = '/src',
+           on_attach = function( client, bufnr )
+              onAttachDiags( client, bufnr )
+              onAttachSymbols( client, bufnr )
+              onAttachHover( client, bufnr )
+              onAttachCodeAction( client, bufnr )
+           end,
         } )
      end, } )
 
@@ -700,6 +735,12 @@ vim.diagnostic.config( {
     }
 } )
 
+vim.lsp.handlers[ 'textDocument/hover' ] = vim.lsp.with(
+   vim.lsp.handlers.hover, {
+      focusable = false,
+      border = 'rounded'
+   }
+)
 -- LSP formatting
 vim.keymap.set( 'n', '<leader>lf', function()
    vim.lsp.buf.format( { timeout_ms=5000 } ) end )

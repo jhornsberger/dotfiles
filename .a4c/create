@@ -1,3 +1,4 @@
 #!/bin/sh
 
+job a ws yum install -y ArTacLSP
 (cd /src && job brew-enter ~/.local/bin/ctags -R -L ~/.source_navigation)

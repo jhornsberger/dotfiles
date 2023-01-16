@@ -393,6 +393,31 @@ vim.api.nvim_create_user_command(
    end, {} )
 vim.keymap.set( 'n', '<leader>dm', '<cmd>DiffMods<cr>', { noremap = true } )
 
+-- Quicktrace file handling
+local qtCat = function()
+   if not vim.bo.modifiable then
+      return
+   end
+   vim.o.binary = true
+   vim.cmd( 'silent %!qtcat -f' )
+   vim.o.binary = false
+   vim.o.modified = false
+end
+
+vim.api.nvim_create_user_command(
+   'QtCat', qtCat, {} )
+
+vim.filetype.add( {
+   pattern = {
+      [ '.*%.qt' ] = 'qt',
+      [ '.*%.qt%.[1-2]' ] = 'qt',
+   } } )
+
+vim.api.nvim_create_autocmd( 'FileType',
+   { group = 'config',
+     pattern = 'qt',
+     callback = qtCat, } )
+
 -- netrw settings
 vim.g.netrw_localrmdir='rm -r'
 vim.g.netrw_banner = 0
@@ -813,3 +838,6 @@ vim.g.clipboard = {
   copy = {['+'] = copy, ['*'] = copy},
   paste = {['+'] = paste, ['*'] = paste},
 }
+
+-- Include Arista-specific settings (mostly just for qt syntax coloring)
+vim.opt.runtimepath:append( '/usr/share/vim/vimfiles' )

@@ -61,7 +61,7 @@ fi
 # Aliases
 alias vi='nvim -u NONE'
 alias pb='curl -F c=@- pb'
-alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+alias config='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 # Functions
 newdir() {

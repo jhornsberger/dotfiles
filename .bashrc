@@ -107,11 +107,5 @@ _gen_fzf_default_opts() {
 _gen_fzf_default_opts
 export FZF_DEFAULT_COMMAND='rg --files'
 export RIPGREP_CONFIG_PATH=~/.ripgreprc
-export LOCALE_ARCHIVE="$(readlink ~/.nix-profile/lib/locale)/locale-archive"
-
-if command -v fzf-share >/dev/null; then
-   source "$(fzf-share)/key-bindings.bash"
-   source "$(fzf-share)/completion.bash"
-fi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash

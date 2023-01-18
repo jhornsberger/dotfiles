@@ -39,12 +39,8 @@ if [ -z ${ARTOOLS_NOPROMPTMUNGE} ] && [[ $- == *i* ]]; then  # check if interact
    export SKIPTACGO=1
 
    # Set bash prompt
-   function _update_ps1() {
-      PS1="$(powerline-go -error $? -mode plain -cwd-mode plain -theme solarized-light16 -modules 'time,cwd,exit' )"
-   }
-
-   if [ "$TERM" != "linux" ] && [ -x "$(command -v powerline-go)" ]; then
-      PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+   if [ -f /home/linuxbrew/.linuxbrew/share/liquidprompt ]; then
+      . /home/linuxbrew/.linuxbrew/share/liquidprompt
    fi
 
    if [ -n "${NVIM}" ] && [ -x "$(command -v nvr)" ]; then

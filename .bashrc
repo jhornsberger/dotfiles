@@ -108,4 +108,5 @@ _gen_fzf_default_opts
 export FZF_DEFAULT_COMMAND='rg --files'
 export RIPGREP_CONFIG_PATH=~/.ripgreprc
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[ -x "$(command -v fzf)" ] && fzf -h &> /dev/null && [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+true # Clear the failure code if fzf fails above

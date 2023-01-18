@@ -27,8 +27,9 @@ require('packer').startup(function(use)
    use 'git@gitlab.aristanetworks.com:jeff/vim-alog.git'
    -- Refactored Arista vim plugin
    use 'git@gitlab.aristanetworks.com:the_third_man/arvim.git'
-   -- A light and configurable statusline/tabline plugin for Vim
-   use 'itchyny/lightline.vim'
+   -- A blazing fast and easy to configure neovim statusline plugin written in
+   -- pure lua.
+   use 'nvim-lualine/lualine.nvim'
    -- Consistent Vimscript
    use 'google/vim-maktaba'
    -- Vim plugin for syntax-aware code formatting
@@ -650,21 +651,29 @@ vim.keymap.set( 'n', '[dh', '<Plug>(textobj-diff-hunk-p)', { silent = true } )
 -- arvim plugin
 vim.g.a4_auto_edit = 0
 
--- lightline.vim plugin
+-- nvim-lualine/lualine.nvim
+vim.o.showtabline = 1 -- only if there are at least two tab pages
 vim.o.showmode = false
-vim.g.lightline = {
-   active = {
-      right = {
-         { 'lineinfo' },
-         { 'percent' },
-         { 'gitbranch', 'fileformat', 'fileencoding', 'filetype' }
-      }
+require( 'lualine' ).setup( {
+   options = {
+      icons_enabled = false,
+      theme = 'solarized_light',
+      component_separators = { left = '|', right = '|' },
+      section_separators = { left = '', right = '' },
    },
-   colorscheme = 'solarized',
-   component_function = {
-      gitbranch = 'FugitiveHead'
-   }
-}
+   tabline = {
+      lualine_a = {
+         {
+            'tabs',
+            mode = 2,
+         } },
+   },
+   extensions = {
+      'fugitive',
+      'fzf',
+      'quickfix',
+   },
+} )
 
 -- vim-alog plugin
 vim.api.nvim_create_autocmd( { 'BufNewFile', 'BufReadPost' }, {

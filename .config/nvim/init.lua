@@ -652,8 +652,6 @@ vim.keymap.set( 'n', '[dh', '<Plug>(textobj-diff-hunk-p)', { silent = true } )
 vim.g.a4_auto_edit = 0
 
 -- nvim-lualine/lualine.nvim
-vim.o.showtabline = 1 -- only if there are at least two tab pages
-vim.o.showmode = false
 require( 'lualine' ).setup( {
    options = {
       icons_enabled = false,
@@ -665,6 +663,7 @@ require( 'lualine' ).setup( {
       lualine_a = {
          {
             'tabs',
+            max_length = vim.o.columns,
             mode = 2,
          } },
    },
@@ -674,6 +673,8 @@ require( 'lualine' ).setup( {
       'quickfix',
    },
 } )
+vim.o.showmode = false
+vim.o.showtabline = 1 -- only if there are at least two tab pages
 
 -- vim-alog plugin
 vim.api.nvim_create_autocmd( { 'BufNewFile', 'BufReadPost' }, {

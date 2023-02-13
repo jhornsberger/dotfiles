@@ -5,13 +5,20 @@
 
 if [ -z ${ARTOOLS_NOPROMPTMUNGE} ] && [[ $- == *i* ]]; then  # check if interactive shell
    # brew configuration
-   if [ -x "$HOME/.local/bin/brew-enter" ]; then
-      if [ -z ${BREW_ENTER} ]; then
-         export BREW_ENTER="TRUE"
-         exec "$HOME/.local/bin/brew-enter"
+   #if [ -x "$HOME/.local/bin/brew-enter" ]; then
+   #   if [ -z ${BREW_ENTER} ]; then
+   #      export BREW_ENTER="TRUE"
+   #      exec "$HOME/.local/bin/brew-enter"
+   #   fi
+   #fi
+   # nix configuration
+   if [ -x "$HOME/bin/nix-enter" ]; then
+      if [ -z ${NIX_ENTER} ]; then
+         export NIX_ENTER="TRUE"
+         exec "$HOME/bin/nix-enter"
       fi
    fi
-   if [[ -f ~/.local/bin/bash && $(realpath ~/.local/bin/bash) && $(readlink -f /proc/$$/exe) != *brew* ]]; then
+   if [[ -f ~/.local/bin/bash && $(realpath ~/.local/bin/bash) && $(readlink -f /proc/$$/exe) != *nix* ]]; then
       exec ~/.local/bin/bash
    fi
 fi
@@ -30,7 +37,7 @@ if [ -z ${ARTOOLS_NOPROMPTMUNGE} ] && [[ $- == *i* ]]; then  # check if interact
 
    unset VISUAL
    export PATH=$HOME/.local/bin:$PATH
-   export TZ='America/Vancouver'
+   #export TZ='America/Vancouver'
    export EDITOR=nvim
    export P4MERGE=amergeVim
    export NOTI_PB=o.xXcIRDklt4berjLHFbbiwOe7f8QjRDml
@@ -39,8 +46,8 @@ if [ -z ${ARTOOLS_NOPROMPTMUNGE} ] && [[ $- == *i* ]]; then  # check if interact
    export SKIPTACGO=1
 
    # Set bash prompt
-   if [ -f /home/linuxbrew/.linuxbrew/share/liquidprompt ]; then
-      . /home/linuxbrew/.linuxbrew/share/liquidprompt
+   if [ -f ~/.local/share/liquidprompt ]; then
+      . ~/.local/share/liquidprompt
    fi
 
    if [ -n "${NVIM}" ] && [ -x "$(command -v nvr)" ]; then

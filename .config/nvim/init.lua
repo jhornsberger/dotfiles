@@ -260,7 +260,12 @@ vim.keymap.set('n', '<Leader>//', '<cmd>nohlsearch<cr>',
    { noremap = true, silent = true })
 vim.keymap.set('n', '<Leader>ms', '<cmd>mksession! ~/.vim_session<cr>',
    { noremap = true })
-vim.keymap.set('n', '<Leader>ls', '<cmd>source ~/.vim_session<cr>',
+vim.keymap.set('n', '<Leader>ls', function()
+   if vim.fn.confirm( 'Load session?', '&Yes\n&No', 2 ) == 1 then
+      vim.cmd( 'source ~/.vim_session' )
+      print( 'Session loaded' )
+   end
+   end,
    { noremap = true })
 vim.keymap.set('n', '<Leader>|', '<cmd>vsplit<cr>', { noremap = true })
 vim.keymap.set('n', '<Leader>-', '<cmd>split<cr>', { noremap = true })

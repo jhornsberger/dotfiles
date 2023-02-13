@@ -511,6 +511,7 @@ require('fzf-lua').setup{
      [ '--layout' ] = false,
   },
 }
+require('fzf-lua').register_ui_select()
 
 vim.api.nvim_create_user_command(
    'FzfRg',

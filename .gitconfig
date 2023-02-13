@@ -15,6 +15,7 @@
 	promptForTestingDone = false
 	scheduleTestBuild = true
 	autoLintChanges = true
+	supportOneLineMessage = true
 [filter "lfs"]
 	process = git-lfs filter-process
 	required = true

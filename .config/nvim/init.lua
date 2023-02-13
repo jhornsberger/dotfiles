@@ -756,7 +756,7 @@ vim.keymap.set({"n", "x", "o"}, "T", function()
 
 -- LSP
 local onAttachDiags = function( client, bufnr )
-   -- Show line diagnostics automatically in hover window
+   -- Show line diagnostics automatically in float window
    vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
      buffer = bufnr,
      callback = function()
@@ -775,16 +775,16 @@ local onAttachSymbols = function( client, bufnr )
    end, { buffer = true } )
 end
 
-local onAttachHover = function( client, bufnr )
-   -- Display hover information about the symbol under the cursor in a
-   -- floating window
-   vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
-     buffer = bufnr,
-     callback = function()
-       vim.lsp.buf.hover()
-     end
-   })
-end
+-- local onAttachHover = function( client, bufnr )
+--    -- Display hover information about the symbol under the cursor in a
+--    -- floating window
+--    vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+--      buffer = bufnr,
+--      callback = function()
+--        vim.lsp.buf.hover()
+--      end
+--    })
+-- end
 
 local onAttachCodeAction = function( client, bufnr )
    -- Register key mappings for code action
@@ -817,7 +817,7 @@ vim.api.nvim_create_autocmd( { 'FileType' },
            on_attach = function( client, bufnr )
               onAttachDiags( client, bufnr )
               onAttachSymbols( client, bufnr )
-              onAttachHover( client, bufnr )
+              --onAttachHover( client, bufnr )
               onAttachCodeAction( client, bufnr )
            end,
         } )
@@ -863,12 +863,13 @@ vim.diagnostic.config( {
     }
 } )
 
-vim.lsp.handlers[ 'textDocument/hover' ] = vim.lsp.with(
-   vim.lsp.handlers.hover, {
-      focusable = false,
-      border = 'rounded'
-   }
-)
+-- vim.lsp.handlers[ 'textDocument/hover' ] = vim.lsp.with(
+--    vim.lsp.handlers.hover, {
+--       focusable = false,
+--       border = 'rounded'
+--    }
+-- )
+
 -- LSP formatting
 vim.keymap.set( 'n', '<leader>lf', function()
    vim.lsp.buf.format( { timeout_ms=5000 } ) end )

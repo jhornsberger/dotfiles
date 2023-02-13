@@ -58,7 +58,7 @@ LP_HOSTNAME_ALWAYS=0
 # 0: hide the logged user (always display different users)
 # -1: never display the user name
 # Default value is 1
-LP_USER_ALWAYS=1
+LP_USER_ALWAYS=0
 
 # Display the actual values of load/batteries along with their
 # corresponding marks. Set to 0 to only print the colored marks.
@@ -76,11 +76,11 @@ LP_ENABLE_PROXY=1
 
 # Enable the jobs feature.
 # Recommended value is 1
-LP_ENABLE_JOBS=1
+LP_ENABLE_JOBS=0
 
 # Enable the detached sessions feature.
 # Default value is 1
-LP_ENABLE_DETACHED_SESSIONS=1
+LP_ENABLE_DETACHED_SESSIONS=0
 
 # Enable the load feature.
 # Recommended value is 1
@@ -88,7 +88,7 @@ LP_ENABLE_LOAD=1
 
 # Enable the battery feature.
 # Recommended value is 1
-LP_ENABLE_BATT=1
+LP_ENABLE_BATT=0
 
 # Enable the 'sudo credentials' feature.
 # Be warned that this may pollute the syslog if you don't have sudo
@@ -108,19 +108,19 @@ LP_ENABLE_GIT=1
 
 # Enable the Subversion special features.
 # Recommended value is 1
-LP_ENABLE_SVN=1
+LP_ENABLE_SVN=0
 
 # Enable the Mercurial special features.
 # Recommended value is 1
-LP_ENABLE_HG=1
+LP_ENABLE_HG=0
 
 # Enable the Fossil special features.
 # Recommended value is 1
-LP_ENABLE_FOSSIL=1
+LP_ENABLE_FOSSIL=0
 
 # Enable the Bazaar special features.
 # Recommended value is 1
-LP_ENABLE_BZR=1
+LP_ENABLE_BZR=0
 
 # Show time of when the current prompt was displayed.
 LP_ENABLE_TIME=1
@@ -144,11 +144,11 @@ LP_RUNTIME_BELL_THRESHOLD=10
 
 # Display the virtualenv that is currently activated, if any
 # Recommended value is 1
-LP_ENABLE_VIRTUALENV=1
+LP_ENABLE_VIRTUALENV=0
 
 # Display the ruby virtual env that is currently activated, if any
 # Recommended value is 1
-LP_ENABLE_RUBY_VENV=1
+LP_ENABLE_RUBY_VENV=0
 
 # If using RVM, personalize the rvm-prompt.
 # see http://rvm.io/workflow/prompt for details.
@@ -161,7 +161,7 @@ LP_ENABLE_TERRAFORM=0
 
 # Display the enabled software collections, if any
 # Recommended value is 1
-LP_ENABLE_SCLS=1
+LP_ENABLE_SCLS=0
 
 # Show current Kubernetes kubectl context
 LP_ENABLE_KUBECONTEXT=0
@@ -182,7 +182,8 @@ LP_DELIMITER_KUBECONTEXT_PREFIX=
 LP_ENABLE_AWS_PROFILE=1
 
 # Show highest system temperature
-LP_ENABLE_TEMP=1
+LP_ENABLE_TEMP=0
+LP_TEMP_THRESHOLD=70
 
 # When showing the time, use an analog clock instead of numeric values.
 # Recommended value is 0

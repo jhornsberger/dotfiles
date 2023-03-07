@@ -766,13 +766,10 @@ vim.keymap.set({"n", "x", "o"}, "T", function()
 
 -- LSP
 local onAttachDiags = function( client, bufnr )
-   -- Show line diagnostics automatically in float window
-   vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
-     buffer = bufnr,
-     callback = function()
-       vim.diagnostic.open_float( nil, nil )
-     end
-   })
+   -- Show line diagnostics in float window
+   vim.keymap.set('n', '<Leader><space>', function()
+         vim.diagnostic.open_float( nil, nil )
+      end, { noremap = true, silent = true } )
 end
 
 local onAttachSymbols = function( client, bufnr )
@@ -868,7 +865,7 @@ vim.diagnostic.config( {
                        'InsertLeave', 'FocusLost' },
       border = 'rounded',
       source = 'if_many',
-      scope = 'cursor',
+      scope = 'line',
       header = { '', 'Normal' },
     }
 } )

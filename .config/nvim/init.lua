@@ -6,8 +6,8 @@ require('packer').startup(function(use)
    use 'preservim/tagbar'
    -- *-Improved
    use 'haya14busa/vim-asterisk'
-   -- A fixed solarized colorscheme for better truecolor support
-   use 'overcache/NeoSolarized'
+   -- NeoSolarized colorscheme for NeoVim with full transparency
+   use 'Tsuzat/NeoSolarized.nvim'
    -- A Git wrapper so awesome, it should be illegal
    use 'tpope/vim-fugitive'
    -- Add/change/delete surrounding delimiter pairs with ease
@@ -79,11 +79,6 @@ vim.o.splitbelow = true
 vim.o.updatetime = 500
 vim.opt.diffopt:append( { 'vertical', 'algorithm:histogram', } )
 vim.g.mapleader = ' '
-vim.cmd.colorscheme 'NeoSolarized'
--- NeoSolarized unreadable colours for the diagnostics float
-vim.api.nvim_set_hl( 0, 'NormalFloat', { link = 'LineNr' } )
-vim.api.nvim_set_hl( 0, 'DiagnosticInfo', { link = 'Directory' } )
-vim.api.nvim_set_hl( 0, 'DiagnosticHint', { link = 'cleared' } )
 
 -- Autocommands
 vim.api.nvim_create_augroup('config', {})
@@ -481,6 +476,15 @@ vim.g.tagbar_type_tac = {
    ctagstype = 'tacc',
    kinds = { 'd:definition' },
    sort = 0 }
+
+-- NeoSolarized plugin
+require( 'NeoSolarized' ).setup( {
+   style = 'light',
+   transparent = false,
+} )
+vim.cmd.colorscheme 'NeoSolarized'
+-- NeoSolarized offensive colorcolumn
+vim.api.nvim_set_hl( 0, 'ColorColumn', { link = 'CursorLine' } )
 
 -- vim-asterisk plugin
 vim.keymap.set( 'n', '*', '<Plug>(asterisk-z*)' )

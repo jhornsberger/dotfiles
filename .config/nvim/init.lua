@@ -13,12 +13,6 @@ require('packer').startup(function(use)
    -- Add/change/delete surrounding delimiter pairs with ease
    use( { 'kylechui/nvim-surround',
           config = function() require('nvim-surround').setup({}) end } )
-   -- Create your own text objects
-   use 'kana/vim-textobj-user'
-   -- Text objects for Python
-   use 'bps/vim-textobj-python'
-   -- Text objects for ouputs of diff
-   use 'kana/vim-textobj-diff'
    -- Helpers for UNIX
    use 'tpope/vim-eunuch'
    -- Improved fzf.vim written in lua
@@ -649,13 +643,6 @@ vim.keymap.set('n', '<Leader>of',
       } )
    end,
    { noremap = true, silent = true })
-
--- vim-textobj-diff plugin
-vim.g.textobj_diff_no_default_key_mappings = 1
-vim.keymap.set( 'n', ']df', '<Plug>(textobj-diff-file-n)', { silent = true } )
-vim.keymap.set( 'n', '[df', '<Plug>(textobj-diff-file-p)', { silent = true } )
-vim.keymap.set( 'n', ']dh', '<Plug>(textobj-diff-hunk-n)', { silent = true } )
-vim.keymap.set( 'n', '[dh', '<Plug>(textobj-diff-hunk-p)', { silent = true } )
 
 -- arvim plugin
 vim.g.a4_auto_edit = 0

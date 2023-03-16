@@ -2,8 +2,6 @@
 require('packer').startup(function(use)
    -- Packer can manage itself
    use 'wbthomason/packer.nvim'
-   -- Vim plugin that displays tags in a window, ordered by scope
-   use 'preservim/tagbar'
    -- *-Improved
    use 'haya14busa/vim-asterisk'
    -- NeoSolarized colorscheme for NeoVim with full transparency
@@ -45,6 +43,8 @@ require('packer').startup(function(use)
    use 'ojroques/nvim-osc52'
    -- Nvim Treesitter configurations and abstraction layer
    use 'nvim-treesitter/nvim-treesitter'
+   -- plugin for a code outline window
+   use 'stevearc/aerial.nvim'
 end)
 
 -- Options
@@ -458,18 +458,6 @@ vim.g.netrw_altv = 1
 vim.g.netrw_winsize = 25
 vim.g.netrw_browse_split = 2
 vim.g.netrw_http_cmd="wget --compression=auto -O"
-
--- Tagbar plugin
-vim.keymap.set('n', '<Leader>tb', '<cmd>TagbarToggle<cr>', { noremap = true })
-vim.g.tagbar_compact = 1
-vim.g.tagbar_autofocus = 1
-vim.g.tagbar_sort = 0
-vim.g.tagbar_position = 'leftabove vertical'
-vim.g.tagbar_sort = 0
-vim.g.tagbar_type_tac = {
-   ctagstype = 'tacc',
-   kinds = { 'd:definition' },
-   sort = 0 }
 
 -- NeoSolarized plugin
 require( 'NeoSolarized' ).setup( {
@@ -895,6 +883,17 @@ require'nvim-treesitter.configs'.setup {
     enable = true
   },
 }
+
+-- aerial.nvim
+require( 'aerial' ).setup( {
+   backends = { 'treesitter', 'lsp' },
+   layout = {
+     default_direction = "prefer_left",
+     preserve_equality = true,
+   },
+   close_automatic_events = { 'unfocus', 'switch_buffer' },
+} )
+vim.keymap.set('n', '<Leader>at', '<cmd>AerialToggle<cr>', { noremap = true })
 
 -- Include Arista-specific settings (mostly just for qt syntax coloring)
 vim.opt.runtimepath:append( '/usr/share/vim/vimfiles' )

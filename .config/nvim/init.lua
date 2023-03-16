@@ -24,12 +24,6 @@ require('packer').startup(function(use)
    -- A blazing fast and easy to configure neovim statusline plugin written in
    -- pure lua.
    use 'nvim-lualine/lualine.nvim'
-   -- Consistent Vimscript
-   use 'google/vim-maktaba'
-   -- Vim plugin for syntax-aware code formatting
-   use 'google/vim-codefmt'
-   -- Glaive is a utility for configuring maktaba plugins
-   use 'google/vim-glaive'
    -- A lightweight and powerful git branch viewer for vim
    use 'rbong/vim-flog'
    -- Tame the quickfix window

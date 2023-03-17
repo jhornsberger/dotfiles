@@ -67,7 +67,6 @@ vim.o.path = '**'
 vim.o.numberwidth = 1
 vim.o.previewheight = 20
 vim.o.splitbelow = true
-vim.o.updatetime = 500
 vim.opt.diffopt:append( { 'vertical', 'algorithm:histogram', } )
 vim.g.mapleader = ' '
 

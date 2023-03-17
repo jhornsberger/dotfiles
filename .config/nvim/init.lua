@@ -736,6 +736,7 @@ vim.keymap.set({"n", "x", "o"}, "t", "<Plug>(leap-forward-till)")
 -- <Plug>(leap-backward-till) is incorrectly defined to be { backward = true, offset = 2 }
 vim.keymap.set({"n", "x", "o"}, "T", function()
    require('leap').leap( { backward = true, offset = 1 } ) end)
+vim.api.nvim_set_hl( 0, 'LeapBackdrop', { link = 'Constant' } )
 
 -- LSP
 local onAttachDiags = function( client, bufnr )

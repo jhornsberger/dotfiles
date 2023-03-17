@@ -706,8 +706,10 @@ vim.keymap.set({'n', 'x'}, '<Leader>gss',
    function() require('gitsigns').stage_hunk() end, { noremap = true })
 vim.keymap.set({'n', 'x'}, '<Leader>gsr',
    function() require('gitsigns').reset_hunk() end, { noremap = true })
-vim.keymap.set('n', '<Leader>gsb', ':Gitsigns change_base<space>',
+vim.keymap.set('n', '<Leader>gsc', ':Gitsigns change_base<space>',
    { noremap = true })
+vim.keymap.set('n', '<Leader>gsb',
+   function() require('gitsigns').blame_line() end, { noremap = true })
 vim.keymap.set({'n', 'x'}, ']c', function()
    if vim.wo.diff then return ']c' end
    vim.schedule(function() require('gitsigns').next_hunk() end)

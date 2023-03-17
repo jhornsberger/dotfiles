@@ -665,6 +665,8 @@ vim.api.nvim_create_autocmd( { 'BufNewFile', 'BufReadPost' }, {
 
 -- vim-flog plugin
 vim.keymap.set( 'n', '<Leader>gl', '<cmd>Flog -date=local<cr>', { noremap = true } )
+vim.keymap.set( 'n', '<Leader>glf', '<cmd>Flog -date=local -path=%<cr>',
+   { noremap = true } )
 vim.api.nvim_create_user_command(
    'FlogDir', 'silent cd <args> | execute "Flog -date=local" | cd- | lcd <args>',
    { nargs = 1 } )

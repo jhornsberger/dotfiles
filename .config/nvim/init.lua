@@ -27,10 +27,7 @@ require('packer').startup(function(use)
    -- Tame the quickfix window
    use 'romainl/vim-qf'
    -- Extensible Neovim Scrollbar
-   use( { 'petertriho/nvim-scrollbar',
-          config = function()
-             require("scrollbar").setup({show_in_active_only = true})
-          end } )
+   use 'petertriho/nvim-scrollbar'
    -- Neovim's answer to the mouse
    use 'ggandor/leap.nvim'
    -- enable repeating supported plugin maps with "."
@@ -894,6 +891,14 @@ require( 'aerial' ).setup( {
    close_automatic_events = { 'unfocus', 'switch_buffer' },
 } )
 vim.keymap.set('n', '<Leader>at', '<cmd>AerialToggle<cr>', { noremap = true })
+
+-- nvim-scrollbar
+require("scrollbar").setup( {
+   show_in_active_only = true,
+   handle = {
+      highlight = 'CursorLine',
+   },
+} )
 
 -- Include Arista-specific settings (mostly just for qt syntax coloring)
 vim.opt.runtimepath:append( '/usr/share/vim/vimfiles' )

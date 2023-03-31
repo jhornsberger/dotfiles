@@ -1,49 +1,3 @@
--- Plugins via Packer
-require('packer').startup(function(use)
-   -- Packer can manage itself
-   use 'wbthomason/packer.nvim'
-   -- *-Improved
-   use 'haya14busa/vim-asterisk'
-   -- NeoSolarized colorscheme for NeoVim with full transparency
-   use 'Tsuzat/NeoSolarized.nvim'
-   -- A Git wrapper so awesome, it should be illegal
-   use 'tpope/vim-fugitive'
-   -- Add/change/delete surrounding delimiter pairs with ease
-   use( { 'kylechui/nvim-surround',
-          config = function() require('nvim-surround').setup({}) end } )
-   -- Helpers for UNIX
-   use 'tpope/vim-eunuch'
-   -- Improved fzf.vim written in lua
-   use 'ibhagwan/fzf-lua'
-   -- Vim syntax plugin for AutoTest logs
-   use 'git@gitlab.aristanetworks.com:jeff/vim-alog.git'
-   -- Refactored Arista vim plugin
-   use 'git@gitlab.aristanetworks.com:the_third_man/arvim.git'
-   -- A blazing fast and easy to configure neovim statusline plugin written in
-   -- pure lua.
-   use 'nvim-lualine/lualine.nvim'
-   -- A lightweight and powerful git branch viewer for vim
-   use 'rbong/vim-flog'
-   -- Tame the quickfix window
-   use 'romainl/vim-qf'
-   -- Extensible Neovim Scrollbar
-   use 'petertriho/nvim-scrollbar'
-   -- Neovim's answer to the mouse
-   use 'ggandor/leap.nvim'
-   -- enable repeating supported plugin maps with "."
-   use 'tpope/vim-repeat'
-   -- easily search for, substitute, and abbreviate multiple variants of a word
-   use 'tpope/vim-abolish'
-   -- Git integration for buffers
-   use 'lewis6991/gitsigns.nvim'
-   -- copy text through SSH with OSC52
-   use 'ojroques/nvim-osc52'
-   -- Nvim Treesitter configurations and abstraction layer
-   use 'nvim-treesitter/nvim-treesitter'
-   -- plugin for a code outline window
-   use 'stevearc/aerial.nvim'
-end)
-
 -- Options
 vim.o.shiftwidth = 3
 vim.o.tabstop = 3
@@ -445,6 +399,52 @@ vim.api.nvim_create_autocmd( { 'BufNewFile', 'BufReadPost' },
      callback = function()
 		  vim.schedule( termShark )
 	  end, } )
+
+-- Plugins via Packer
+require('packer').startup(function(use)
+   -- Packer can manage itself
+   use 'wbthomason/packer.nvim'
+   -- *-Improved
+   use 'haya14busa/vim-asterisk'
+   -- NeoSolarized colorscheme for NeoVim with full transparency
+   use 'Tsuzat/NeoSolarized.nvim'
+   -- A Git wrapper so awesome, it should be illegal
+   use 'tpope/vim-fugitive'
+   -- Add/change/delete surrounding delimiter pairs with ease
+   use( { 'kylechui/nvim-surround',
+          config = function() require('nvim-surround').setup({}) end } )
+   -- Helpers for UNIX
+   use 'tpope/vim-eunuch'
+   -- Improved fzf.vim written in lua
+   use 'ibhagwan/fzf-lua'
+   -- Vim syntax plugin for AutoTest logs
+   use 'git@gitlab.aristanetworks.com:jeff/vim-alog.git'
+   -- Refactored Arista vim plugin
+   use 'git@gitlab.aristanetworks.com:the_third_man/arvim.git'
+   -- A blazing fast and easy to configure neovim statusline plugin written in
+   -- pure lua.
+   use 'nvim-lualine/lualine.nvim'
+   -- A lightweight and powerful git branch viewer for vim
+   use 'rbong/vim-flog'
+   -- Tame the quickfix window
+   use 'romainl/vim-qf'
+   -- Extensible Neovim Scrollbar
+   use 'petertriho/nvim-scrollbar'
+   -- Neovim's answer to the mouse
+   use 'ggandor/leap.nvim'
+   -- enable repeating supported plugin maps with "."
+   use 'tpope/vim-repeat'
+   -- easily search for, substitute, and abbreviate multiple variants of a word
+   use 'tpope/vim-abolish'
+   -- Git integration for buffers
+   use 'lewis6991/gitsigns.nvim'
+   -- copy text through SSH with OSC52
+   use 'ojroques/nvim-osc52'
+   -- Nvim Treesitter configurations and abstraction layer
+   use 'nvim-treesitter/nvim-treesitter'
+   -- plugin for a code outline window
+   use 'stevearc/aerial.nvim'
+end)
 
 -- netrw settings
 vim.g.netrw_localrmdir='rm -r'

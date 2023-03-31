@@ -1,3 +1,16 @@
+local lazypath = vim.fn.stdpath( 'data' ) .. '/lazy/lazy.nvim'
+if not vim.loop.fs_stat( lazypath ) then
+  vim.fn.system( {
+    'git',
+    'clone',
+    '--filter=blob:none',
+    'https://github.com/folke/lazy.nvim.git',
+    '--branch=stable', -- latest stable release
+    lazypath,
+  } )
+end
+vim.opt.rtp:prepend( lazypath )
+
 -- Options
 vim.o.shiftwidth = 3
 vim.o.tabstop = 3
@@ -400,51 +413,54 @@ vim.api.nvim_create_autocmd( { 'BufNewFile', 'BufReadPost' },
 		  vim.schedule( termShark )
 	  end, } )
 
--- Plugins via Packer
-require('packer').startup(function(use)
-   -- Packer can manage itself
-   use 'wbthomason/packer.nvim'
+-- Plugins via lazy.nvim
+require( 'lazy' ).setup( {
    -- *-Improved
-   use 'haya14busa/vim-asterisk'
+   'haya14busa/vim-asterisk',
    -- NeoSolarized colorscheme for NeoVim with full transparency
-   use 'Tsuzat/NeoSolarized.nvim'
+   'Tsuzat/NeoSolarized.nvim',
    -- A Git wrapper so awesome, it should be illegal
-   use 'tpope/vim-fugitive'
+   'tpope/vim-fugitive',
    -- Add/change/delete surrounding delimiter pairs with ease
-   use( { 'kylechui/nvim-surround',
-          config = function() require('nvim-surround').setup({}) end } )
+   { 'kylechui/nvim-surround', config = true },
    -- Helpers for UNIX
-   use 'tpope/vim-eunuch'
+   'tpope/vim-eunuch',
    -- Improved fzf.vim written in lua
-   use 'ibhagwan/fzf-lua'
+   'ibhagwan/fzf-lua',
    -- Vim syntax plugin for AutoTest logs
-   use 'git@gitlab.aristanetworks.com:jeff/vim-alog.git'
+   'git@gitlab.aristanetworks.com:jeff/vim-alog.git',
    -- Refactored Arista vim plugin
-   use 'git@gitlab.aristanetworks.com:the_third_man/arvim.git'
+   'git@gitlab.aristanetworks.com:the_third_man/arvim.git',
    -- A blazing fast and easy to configure neovim statusline plugin written in
    -- pure lua.
-   use 'nvim-lualine/lualine.nvim'
+   'nvim-lualine/lualine.nvim',
    -- A lightweight and powerful git branch viewer for vim
-   use 'rbong/vim-flog'
+   'rbong/vim-flog',
    -- Tame the quickfix window
-   use 'romainl/vim-qf'
+   'romainl/vim-qf',
    -- Extensible Neovim Scrollbar
-   use 'petertriho/nvim-scrollbar'
+   'petertriho/nvim-scrollbar',
    -- Neovim's answer to the mouse
-   use 'ggandor/leap.nvim'
+   'ggandor/leap.nvim',
    -- enable repeating supported plugin maps with "."
-   use 'tpope/vim-repeat'
+   'tpope/vim-repeat',
    -- easily search for, substitute, and abbreviate multiple variants of a word
-   use 'tpope/vim-abolish'
+   'tpope/vim-abolish',
    -- Git integration for buffers
-   use 'lewis6991/gitsigns.nvim'
+   'lewis6991/gitsigns.nvim',
    -- copy text through SSH with OSC52
-   use 'ojroques/nvim-osc52'
+   'ojroques/nvim-osc52',
    -- Nvim Treesitter configurations and abstraction layer
-   use 'nvim-treesitter/nvim-treesitter'
+   'nvim-treesitter/nvim-treesitter',
    -- plugin for a code outline window
-   use 'stevearc/aerial.nvim'
-end)
+   'stevearc/aerial.nvim',
+}, {
+   ui = {
+      -- The border to use for the UI window. Accepts same border values as
+      -- nvim_open_win().
+      border = 'rounded',
+   },
+} )
 
 -- netrw settings
 vim.g.netrw_localrmdir='rm -r'

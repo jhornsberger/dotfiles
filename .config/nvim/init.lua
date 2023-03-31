@@ -454,6 +454,8 @@ require( 'lazy' ).setup( {
    'nvim-treesitter/nvim-treesitter',
    -- plugin for a code outline window
    'stevearc/aerial.nvim',
+   -- lua `fork` of vim-web-devicons for neovim
+   'nvim-tree/nvim-web-devicons',
 }, {
    ui = {
       -- The border to use for the UI window. Accepts same border values as
@@ -648,10 +650,7 @@ vim.g.a4_auto_edit = 0
 -- nvim-lualine/lualine.nvim
 require( 'lualine' ).setup( {
    options = {
-      icons_enabled = false,
       theme = 'solarized_light',
-      component_separators = { left = '|', right = '|' },
-      section_separators = { left = '', right = '' },
    },
    tabline = {
       lualine_a = {

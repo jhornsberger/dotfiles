@@ -872,11 +872,11 @@ vim.keymap.set( 'n', '<leader>lf', function()
 
 -- ojroques/nvim-osc52
 local function copy(lines, _)
-  require('osc52').copy(table.concat(lines, '\n'))
+   require('osc52').copy(table.concat(lines, '\n'))
 end
 
 local function paste()
-  return {vim.fn.split(vim.fn.getreg(''), '\n'), vim.fn.getregtype('')}
+   return {vim.fn.split(vim.fn.getreg(''), '\n'), vim.fn.getregtype('')}
 end
 
 vim.g.clipboard = {
@@ -887,32 +887,32 @@ vim.g.clipboard = {
 
 -- Treesitter
 require'nvim-treesitter.configs'.setup {
-  highlight = {
-    enable = true,
-    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-    -- Using this option may slow down your editor, and you may see some duplicate highlights.
-    -- Instead of true it can also be a list of languages
-    additional_vim_regex_highlighting = false,
-  },
-  indent = {
-    enable = true
-  },
+   highlight = {
+      enable = true,
+      -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+      -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+      -- Using this option may slow down your editor, and you may see some duplicate highlights.
+      -- Instead of true it can also be a list of languages
+      additional_vim_regex_highlighting = false,
+   },
+   indent = {
+      enable = true
+   },
 }
 
 -- aerial.nvim
 require( 'aerial' ).setup( {
    backends = { 'treesitter', 'lsp' },
    layout = {
-     default_direction = "prefer_left",
-     preserve_equality = true,
+      default_direction = "prefer_left",
+      preserve_equality = true,
    },
    close_automatic_events = { 'unfocus', 'switch_buffer' },
 } )
 vim.keymap.set('n', '<Leader>at', '<cmd>AerialToggle<cr>', { noremap = true })
 
 -- nvim-scrollbar
-require("scrollbar").setup( {
+require('scrollbar').setup( {
    show_in_active_only = true,
    handle = {
       highlight = 'CursorLine',

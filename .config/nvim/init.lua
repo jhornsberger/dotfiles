@@ -95,15 +95,6 @@ vim.api.nvim_create_autocmd({'FileType'},
      callback = function() vim.o.textwidth = 72 end,
      nested = true, })
 
--- Set colorcolumn to match textwidth
-vim.api.nvim_create_autocmd({'OptionSet'},
-   { group = 'config',
-     pattern = 'textwidth',
-     callback = function()
-        vim.api.nvim_set_option_value( 'colorcolumn',
-           tostring( vim.o.textwidth ), {} )
-        end, })
-
 -- Maximum number of lines kept beyond the visible terminal screen
 vim.api.nvim_create_autocmd({'TermOpen'},
    { group = 'config',
@@ -190,15 +181,6 @@ vim.keymap.set('n', '<Leader>to', '<cmd>tabonly<cr>',
    { noremap = true, silent = true })
 vim.keymap.set('n', '<Leader>te', ':tabedit<space>', { noremap = true })
 vim.keymap.set('n', '<Leader>tm', ':tabmove<space>', { noremap = true })
-vim.keymap.set('n', '<Leader>L', function()
-   current = vim.api.nvim_get_option_value( 'colorcolumn', {} )
-   if current == "" then
-      vim.api.nvim_set_option_value( 'colorcolumn',
-         tostring( vim.o.textwidth ), {} )
-   else
-      vim.api.nvim_set_option_value( 'colorcolumn', "", {} )
-   end
-   end, { noremap = true })
 vim.keymap.set('n', '<Leader>co', '<cmd>copen<cr>',
    { noremap = true, silent = true })
 vim.keymap.set('n', '<Leader>cc', '<cmd>cclose<cr>',
@@ -418,7 +400,17 @@ require( 'lazy' ).setup( {
    -- *-Improved
    'haya14busa/vim-asterisk',
    -- NeoSolarized colorscheme for NeoVim with full transparency
-   'Tsuzat/NeoSolarized.nvim',
+   { 'Tsuzat/NeoSolarized.nvim',
+      config = function()
+         require( 'NeoSolarized' ).setup( {
+            style = 'light',
+            transparent = false,
+         } )
+         vim.cmd.colorscheme 'NeoSolarized'
+         -- NeoSolarized offensive colorcolumn
+         vim.api.nvim_set_hl( 0, 'ColorColumn', { link = 'CursorLine' } )
+      end
+   },
    -- A Git wrapper so awesome, it should be illegal
    'tpope/vim-fugitive',
    -- Add/change/delete surrounding delimiter pairs with ease
@@ -456,6 +448,8 @@ require( 'lazy' ).setup( {
    'stevearc/aerial.nvim',
    -- lua `fork` of vim-web-devicons for neovim
    'nvim-tree/nvim-web-devicons',
+   -- A neovim plugin that shows colorcolumn dynamically
+   'Bekaboo/deadcolumn.nvim',
 }, {
    ui = {
       -- The border to use for the UI window. Accepts same border values as
@@ -472,15 +466,6 @@ vim.g.netrw_altv = 1
 vim.g.netrw_winsize = 25
 vim.g.netrw_browse_split = 2
 vim.g.netrw_http_cmd="wget --compression=auto -O"
-
--- NeoSolarized plugin
-require( 'NeoSolarized' ).setup( {
-   style = 'light',
-   transparent = false,
-} )
-vim.cmd.colorscheme 'NeoSolarized'
--- NeoSolarized offensive colorcolumn
-vim.api.nvim_set_hl( 0, 'ColorColumn', { link = 'CursorLine' } )
 
 -- vim-asterisk plugin
 vim.keymap.set( 'n', '*', '<Plug>(asterisk-z*)' )
@@ -917,6 +902,14 @@ require('scrollbar').setup( {
    handle = {
       highlight = 'CursorLine',
    },
+} )
+
+-- deadcolumn
+require('deadcolumn').setup( {
+   scope = 'line',
+   extra = {
+      follow_tw = '+1',
+   }
 } )
 
 -- Include Arista-specific settings (mostly just for qt syntax coloring)

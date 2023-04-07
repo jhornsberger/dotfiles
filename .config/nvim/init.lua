@@ -168,10 +168,6 @@ vim.api.nvim_create_autocmd( 'FileType',
 
 -- Mappings
 vim.keymap.set({'n', 'v', 'o'}, 'Y', 'y$', { noremap = true })
-vim.keymap.set('n', '<C-J>', '<C-W><C-J>', { noremap = true })
-vim.keymap.set('n', '<C-K>', '<C-W><C-K>', { noremap = true })
-vim.keymap.set('n', '<C-L>', '<C-W><C-L>', { noremap = true })
-vim.keymap.set('n', '<C-H>', '<C-W><C-H>', { noremap = true })
 vim.keymap.set('n', '<Leader>tc', '<cmd>tabclose<cr>',
    { noremap = true, silent = true })
 vim.keymap.set('n', '<Leader>tC', ':tabclose<space>', { noremap = true })
@@ -447,6 +443,8 @@ require( 'lazy' ).setup( {
    'nvim-tree/nvim-web-devicons',
    -- A neovim plugin that shows colorcolumn dynamically
    'Bekaboo/deadcolumn.nvim',
+   -- Smart, directional Neovim split resizing and navigation
+   'mrjones2014/smart-splits.nvim',
 }, {
    ui = {
       -- The border to use for the UI window. Accepts same border values as
@@ -908,6 +906,26 @@ require('deadcolumn').setup( {
       follow_tw = '+1',
    }
 } )
+
+-- smart-splits
+require( 'smart-splits' ).setup( {
+  cursor_follows_swapped_bufs = true,
+} )
+-- resizing splits
+vim.keymap.set('n', '<A-h>', require('smart-splits').resize_left)
+vim.keymap.set('n', '<A-j>', require('smart-splits').resize_down)
+vim.keymap.set('n', '<A-k>', require('smart-splits').resize_up)
+vim.keymap.set('n', '<A-l>', require('smart-splits').resize_right)
+-- moving between splits
+vim.keymap.set('n', '<C-h>', require('smart-splits').move_cursor_left)
+vim.keymap.set('n', '<C-j>', require('smart-splits').move_cursor_down)
+vim.keymap.set('n', '<C-k>', require('smart-splits').move_cursor_up)
+vim.keymap.set('n', '<C-l>', require('smart-splits').move_cursor_right)
+-- swapping buffers between windows
+vim.keymap.set('n', '<Leader><C-h>', require('smart-splits').swap_buf_left)
+vim.keymap.set('n', '<Leader><C-j>', require('smart-splits').swap_buf_down)
+vim.keymap.set('n', '<Leader><C-k>', require('smart-splits').swap_buf_up)
+vim.keymap.set('n', '<Leader><C-l>', require('smart-splits').swap_buf_right)
 
 -- Include Arista-specific settings (mostly just for qt syntax coloring)
 vim.opt.runtimepath:append( '/usr/share/vim/vimfiles' )

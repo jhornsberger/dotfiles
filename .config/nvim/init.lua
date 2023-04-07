@@ -415,7 +415,11 @@ require( 'lazy' ).setup( {
    -- Vim syntax plugin for AutoTest logs
    'git@gitlab.aristanetworks.com:jeff/vim-alog.git',
    -- Refactored Arista vim plugin
-   'git@gitlab.aristanetworks.com:the_third_man/arvim.git',
+   { 'git@gitlab.aristanetworks.com:the_third_man/arvim.git',
+      init = function()
+         vim.g.a4_auto_edit = 0
+      end
+   },
    -- A blazing fast and easy to configure neovim statusline plugin written in
    -- pure lua.
    'nvim-lualine/lualine.nvim',
@@ -621,9 +625,6 @@ vim.keymap.set('n', '<Leader>of',
       } )
    end,
    { noremap = true, silent = true })
-
--- arvim plugin
-vim.g.a4_auto_edit = 0
 
 -- nvim-lualine/lualine.nvim
 require( 'lualine' ).setup( {

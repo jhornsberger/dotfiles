@@ -643,6 +643,8 @@ require( 'lualine' ).setup( {
       'fugitive',
       'fzf',
       'quickfix',
+      'lazy',
+      'aerial',
    },
 } )
 vim.o.showmode = false
@@ -866,6 +868,7 @@ vim.g.clipboard = {
 
 -- Treesitter
 require'nvim-treesitter.configs'.setup {
+   auto_install = false,
    highlight = {
       enable = true,
       -- Setting this to true will run `:h syntax` and tree-sitter at the same time.

@@ -672,6 +672,19 @@ vim.o.showmode = false
 vim.o.showtabline = 0 -- never
 vim.opt.shortmess:append( 'S' ) -- do not show search count message when searching
 
+-- Configure diagnostic signs to match lualine
+local lualineDiagConfig = require( 'lualine.components.diagnostics.config' )
+local diagSymbols = lualineDiagConfig.symbols.icons
+local diagnostic_signs = {
+  { name = "DiagnosticSignError", text = diagSymbols[ 'error' ] },
+  { name = "DiagnosticSignWarn", text = diagSymbols[ 'warn' ] },
+  { name = "DiagnosticSignHint", text = diagSymbols[ 'info' ] },
+  { name = "DiagnosticSignInfo", text = diagSymbols[ 'hint' ] },
+}
+for _, sign in ipairs(diagnostic_signs) do
+  vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = sign.name })
+end
+
 -- vim-alog plugin
 vim.api.nvim_create_autocmd( { 'BufNewFile', 'BufReadPost' }, {
    group = 'config',

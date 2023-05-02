@@ -629,14 +629,36 @@ vim.keymap.set('n', '<Leader>of',
 require( 'lualine' ).setup( {
    options = {
       theme = 'solarized_light',
+      globalstatus = true,
    },
-   tabline = {
-      lualine_a = {
+   sections = {
+      lualine_a = { 'mode' },
+      lualine_b = { { 'hostname',
+                      fmt = function( hostname, ctx )
+                               return hostname:match( '[^%.]+' )
+                            end,
+                    },
+                    'branch' },
+      lualine_c = { 'searchcount', 'selectioncount' },
+      lualine_x = {},
+      lualine_y = {},
+      lualine_z = {
          {
             'tabs',
-            max_length = vim.o.columns,
-            mode = 2,
-         } },
+            cond = function() return vim.fn.tabpagenr( '$' ) > 1 end,
+            mode = 0, -- Shows tab_nr
+      } },
+   },
+   winbar = {
+      lualine_a = { 'filename' },
+      lualine_b = { 'diff', 'diagnostics' },
+      lualine_c = { 'filetype' },
+      lualine_y = { 'progress' },
+      lualine_z = { 'location' },
+   },
+   inactive_winbar = {
+      lualine_b = { 'filename' },
+      lualine_y = { 'location' },
    },
    extensions = {
       'fugitive',
@@ -647,7 +669,8 @@ require( 'lualine' ).setup( {
    },
 } )
 vim.o.showmode = false
-vim.o.showtabline = 1 -- only if there are at least two tab pages
+vim.o.showtabline = 0 -- never
+vim.opt.shortmess:append( 'S' ) -- do not show search count message when searching
 
 -- vim-alog plugin
 vim.api.nvim_create_autocmd( { 'BufNewFile', 'BufReadPost' }, {

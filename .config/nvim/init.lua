@@ -33,6 +33,7 @@ vim.o.lazyredraw = true
 vim.o.path = '**'
 vim.o.numberwidth = 1
 vim.o.previewheight = 20
+vim.o.winblend = 10
 vim.o.splitbelow = true
 vim.opt.diffopt:append( { 'vertical', 'algorithm:histogram', } )
 vim.g.mapleader = ' '

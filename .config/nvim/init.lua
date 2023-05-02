@@ -772,7 +772,7 @@ vim.api.nvim_set_hl( 0, 'LeapBackdrop', { link = 'Constant' } )
 -- LSP
 local onAttachDiags = function( client, bufnr )
    -- Show line diagnostics in float window
-   vim.keymap.set('n', '<Leader><space>', function()
+   vim.keymap.set( 'n', '<Leader>l', function()
          vim.diagnostic.open_float( nil, nil )
       end, { noremap = true, silent = true } )
 end
@@ -897,12 +897,12 @@ end
 
 vim.g.clipboard = {
   name = 'osc52',
-  copy = {['+'] = copy, ['*'] = copy},
-  paste = {['+'] = paste, ['*'] = paste},
+  copy = { [ '+' ] = copy, [ '*' ] = copy },
+  paste = { [ '+' ] = paste, [ '*' ] = paste },
 }
 
 -- Treesitter
-require'nvim-treesitter.configs'.setup {
+require( 'nvim-treesitter.configs' ).setup {
    auto_install = false,
    highlight = {
       enable = true,
@@ -959,10 +959,10 @@ vim.keymap.set('n', '<C-j>', require('smart-splits').move_cursor_down)
 vim.keymap.set('n', '<C-k>', require('smart-splits').move_cursor_up)
 vim.keymap.set('n', '<C-l>', require('smart-splits').move_cursor_right)
 -- swapping buffers between windows
-vim.keymap.set('n', '<Leader><C-h>', require('smart-splits').swap_buf_left)
-vim.keymap.set('n', '<Leader><C-j>', require('smart-splits').swap_buf_down)
-vim.keymap.set('n', '<Leader><C-k>', require('smart-splits').swap_buf_up)
-vim.keymap.set('n', '<Leader><C-l>', require('smart-splits').swap_buf_right)
+vim.keymap.set( 'n', '<Leader><C-h>', require( 'smart-splits' ).swap_buf_left )
+vim.keymap.set( 'n', '<Leader><C-j>', require( 'smart-splits' ).swap_buf_down )
+vim.keymap.set( 'n', '<Leader><C-k>', require( 'smart-splits' ).swap_buf_up )
+vim.keymap.set( 'n', '<Leader><C-l>', require( 'smart-splits' ).swap_buf_right )
 
 -- Include Arista-specific settings (mostly just for qt syntax coloring)
 vim.opt.runtimepath:append( '/usr/share/vim/vimfiles' )

@@ -391,7 +391,7 @@ require( 'lazy' ).setup( {
    'haya14busa/vim-asterisk',
    -- NeoSolarized colorscheme for NeoVim with full transparency
    { 'Tsuzat/NeoSolarized.nvim',
-      config = function()
+      init = function()
          require( 'NeoSolarized' ).setup( {
             style = 'light',
             transparent = false,

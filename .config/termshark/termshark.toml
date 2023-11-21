@@ -1,10 +1,14 @@
 [main]
 color-tsharks = ['/home/jeff/.local/bin/tshark']
-column-format = ['%m', 'No.', 'true', '%At', 'Time', 'true', '%s', 'Source', 'true', '%d', 'Dest', 'true', '%p', 'Proto', 'true', '%L', 'Length', 'true', '%i', 'Info', 'true']
+column-format = ['%m', 'No.', 'true', '%At', 'Time', 'true', '%s', 'Source', 'true', '%d', 'Dest', 'true', '%p', 'Proto', 'true', '%L', 'Length', 'false', '%i', 'Info', 'true']
 column-format-bak = []
-last-used-tshark = '/home/jeff/.local/bin/tshark'
+last-used-tshark = '/nix/store/m2hizm21fx1y8802sb6aca7px5fh51fs-wireshark-cli-4.0.6/bin/tshark'
+lastupdate = '2023-11-15 14:25:06.042570015 -0800 PST m=+0.478240818'
+layout = 'mainview'
+mainview = '[{"col1":4,"col2":6,"adjust":9},{"col1":2,"col2":6,"adjust":3}]'
 recent-files = ['/src/foo.pcap']
 recent-filters = ['rsvp or mpls-echo', 'rsvp']
-theme-truecolor = 'solarized'
-validated-tsharks = ['/home/jeff/.local/bin/tshark']
+theme-truecolor = 'default'
+validated-tsharks = ['/home/jeff/.local/bin/tshark', '/nix/store/f79z6vnq4d6ard5n1cq715cfakizi2v5-wireshark-cli-4.0.2/bin/tshark', '/nix/store/p6yp1p1nsakvdi5bim09s9yy90vbah4h-wireshark-cli-4.0.5/bin/tshark', '/nix/store/m2hizm21fx1y8802sb6aca7px5fh51fs-wireshark-cli-4.0.6/bin/tshark']
+
 

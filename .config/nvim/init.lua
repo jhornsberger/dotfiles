@@ -20,8 +20,6 @@ vim.o.expandtab = true
 vim.o.virtualedit = 'all'
 vim.o.mouse='a'
 vim.o.directory = '/tmp'
-vim.o.foldmethod = 'expr'
-vim.o.foldexpr = "nvim_treesitter#foldexpr()"
 vim.o.foldenable = false
 vim.o.termguicolors = true
 vim.o.background = 'light'
@@ -33,9 +31,10 @@ vim.o.lazyredraw = true
 vim.o.path = '**'
 vim.o.numberwidth = 1
 vim.o.previewheight = 20
-vim.o.winblend = 10
+vim.o.winblend = 15
+vim.o.pumblend = 15
 vim.o.splitbelow = true
-vim.opt.diffopt:append( { 'vertical', 'algorithm:histogram', } )
+vim.opt.diffopt:append( { 'vertical', 'algorithm:histogram', 'linematch:60' } )
 vim.g.mapleader = ' '
 
 -- Autocommands
@@ -455,13 +454,13 @@ require( 'lazy' ).setup( {
 } )
 
 -- netrw settings
-vim.g.netrw_localrmdir='rm -r'
+vim.g.netrw_localrmdir = 'rm -r'
 vim.g.netrw_banner = 0
 vim.g.netrw_liststyle = 3
 vim.g.netrw_altv = 1
 vim.g.netrw_winsize = 25
 vim.g.netrw_browse_split = 2
-vim.g.netrw_http_cmd="wget --compression=auto -O"
+vim.g.netrw_http_xcmd = '-O'
 
 -- vim-asterisk plugin
 vim.keymap.set( 'n', '*', '<Plug>(asterisk-z*)' )
@@ -966,3 +965,5 @@ vim.keymap.set( 'n', '<Leader><C-l>', require( 'smart-splits' ).swap_buf_right )
 
 -- Include Arista-specific settings (mostly just for qt syntax coloring)
 vim.opt.runtimepath:append( '/usr/share/vim/vimfiles' )
+
+

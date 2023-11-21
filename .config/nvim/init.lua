@@ -958,16 +958,40 @@ require( 'nvim-treesitter.configs' ).setup {
    },
 }
 
+-- Treesitter configuration for tree-sitter-tac
+require( 'nvim-treesitter.install' ).prefer_git = true
+local parser_config = require( 'nvim-treesitter.parsers' ).get_parser_configs()
+parser_config.tac = {
+   install_info = {
+      url = '~/projects/tree-sitter-tac',
+      files = { 'src/parser.c', 'src/scanner.cc' },
+   },
+   filetype = 'tac',
 }
 
 -- aerial.nvim
 require( 'aerial' ).setup( {
    backends = { 'treesitter', 'lsp' },
    layout = {
-      default_direction = "prefer_left",
+      default_direction = 'prefer_left',
       preserve_equality = true,
    },
    close_automatic_events = { 'unfocus', 'switch_buffer' },
+   -- A list of all symbols to display. Set to false to display all symbols.
+   -- This can be a filetype map (see :help aerial-filetype-map)
+   -- To see all available values, see :help SymbolKind
+   filter_kind = {
+      'Namespace',
+      'Class',
+      'Constructor',
+      'Enum',
+      'Function',
+      'Interface',
+      'Module',
+      'Method',
+      'Struct',
+      'Field',
+   },
 } )
 vim.keymap.set('n', '<Leader>at', '<cmd>AerialToggle<cr>', { noremap = true })
 

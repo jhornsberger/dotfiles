@@ -472,6 +472,8 @@ require( 'lazy' ).setup( {
    'Bekaboo/deadcolumn.nvim',
    -- Smart, directional Neovim split resizing and navigation
    'mrjones2014/smart-splits.nvim',
+   -- Improved Yank and Put functionalities for Neovim
+   'gbprod/yanky.nvim',
 }, {
    ui = {
       -- The border to use for the UI window. Accepts same border values as
@@ -994,8 +996,22 @@ vim.keymap.set( 'n', '<Leader><C-j>', require( 'smart-splits' ).swap_buf_down )
 vim.keymap.set( 'n', '<Leader><C-k>', require( 'smart-splits' ).swap_buf_up )
 vim.keymap.set( 'n', '<Leader><C-l>', require( 'smart-splits' ).swap_buf_right )
 
--- Include Arista-specific settings (mostly just for qt syntax coloring)
-vim.opt.runtimepath:append( '/usr/share/vim/vimfiles' )
-
-
+-- yanky
+yankyUtils = require( 'yanky.utils' )
+yankyPicker = require( 'yanky.picker' )
+require( 'yanky' ).setup( {
+   system_clipboard = {
+     sync_with_ring = false,
+   },
+   highlight = {
+     on_put = false,
+     on_yank = false,
+   },
+} )
+vim.keymap.set( { 'n','x' }, 'p', '<Plug>(YankyPutAfter)' )
+vim.keymap.set( { 'n','x' }, 'P', '<Plug>(YankyPutBefore)' )
+vim.keymap.set( 'n', '<c-n>', '<Plug>(YankyCycleForward)' )
+vim.keymap.set( 'n', '<c-p>', '<Plug>(YankyCycleBackward)' )
+vim.keymap.set( 'n', '<Leader>yh', '<cmd>YankyRingHistory<cr>', { noremap = true } )
+yankyPicker.actions.set_register( yankyUtils.get_default_register() )
 

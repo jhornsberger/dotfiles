@@ -388,16 +388,44 @@ vim.api.nvim_create_autocmd( { 'BufNewFile', 'BufReadPost' },
 require( 'lazy' ).setup( {
    -- *-Improved
    'haya14busa/vim-asterisk',
-   -- NeoSolarized colorscheme for NeoVim with full transparency
-   { 'Tsuzat/NeoSolarized.nvim',
+   -- Soothing pastel theme for (Neo)vim
+   { 'catppuccin/nvim',
+      name = 'catppuccin',
       init = function()
-         require( 'NeoSolarized' ).setup( {
-            style = 'light',
-            transparent = false,
+         require( 'catppuccin' ).setup( {
+            flavour = 'latte', -- latte, frappe, macchiato, mocha
+            term_colors = true, -- sets terminal colors (e.g. `g:terminal_color_0`)
+            dim_inactive = {
+               enabled = true, -- dims the background color of inactive window
+            },
+            styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
+               comments = { 'italic' }, -- Change the style of comments
+               conditionals = { 'italic' },
+               loops = { 'italic' },
+               functions = {},
+               keywords = {},
+               strings = { 'italic' },
+               variables = {},
+               numbers = {},
+               booleans = {},
+               properties = {},
+               types = {},
+               operators = {},
+            },
+            custom_highlights = function( colors )
+               return {
+                  [ '@statement' ] = { link = 'Statement' },
+                  [ '@structure' ] = { link = 'Structure' },
+               }
+            end,
+            integrations = {
+               gitsigns = true,
+               treesitter = true,
+               aerial = true,
+               treesitter_context = true,
+            },
          } )
-         vim.cmd.colorscheme 'NeoSolarized'
-         -- NeoSolarized offensive colorcolumn
-         vim.api.nvim_set_hl( 0, 'ColorColumn', { link = 'CursorLine' } )
+         vim.cmd.colorscheme 'catppuccin'
       end
    },
    -- A Git wrapper so awesome, it should be illegal
@@ -627,8 +655,10 @@ vim.keymap.set('n', '<Leader>of',
 -- nvim-lualine/lualine.nvim
 require( 'lualine' ).setup( {
    options = {
-      theme = 'solarized_light',
+      theme = 'catppuccin',
       globalstatus = true,
+      section_separators = { left = '', right = '' },
+      component_separators = { left = '', right = '' }
    },
    sections = {
       lualine_a = { 'mode' },

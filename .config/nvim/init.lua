@@ -461,6 +461,9 @@ require( 'lazy' ).setup( {
    'ojroques/nvim-osc52',
    -- Nvim Treesitter configurations and abstraction layer
    'nvim-treesitter/nvim-treesitter',
+   -- Syntax aware text-objects, select, move, swap, and peek support
+   { 'nvim-treesitter/nvim-treesitter-textobjects',
+      dependencies = 'nvim-treesitter/nvim-treesitter' },
    -- plugin for a code outline window
    'stevearc/aerial.nvim',
    -- lua `fork` of vim-web-devicons for neovim
@@ -916,7 +919,7 @@ vim.g.clipboard = {
 
 -- Treesitter
 require( 'nvim-treesitter.configs' ).setup {
-   auto_install = false,
+   auto_install = true,
    highlight = {
       enable = true,
       -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
@@ -928,6 +931,20 @@ require( 'nvim-treesitter.configs' ).setup {
    indent = {
       enable = true
    },
+   textobjects = {
+      select = {
+         enable = true,
+
+         -- Automatically jump forward to textobjects, similar to targets.vim
+         lookahead = false,
+      },
+      move = {
+         enable = true,
+         set_jumps = true, -- whether to set jumps in the jumplist
+      },
+   },
+}
+
 }
 
 -- aerial.nvim

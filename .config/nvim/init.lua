@@ -436,8 +436,6 @@ require( 'lazy' ).setup( {
    'tpope/vim-eunuch',
    -- Improved fzf.vim written in lua
    'ibhagwan/fzf-lua',
-   -- Vim syntax plugin for AutoTest logs
-   'git@gitlab.aristanetworks.com:jeff/vim-alog.git',
    -- Refactored Arista vim plugin
    { 'git@gitlab.aristanetworks.com:the_third_man/arvim.git',
       init = function()
@@ -716,15 +714,6 @@ local diagnostic_signs = {
 for _, sign in ipairs(diagnostic_signs) do
   vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = sign.name })
 end
-
--- vim-alog plugin
-vim.api.nvim_create_autocmd( { 'BufNewFile', 'BufReadPost' }, {
-   group = 'config',
-   pattern = '*.log',
-   callback = function ( args )
-      vim.keymap.set('n', '<leader>al', '<cmd>set filetype=alog<cr>',
-      { noremap = true, buffer = true } )
-   end } )
 
 -- vim-flog plugin
 vim.keymap.set( 'n', '<Leader>gl', '<cmd>Flog -date=local<cr>', { noremap = true } )

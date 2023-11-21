@@ -447,8 +447,6 @@ require( 'lazy' ).setup( {
    'nvim-lualine/lualine.nvim',
    -- A lightweight and powerful git branch viewer for vim
    'rbong/vim-flog',
-   -- Tame the quickfix window
-   'romainl/vim-qf',
    -- Extensible Neovim Scrollbar
    'petertriho/nvim-scrollbar',
    -- Neovim's answer to the mouse
@@ -731,12 +729,6 @@ vim.api.nvim_create_autocmd("FileType", {
             vim.api.nvim_call_function("flog#run_command", {"!agu checkout %b", 0, 1})
          end, { buffer = true } )
    end})
-
--- vim-qf plugin
-vim.keymap.set( 'n', '<c-p>', '<Plug>(qf_qf_previous)',
-   { noremap = true, silent = true } )
-vim.keymap.set( 'n', '<c-n>', '<Plug>(qf_qf_next)',
-   { noremap = true, silent = true } )
 
 -- gitsigns.nvim
 require('gitsigns').setup({

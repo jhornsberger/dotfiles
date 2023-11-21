@@ -510,18 +510,21 @@ vim.keymap.set( 'n', '<Leader>gb', '<cmd>Git blame<cr>' )
 vim.keymap.set( 'n', '<Leader>G', ':Git<space>' )
 
 -- fzf-lua plugin
-require('fzf-lua').setup{
-  winopts = {
-    width = 1,
-    height = 0.4,
-    row = 1,
-    col = 0,
-  },
-  fzf_opts = {
-     [ '--layout' ] = false,
-  },
-}
-require('fzf-lua').register_ui_select()
+require( 'fzf-lua' ).setup( {
+   winopts = {
+      width = 1,
+      height = 0.4,
+      row = 1,
+      col = 0,
+      preview = {
+         hidden = 'hidden', -- hidden|nohidden
+      },
+   },
+   fzf_opts = {
+      [ '--layout' ] = false,
+   },
+} )
+require( 'fzf-lua' ).register_ui_select()
 
 vim.api.nvim_create_user_command(
    'FzfRg',
@@ -975,7 +978,7 @@ require('deadcolumn').setup( {
 
 -- smart-splits
 require( 'smart-splits' ).setup( {
-  cursor_follows_swapped_bufs = true,
+   cursor_follows_swapped_bufs = true,
 } )
 -- resizing splits
 vim.keymap.set('n', '<A-h>', require('smart-splits').resize_left)
@@ -995,5 +998,6 @@ vim.keymap.set( 'n', '<Leader><C-l>', require( 'smart-splits' ).swap_buf_right )
 
 -- Include Arista-specific settings (mostly just for qt syntax coloring)
 vim.opt.runtimepath:append( '/usr/share/vim/vimfiles' )
+
 
 

@@ -3,17 +3,10 @@
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
 # export SYSTEMD_PAGER=
 
-if [ -z ${ARTOOLS_NOPROMPTMUNGE} ] && [[ $- == *i* ]]; then  # check if interactive shell
-   # brew configuration
-   #if [ -x "$HOME/.local/bin/brew-enter" ]; then
-   #   if [ -z ${BREW_ENTER} ]; then
-   #      export BREW_ENTER="TRUE"
-   #      exec "$HOME/.local/bin/brew-enter"
-   #   fi
-   #fi
-   # nix configuration
+# nix configuration
+if [[ $- == *i* ]]; then  # check if interactive shell
    if [ -x "$HOME/bin/nix-enter" ]; then
-      if [ -z ${NIX_ENTER} ]; then
+      if [ ! -e /nix/var/nix/profiles ] || [ -z ${NIX_ENTER} ]; then
          export NIX_ENTER="TRUE"
          exec "$HOME/bin/nix-enter"
       fi
@@ -37,11 +30,10 @@ if [ -z ${ARTOOLS_NOPROMPTMUNGE} ] && [[ $- == *i* ]]; then  # check if interact
 
    unset VISUAL
    export PATH=$HOME/.local/bin:$PATH
-   #export TZ='America/Vancouver'
+   export TZ='America/Vancouver'
    export EDITOR=nvim
    export P4MERGE=amergeVim
    export NOTI_PB=o.xXcIRDklt4berjLHFbbiwOe7f8QjRDml
-   #export TMUX_TMPDIR=$HOME/.tmux/sockets
    export P4_AUTO_LOGIN=1
    export SKIPTACGO=1
 

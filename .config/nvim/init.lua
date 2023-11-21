@@ -474,6 +474,11 @@ require( 'lazy' ).setup( {
    'mrjones2014/smart-splits.nvim',
    -- Improved Yank and Put functionalities for Neovim
    'gbprod/yanky.nvim',
+   -- Better quickfix window in Neovim, polish old quickfix window
+   'kevinhwang91/nvim-bqf',
+   -- Single tabpage interface for easily cycling through diffs for all
+   -- modified files for any git rev.
+   'sindrets/diffview.nvim',
 }, {
    ui = {
       -- The border to use for the UI window. Accepts same border values as

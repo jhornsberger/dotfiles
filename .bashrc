@@ -32,6 +32,7 @@ if [ -z ${ARTOOLS_NOPROMPTMUNGE} ] && [[ $- == *i* ]]; then  # check if interact
    export PATH=$HOME/.local/bin:$PATH
    export TZ='America/Vancouver'
    export TZDIR=/usr/share/zoneinfo
+   export INPUTRC=$HOME/.config/inputrc
    export EDITOR=nvim
    export P4MERGE=amergeVim
    export NOTI_PB=o.xXcIRDklt4berjLHFbbiwOe7f8QjRDml

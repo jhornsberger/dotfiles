@@ -9,5 +9,6 @@ fi
 
 export PATH=$PATH:$HOME/.local/bin:$HOME/bin
 export TZ='America/Vancouver'
+export TZDIR=/usr/share/zoneinfo
 
 if [ -e /home/jeff/.nix-profile/etc/profile.d/nix.sh ]; then . /home/jeff/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer

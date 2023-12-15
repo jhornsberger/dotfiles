@@ -31,6 +31,7 @@ if [ -z ${ARTOOLS_NOPROMPTMUNGE} ] && [[ $- == *i* ]]; then  # check if interact
    unset VISUAL
    export PATH=$HOME/.local/bin:$PATH
    export TZ='America/Vancouver'
+   export TZDIR=/usr/share/zoneinfo
    export EDITOR=nvim
    export P4MERGE=amergeVim
    export NOTI_PB=o.xXcIRDklt4berjLHFbbiwOe7f8QjRDml
@@ -107,4 +108,5 @@ if command -v fzf-share >/dev/null; then
   source "$(fzf-share)/key-bindings.bash"
   source "$(fzf-share)/completion.bash"
 fi
+
 

@@ -52,7 +52,9 @@ if status is-interactive
       fzf --fish | source
    end
 
-   read -gx GEMINI_API_KEY < ~/.gemini_api_key
+   if test -e ~/.gemini_api_key
+      read -gx GEMINI_API_KEY < ~/.gemini_api_key
+   end
    set -gx RIPGREP_CONFIG_PATH ~/.ripgreprc
 
    # Functions

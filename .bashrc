@@ -11,9 +11,16 @@ if [[ $- == *i* ]]; then  # check if interactive shell
          exec "$HOME/bin/nix-enter"
       fi
    fi
+   if [ -x "/opt/homebrew/bin/brew" ]; then
+      eval "$(/opt/homebrew/bin/brew shellenv)"
+   fi
    if [[ -z ${BASH_EXECUTION_STRING} && -t 1 && -f ~/.local/bin/fish && $(realpath ~/.local/bin/fish) && $(readlink -f /proc/$$/exe) != *nix* ]]; then
       export SHELL=~/.local/bin/fish
       exec ~/.local/bin/fish
+   fi
+   if [[ -z ${BASH_EXECUTION_STRING} && -t 1 && -x /opt/homebrew/bin/fish ]]; then
+      export SHELL=/opt/homebrew/bin/fish
+      exec /opt/homebrew/bin/fish
    fi
 fi
 

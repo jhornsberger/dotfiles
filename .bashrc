@@ -5,6 +5,7 @@
 
 # nix configuration
 if [[ $- == *i* ]]; then  # check if interactive shell
+   export XDG_CONFIG_HOME="$HOME/.config"
    if [ -x "$HOME/bin/nix-enter" ]; then
       if [ ! -e /nix/var/nix/profiles ] && [ -z ${NIX_ENTER} ]; then
          export NIX_ENTER="TRUE"

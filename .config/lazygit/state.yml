@@ -1,0 +1,27 @@
+lastupdatecheck: 1741889350
+recentrepos:
+    - /home/jeff
+startuppopupversion: 5
+didshowhunkstaginghint: false
+lastversion: 0.54.2
+customcommandshistory:
+    - git revert --abort
+    - DiffviewOpen -C/src/FlowTracker
+    - git cherry-pick 2274fad254c3
+    - cd /src/FlowTracker
+    - echo $NVIM
+    - echo $EDITOR
+    - a git commit --amend
+    - echo $SHELL
+    - echo $PWD
+    - DiffviewOpen -C /src/SampledFlowTracker
+    - DiffviewOpen
+    - a git diff
+    - a git commit
+    - ls
+    - ""
+    - fish
+    - cd /src/Arnet
+    - pwd
+    - a git status
+hidecommandlog: false

@@ -1,0 +1,376 @@
+gui:
+  nerdFontsVersion: 3
+  showFileTree: false
+  showNumstatInFilesView: true
+  filterMode: fuzzy
+  theme:
+    activeBorderColor:
+      - cyan
+      - bold
+    inactiveBorderColor:
+      - default
+    selectedLineBgColor:
+      - white
+  commandLogSize: 12
+  statusPanelView: allBranchesLog
+git:
+  mainBranches:
+    - master
+    - main
+    - m/master
+  autoStageResolvedConflicts: false
+  autoFetch: false
+  log:
+    showWholeGraph: true
+confirmOnQuit: true
+os:
+  # nvim-remote tries to quit lazygit on edit...
+  # editPreset: nvim-remote
+  edit: if test -z $NVIM; nvim -- {{filename}}; else; nvim --server $NVIM --remote-tab {{filename}}; end
+  # edit: '[ -z "$NVIM" ] && (nvim -- {{filename}}) || (nvim --server "$NVIM" --remote-tab {{filename}})'
+  editAtLine: if test -z $NVIM; nvim +{{line}} -- {{filename}}; else; nvim --server $NVIM --remote-tab {{filename}} && nvim --server $NVIM --remote-send ':{{line}}<CR>'; end
+  # editAtLine: '[ -z "$NVIM" ] && (nvim +{{line}} -- {{filename}}) || (nvim --server "$NVIM" --remote-tab {{filename}} && nvim --server "$NVIM" --remote-send ":{{line}}<CR>")'
+  # editAtLine: '[ -z "$NVIM" ] && (nvim +{{line}} -- {{filename}}) || (nvim --server "$NVIM" --remote-tab {{filename}} && nvim --server "$NVIM" --remote-send ":{{line}}<CR>")'
+  editInTerminal: False
+  copyToClipboardCmd: printf '\e]52;c;%s\a' (printf %s {{text}} | base64 | string join '') > /dev/tty
+  # copyToClipboardCmd: 'printf "\033]52;c;$(printf {{text}} | base64 -w 0)\a" > /dev/tty'
+  # copyToClipboardCmd: 'nvim --server "$NVIM" --remote-send "<c-\><c-n>:lua vim.fn.setreg( \"\", \""{{text}}"\" )<cr>i"'
+notARepository: skip
+keybinding:
+  universal:
+    openFile: <disabled>
+    openDiffTool: <disabled>
+    rangeSelectDown: <disabled>
+    rangeSelectUp: <disabled>
+    scrollUpMain: <s-up>
+    scrollDownMain: <s-down>
+  files:
+    amendLastCommit: <disabled>
+  commits:
+    markCommitAsFixup: m
+    createFixupCommit: f
+    amendToCommit: <disabled>
+    openLogMenu: o
+customCommands:
+  - key: 'n'
+    command: "git add -N {{.SelectedFile.Name}}"
+    context: 'files'
+    description: 'Record only the fact that the path will be added later'
+  - key: 'A'
+    description: 'Commands for Arista-specific workflows'
+    commandMenu:
+      #  Status
+      - key: 't'
+        command: 'a git topics'
+        context: 'status'
+        description: 'Display gitarband topics'
+        output: log
+      - key: 's'
+        command: 'a git status'
+        context: 'status'
+        description: 'Display gitarband status'
+        output: log
+      - key: 'l'
+        command: "{{.Form.Action}}"
+        context: 'status'
+        prompts:
+          - type: 'menu'
+            title: 'Action:'
+            key: 'Action'
+            options:
+              - value: 'a git launch --non-interactive'
+                name: 'Launch'
+                description: 'Launch the current topic as a MUT'
+              - value: 'a git push --gerrit-only'
+                name: 'Push'
+                description: 'Only push to gerrit'
+        loadingText: 'Pushing topics'
+        description: 'Launch or push gitarband topics'
+        output: log
+      - key: 'b'
+        command: 'a git topic build --force{{.Form.Type}}'
+        context: 'status'
+        prompts:
+          - type: 'menu'
+            title: 'Type:'
+            key: 'Type'
+            options:
+              - value: ''
+                name: 'Normal'
+                description: 'Normal forced build'
+              - value: ' --fastr'
+                name: 'Faster'
+                description: 'Faster build on a powerful server without other builds running in parallel'
+        loadingText: 'Scheduling build'
+        description: 'Schedule a build of the current project.'
+        output: log
+      - key: 'f'
+        command: "a git fetch {{.Form.Topic}}"
+        context: 'status'
+        prompts:
+          - type: 'menuFromCommand'
+            title: 'Remote topic:'
+            key: 'Topic'
+            command: 'a git topics --remote --name-only'
+        loadingText: "Fetching {{.Form.Topic}}"
+        description: 'Fetch gitarband topic'
+      - key: 'p'
+        command: 'a git pull'
+        context: 'status'
+        prompts:
+          - type: 'confirm'
+            body: "Are you sure you want to pull in upstream changes?"
+        loadingText: 'Pulling changes'
+        description: 'Pull source changes from remote gitarband repos'
+        output: log
+      #  Files
+      - key: 'm'
+        command: "{{.Form.Action}}"
+        context: 'files'
+        description: 'Prepare commit message for gitarband topic'
+        prompts:
+          - type: 'menu'
+            title: 'Action:'
+            key: 'Action'
+            options:
+              - value: 'nvim --server "$NVIM" --remote-send "<c-\><c-n>:tabnew /tmp/commit-message | setfiletype gitcommit<CR>"'
+                name: 'New'
+                description: 'New commit message'
+              - value: 'nvim --server "$NVIM" --remote-send "<c-\><c-n>:tabnew /tmp/commit-message | 0read !a git message --show<CR>:write | setfiletype gitcommit<CR>"'
+                name: 'Amend'
+                description: 'Amended commit message'
+      - key: 'c'
+        command: "{{.Form.Action}}"
+        context: 'files'
+        description: 'Commit to current gitarband topic'
+        prompts:
+          - type: 'menu'
+            title: 'Action:'
+            key: 'Action'
+            options:
+              - value: 'a git commit --file /tmp/commit-message && rm /tmp/commit-message'
+                name: 'New'
+                description: 'New commit'
+              - value: 'a git commit --amend --file /tmp/commit-message && rm /tmp/commit-message'
+                name: 'Amend'
+                description: 'Amend commit and message'
+              - value: 'a git commit --amend --no-edit'
+                name: 'Fixup'
+                description: 'Fixup without amending the message'
+      - key: 'a'
+        command: 'repo forall -p -c git add -A'
+        context: 'files'
+        description: 'Stage all files in all packages'
+      - key: 's'
+        command: 'repo forall -p -c git stash save -u'
+        context: 'files'
+        description: 'Stash save in all packages'
+        output: log
+      - key: 'i'
+        command: 'nvim --server "$NVIM" --remote-send "<c-\><c-n>:DiffviewOpen -C""$PWD""<CR>"'
+        context: 'files'
+        description: 'Open the index'
+      - key: 'f'
+        command: 'git absorb -b m/master -F'
+        context: 'files'
+        description: 'Automatically create fixup commits from staged changes (absorb)'
+      #  Local branches
+      - key: 'c'
+        command: "a git checkout {{.Form.Topic}}"
+        context: 'localBranches'
+        prompts:
+          - type: 'menu'
+            title: 'Checkout topic:'
+            key: 'Topic'
+            options:
+              - value: "{{.SelectedLocalBranch.Name}}"
+                name: 'Selected'
+                description: "Checkout selected topic ({{.SelectedLocalBranch.Name}})"
+              - value: 'm/master'
+                name: 'Master'
+                description: 'Checkout mainline'
+        description: 'Checkout gitarband topic'
+      - key: 's'
+        command: "a git start {{if .Form.Parent }}-p {{.Form.Parent}}{{end}} {{.Form.Topic}}"
+        context: 'localBranches'
+        prompts:
+          - type: 'menu'
+            title: 'Topic parent:'
+            key: 'Parent'
+            options:
+              - value: "{{.SelectedLocalBranch.Name}}"
+                name: 'Selected'
+                description: "Extend commit chain from selected topic ({{.SelectedLocalBranch.Name}})"
+              - value: ''
+                name: 'None'
+                description: 'Start from mainline'
+          - type: 'input'
+            title: 'Topic name:'
+            key: 'Topic'
+            initialValue: "{{.SelectedLocalBranch.Name}}"
+        description: 'Start a new gitarband topic'
+      - key: 'r'
+        command: "a git rebase{{.Form.Option}}"
+        context: 'localBranches'
+        prompts:
+          - type: 'menu'
+            title: 'Rebase options:'
+            key: 'Option'
+            options:
+              - value: ''
+                name: 'Update'
+                description: 'Rebase descendants on current parent'
+              - value: " {{.SelectedLocalBranch.Name}}"
+                name: 'Selected'
+                description: 'Rebase on selected topic ({{.SelectedLocalBranch.Name}})'
+              - value: " m/master"
+                name: 'Master'
+                description: 'Rebase on mainline'
+              - value: ' --continue'
+                name: 'Continue'
+                description: 'Continue rebase in progress'
+              - value: ' --abort'
+                name: 'Abort'
+                description: 'Abort rebase in progress'
+        description: 'Rebase gitarband topic'
+        output: log
+      - key: 'i'
+        command: "a git topic show -t {{.SelectedLocalBranch.Name}}"
+        context: 'localBranches'
+        description: 'Display gitarband topic information'
+        output: log
+      - key: 'y'
+        command: printf '\e]52;c;%s\a' (printf %s (a git message --show --topic {{.SelectedLocalBranch.Name}}) | base64 | string join '') > /dev/tty
+        # command: 'printf "\033]52;c;$(a git message --show --topic {{.SelectedLocalBranch.Name}} | base64 -w 0)\a" > /dev/tty'
+        context: 'localBranches'
+        description: 'Copy gitarband topic message'
+      - key: 'b'
+        command: "{{.Form.BugEdit}} && echo -n ' ' | a git bug -t {{.SelectedLocalBranch.Name}} {{.Form.Action}} {{.Form.Bug}}"
+        context: 'localBranches'
+        prompts:
+          - type: 'input'
+            title: 'Bug:'
+            key: 'Bug'
+          - type: 'menu'
+            title: 'Update bug severity:'
+            key: 'BugEdit'
+            options:
+              - value: 'a bug edit --user=$USER --status=a --severity=lim {{.Form.Bug}}'
+                name: 'Limitation'
+              - value: 'a bug edit --user=$USER --status=a --severity=n {{.Form.Bug}}'
+                name: 'Non-escape'
+              - value: 'a bug edit --user=$USER --status=a --severity=sev1 {{.Form.Bug}}'
+                name: 'Sev1'
+              - value: 'a bug edit --user=$USER --status=a --severity=sev2 {{.Form.Bug}}'
+                name: 'Sev2'
+              - value: 'a bug edit --user=$USER --status=a --severity=sev3 {{.Form.Bug}}'
+                name: 'Sev3'
+              - value: 'a bug edit --user=$USER --status=a --severity=u {{.Form.Bug}}'
+                name: 'Unused'
+              - value: 'true'
+                name: 'Do not update bug'
+          - type: 'menu'
+            title: 'Action:'
+            key: 'Action'
+            options:
+              - value: '-r'
+                name: 'Reference'
+                description: 'Bug(s) related to, but not fixed by, the change'
+              - value: '-f'
+                name: 'Fix'
+                description: 'Bug(s) being fixed by the change'
+              - value: '-d'
+                name: 'Delete'
+                description: 'Bug(s) to disassociate from the change'
+        description: 'Associate a bug with a gitarband topic'
+      - key: 'h'
+        command: 'nvim --server "$NVIM" --remote-send "<c-\><c-n>:DiffviewFileHistory -C""$PWD"" --range={{.SelectedLocalBranch.Name}}<CR>"'
+        context: 'localBranches'
+        description: 'View branch history'
+      - key: 'n'
+        command: a git rename {{.SelectedLocalBranch.Name}} {{.Form.New}}
+        context: 'localBranches'
+        prompts:
+          - type: 'input'
+            title: 'New topic name:'
+            key: 'New'
+            initialValue: "{{.SelectedLocalBranch.Name}}"
+          - type: 'confirm'
+            body: "Are you sure you want to rename {{.SelectedLocalBranch.Name}} to {{.Form.New}}?"
+        description: 'Rename the selected gitarband topic'
+      - key: 'f'
+        command: 'a git topic freeze {{.SelectedLocalBranch.Name}}'
+        context: 'localBranches'
+        prompts:
+          - type: 'confirm'
+            body: "Are you sure you want to rebase {{.CheckedOutBranch.Name}} onto frozen {{.SelectedLocalBranch.Name}}?"
+        description: 'Rebase the current topic onto a frozen topic'
+        output: log
+      - key: 'a'
+        command: 'a git abandon -y'
+        context: 'localBranches'
+        prompts:
+          - type: 'confirm'
+            body: "Are you sure you want to abandon {{.SelectedLocalBranch.Name}}?"
+        description: 'Abandon an existing gitarband topic and discard all changes'
+      #  Commits
+      - key: 'h'
+        command: '{{.Form.Option}}'
+        context: 'commits'
+        description: 'View commit history'
+        prompts:
+          - type: 'menu'
+            title: 'History:'
+            key: 'Option'
+            options:
+              - value: 'nvim --server "$NVIM" --remote-send "<c-\><c-n>:DiffviewFileHistory -C""$PWD""<CR>"'
+                name: 'Current'
+                description: 'Current branch'
+              - value: 'nvim --server "$NVIM" --remote-send "<c-\><c-n>:DiffviewFileHistory -C""$PWD"" --range={{.SelectedCommitRange.From}}^..{{.SelectedCommitRange.To}}<CR>"'
+                name: 'Limited'
+                description: 'Limit history to range {{.SelectedCommitRange.From}}^..{{.SelectedCommitRange.To}}'
+              - value: 'nvim --server "$NVIM" --remote-send "<c-\><c-n>:DiffviewOpen -C""$PWD"" {{.SelectedCommitRange.From}}^..{{.SelectedCommitRange.To}}<CR>"'
+                name: 'Diff'
+                description: 'Diff historical range {{.SelectedCommitRange.From}}^..{{.SelectedCommitRange.To}}'
+      - key: 'f'
+        command: 'a git fixup{{.Form.Option}}'
+        context: 'commits'
+        prompts:
+          - type: 'menu'
+            title: 'Fixup option:'
+            key: 'Option'
+            options:
+              - value: ''
+                name: 'Start'
+                description: 'Create branch for fixup commits'
+              - value: ' --run'
+                name: 'Apply'
+                description: 'Apply fixup commits'
+              - value: ' --abandon'
+                name: 'Abandon'
+                description: 'Abandon an in-progress fixup, and blow away all the fixup commits'
+        description: 'Create and apply gitarband fixup commits'
+      #  Stash
+      - key: 'g'
+        command: 'repo forall -p -c git stash pop || true'
+        context: 'stash'
+        description: 'Pop stash in all packages'
+        after:
+          checkForConflicts: true
+        output: log
+      - key: 'l'
+        command: 'repo forall -p -c git stash list'
+        context: 'stash'
+        description: 'List stash in all packages'
+        output: log
+      - key: 'd'
+        command: 'repo forall -p -c git stash drop'
+        context: 'stash'
+        prompts:
+          - type: 'confirm'
+            body: "Are you sure you want to drop stashes in all packages?"
+        description: 'Drop stash in all packages'
+      - key: 'h'
+        command: 'nvim --server "$NVIM" --remote-send "<c-\><c-n>:DiffviewFileHistory -C""$PWD"" -g --range=stash<CR>"'
+        context: 'stash'
+        description: 'View stash history'

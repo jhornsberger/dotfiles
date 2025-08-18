@@ -1,4 +1,6 @@
 --smart-case
+--color=auto
+
 --type-add
 ar:*.{tac,tin,itin,py,ar,qb}
 --type-add
@@ -8,10 +10,8 @@ tin:*.tin
 --type-add
 itin:*.itin
 --type-add
-qb:*.qb
+qb:*.{qb,qbi}
 --type-add
 arx:*.arx
---ignore-file=/home/jeff/dotfiles/ignore
---hidden
---color=auto
---no-ignore-vcs
+--type-add
+bzl:*.{bzl,bazel}

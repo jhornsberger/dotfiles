@@ -8,8 +8,7 @@
 tags
 ID
 *.js
-.repo
-.git
+.repo/
 Strata/*
 StrataApi/*
 StrataXgsApiV2/*

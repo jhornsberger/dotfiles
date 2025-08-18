@@ -16,7 +16,7 @@
 	scheduleTestBuild = true
 	autoLintChanges = true
 	supportOneLineMessage = true
-	preserveTesting = true
+	preserveTesting = false
 [filter "lfs"]
 	process = git-lfs filter-process
 	required = true
@@ -30,3 +30,7 @@
 	ff = only
 [init]
 	defaultBranch = main
+[merge]
+	conflictstyle = zdiff3
+[mergetool]
+	hideResolved = true

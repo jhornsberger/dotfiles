@@ -618,7 +618,7 @@ require( 'lazy' ).setup( {
                   },
                },
             } )
-            vim.cmd.colorscheme 'dawnfox'
+            vim.cmd.colorscheme 'dayfox'
          end,
       },
       -- -- A Git wrapper so awesome, it should be illegal

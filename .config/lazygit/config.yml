@@ -308,6 +308,7 @@ customCommands:
                 name: 'Delete'
                 description: 'Bug(s) to disassociate from the change'
         description: 'Associate a bug with a gitarband topic'
+        output: log
       - key: 'h'
         command: 'nvim --server "$NVIM" --remote-send "<c-\><c-n>:DiffviewFileHistory -C""$PWD"" --range={{.SelectedLocalBranch.Name}}<CR>"'
         context: 'localBranches'
@@ -332,7 +333,7 @@ customCommands:
         description: 'Rebase the current topic onto a frozen topic'
         output: log
       - key: 'a'
-        command: 'a git abandon -y'
+        command: 'a git abandon -y --topic {{.SelectedLocalBranch.Name}}'
         context: 'localBranches'
         prompts:
           - type: 'confirm'

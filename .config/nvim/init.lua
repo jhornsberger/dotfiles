@@ -46,7 +46,26 @@ vim.o.tabclose = 'uselast'
 vim.opt.diffopt:append( { 'vertical', 'algorithm:histogram', 'linematch:60' } )
 vim.opt.completeopt:append( 'fuzzy' )
 vim.g.mapleader = ' '
-vim.g.clipboard = 'osc52'
+-- vim.g.clipboard = 'osc52'
+-- Wezterm doesn't support OSC 52 paste
+local function paste()
+   return {
+      vim.fn.split(vim.fn.getreg(""), "\n"),
+      vim.fn.getregtype(""),
+   }
+end
+
+vim.g.clipboard = {
+   name = "OSC 52",
+   copy = {
+      ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+      ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+   },
+   paste = {
+      ["+"] = paste,
+      ["*"] = paste,
+   },
+}
 vim.opt.errorformat = {
    '[%.%#] %f:%l:%c: %trror: %m', -- C++ compiler errors
    '%-G%.%#', -- ignore every other line

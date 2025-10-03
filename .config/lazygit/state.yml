@@ -2,8 +2,8 @@ lastupdatecheck: 1741889350
 recentrepos:
     - /home/jeff
 startuppopupversion: 5
-didshowhunkstaginghint: false
-lastversion: 0.54.2
+didshowhunkstaginghint: true
+lastversion: 0.55.1
 customcommandshistory:
     - git revert --abort
     - DiffviewOpen -C/src/FlowTracker

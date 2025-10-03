@@ -239,6 +239,31 @@ customCommands:
         context: 'localBranches'
         description: 'Display gitarband topic information'
         output: log
+      - key: 'd'
+        # Use unbuffer to get color output, but then we have to set GIT_PAGER to avoid less.
+        command: "GIT_PAGER=cat unbuffer a git diff{{.Form.Type}} {{.Form.Base}} {{.CheckedOutBranch.Name}}"
+        context: 'localBranches'
+        prompts:
+          - type: 'menu'
+            title: 'Branch to diff against:'
+            key: 'Base'
+            options:
+              - value: '{{.SelectedLocalBranch.Name}}'
+                name: 'Selected branch ({{.SelectedLocalBranch.Name}})'
+              - value: 'm/master'
+                name: 'Master'
+          - type: 'menu'
+            title: 'Diff type:'
+            key: 'Type'
+            options:
+              - value: ''
+                name: 'Full'
+              - value: ' --name-only'
+                name: 'Files'
+              - value: ' --packages-only'
+                name: 'Packages'
+        description: 'Diff gitarband topics'
+        output: log
       - key: 'y'
         command: printf '\e]52;c;%s\a' (printf %s (a git message --show --topic {{.SelectedLocalBranch.Name}}) | base64 | string join '') > /dev/tty
         # command: 'printf "\033]52;c;$(a git message --show --topic {{.SelectedLocalBranch.Name}} | base64 -w 0)\a" > /dev/tty'

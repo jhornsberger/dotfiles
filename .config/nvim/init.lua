@@ -968,6 +968,7 @@ require( 'lualine' ).setup( {
       component_separators = { left = '', right = '' },
    },
    tabline = {
+      lualine_a = {},
       lualine_b = {
          'progress',
          {
@@ -1027,7 +1028,9 @@ require( 'lualine' ).setup( {
             },
          },
       },
-      lualine_z = {},
+      lualine_z = {
+         "string.gmatch( vim.env.HOSTNAME, '([%a%d%-]+).*' )()",
+      },
    },
    winbar = {},
    inactive_winbar = {},

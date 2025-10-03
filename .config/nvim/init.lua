@@ -291,6 +291,7 @@ vim.keymap.set('n', '<Leader>cc', '<cmd>cclose<cr>',
    { noremap = true, silent = true })
 vim.keymap.set('n', 'j', 'gj', { noremap = true })
 vim.keymap.set('n', 'k', 'gk', { noremap = true })
+vim.keymap.set('n', 'z.', 'zszH', { noremap = true })
 vim.keymap.set('n', '<Leader>//', '<cmd>nohlsearch<cr>',
    { noremap = true, silent = true })
 vim.keymap.set('n', '<Leader>ms', '<cmd>mksession! ~/.vim_session<cr>',

@@ -956,22 +956,6 @@ vim.keymap.set('n', '<Leader>af',
    end,
    { noremap = true, silent = true })
 
-vim.keymap.set('n', '<Leader>as',
-   function()
-      opts = {
-         prompt = 'Aerial Symbols❯ ',
-         actions = {
-            [ 'enter' ] = function( selected, opts )
-               selectedSymbol = selected[ 1 ]
-               require( 'aerial.fzf' ).goto_symbol( selectedSymbol )
-            end
-         }
-      }
-      local contents = require( 'aerial.fzf' ).get_labels()
-      return require( 'fzf-lua.core' ).fzf_exec( contents, opts )
-   end,
-   { noremap = true, silent = true })
-
 -- nvim-lualine/lualine.nvim
 -- -- The rose-pine theme does not set the terminal highlight
 -- local fixedRosePine = require( 'lualine.themes.rose-pine' )
@@ -1314,6 +1298,7 @@ require( 'aerial' ).setup( {
    },
 } )
 vim.keymap.set('n', '<Leader>at', '<cmd>AerialToggle<cr>', { noremap = true })
+vim.keymap.set('n', '<Leader>as', require( 'aerial' ).fzf_lua_picker, { noremap = true })
 
 -- nvim-scrollbar
 require('scrollbar').setup( {

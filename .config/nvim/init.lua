@@ -314,10 +314,36 @@ vim.keymap.set('n', '<Leader>DDC', '<cmd>bp!|bd! #|close<cr>', { noremap = true 
 vim.keymap.set('n', '<Leader>W', '<cmd>set wrap!<cr>', { noremap = true })
 -- Yank register to another register
 vim.keymap.set('n', 'yr', function()
-      sourceReg = vim.fn.nr2char( vim.fn.getchar() )
-      targetReg = vim.v.register
-      sourceRegInfo = vim.fn.getreginfo( sourceReg )
+      local sourceReg = vim.fn.nr2char( vim.fn.getchar() )
+      local targetReg = vim.v.register
+      local sourceRegInfo = vim.fn.getreginfo( sourceReg )
       vim.fn.setreg( targetReg, sourceRegInfo )
+   end, { noremap = true })
+-- Edit register content
+vim.keymap.set('n', 'er', function()
+      local reg = vim.v.register
+      local regInfo = vim.fn.getreginfo( reg )
+      if next( regInfo ) == nil then
+         return
+      end
+      local buf = vim.api.nvim_create_buf( false, true )
+      vim.api.nvim_buf_set_lines( buf, 0, -1, true, regInfo.regcontents )
+      local win = vim.api.nvim_open_win( buf, true, {
+         height = #regInfo.regcontents,
+         win = 0,
+         split = 'below' } )
+      vim.api.nvim_create_autocmd( 'WinClosed', {
+         group = 'config',
+         buffer = buf,
+         callback = function()
+            if not ( reg == '"' or ( reg >= 'a' and reg <= 'z' ) ) then
+               return
+            end
+            local regLines = vim.api.nvim_buf_get_lines( buf, 0, -1, true )
+            regInfo.regcontents = regLines
+            vim.fn.setreg( reg, regInfo )
+            vim.api.nvim_buf_delete( buf, { force = true, unload = false } )
+         end, } )
    end, { noremap = true })
 -- Open file under cursor in vertical split
 vim.keymap.set('n', '<C-W><C-F>', '<C-W>vgf', { noremap = true })

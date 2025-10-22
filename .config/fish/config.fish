@@ -39,15 +39,6 @@ if status is-interactive
 
    # Fzf
    if command -q fzf
-      set -gx FZF_DEFAULT_OPTS "
-      --ansi
-      --color light
-      --bind alt-a:select-all
-      --bind alt-p:toggle-preview
-      --bind ctrl-d:half-page-down
-      --bind ctrl-u:half-page-up
-      --height 50%
-      "
       # Set up fzf key bindings
       fzf --fish | source
    end

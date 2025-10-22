@@ -799,15 +799,6 @@ vim.keymap.set( 'n', 'g#', '<Plug>(asterisk-gz#)' )
 
 -- fzf-lua plugin
 require( 'fzf-lua' ).setup( {
-   winopts = {
-      width = 1,
-      height = 0.4,
-      row = 1,
-      col = 0,
-      preview = {
-         hidden = 'hidden', -- hidden|nohidden
-      },
-   },
    files = {
       fd_opts = [[--color=never --type f --follow --exclude .git]],
    },

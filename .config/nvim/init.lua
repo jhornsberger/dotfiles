@@ -320,7 +320,7 @@ vim.keymap.set('n', 'yr', function()
       vim.fn.setreg( targetReg, sourceRegInfo )
    end, { noremap = true })
 -- Edit register content
-vim.keymap.set('n', 'er', function()
+vim.keymap.set('n', '<Leader>er', function()
       local reg = vim.v.register
       local regInfo = vim.fn.getreginfo( reg )
       if next( regInfo ) == nil then
@@ -329,9 +329,13 @@ vim.keymap.set('n', 'er', function()
       local buf = vim.api.nvim_create_buf( false, true )
       vim.api.nvim_buf_set_lines( buf, 0, -1, true, regInfo.regcontents )
       local win = vim.api.nvim_open_win( buf, true, {
-         height = #regInfo.regcontents,
-         win = 0,
-         split = 'below' } )
+         relative = 'editor',
+         width = math.floor( vim.o.columns / 2 ),
+         height = math.floor( vim.o.lines / 2 ),
+         col = math.floor( vim.o.columns / 4 ),
+         row = math.floor( vim.o.lines / 4 ),
+         title = 'Edit register [' .. reg .. ']'
+      } )
       vim.api.nvim_create_autocmd( 'WinClosed', {
          group = 'config',
          buffer = buf,
@@ -344,6 +348,7 @@ vim.keymap.set('n', 'er', function()
             vim.fn.setreg( reg, regInfo )
             vim.api.nvim_buf_delete( buf, { force = true, unload = false } )
          end, } )
+      vim.keymap.set('n', 'q', '<cmd>close<cr>', { noremap = true, buffer = buf })
    end, { noremap = true })
 -- Open file under cursor in vertical split
 vim.keymap.set('n', '<C-W><C-F>', '<C-W>vgf', { noremap = true })

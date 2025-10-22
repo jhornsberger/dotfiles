@@ -3,6 +3,7 @@ gui:
   showFileTree: false
   showNumstatInFilesView: true
   filterMode: fuzzy
+  expandFocusedSidePanel: true
   theme:
     activeBorderColor:
       - cyan

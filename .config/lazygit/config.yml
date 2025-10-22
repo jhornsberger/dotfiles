@@ -171,9 +171,10 @@ customCommands:
         context: 'files'
         description: 'Open the index'
       - key: 'f'
-        command: 'git absorb -b m/master -F'
+        command: 'git absorb --base m/master --one-fixup-per-commit --verbose'
         context: 'files'
         description: 'Automatically create fixup commits from staged changes (absorb)'
+        output: log
       #  Local branches
       - key: 'c'
         command: "a git checkout {{.Form.Topic}}"

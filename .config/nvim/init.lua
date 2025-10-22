@@ -960,6 +960,27 @@ vim.keymap.set('n', '<Leader>af',
    end,
    { noremap = true, silent = true })
 
+-- Active job in lualine
+local function setActiveJobs()
+   local cmdList = { 'job', '--info' }
+   local results = vim.system( cmdList, { text = true }, function( context )
+      vim.g.active_jobs =
+         tonumber( string.gmatch( context.stdout, '(%d+) \'activeJobs\'' )() )
+   end )
+end
+
+-- Initialization
+vim.g.active_jobs = 0
+setActiveJobs()
+
+-- Update on DB file changes
+local jobDbWatch = vim.uv.new_fs_event()
+local res = jobDbWatch:start(
+   vim.fs.abspath( '~/.local/share/jobDb/db/jobsDb.sqlite' ), {},
+   function( err, filename, events )
+      setActiveJobs()
+   end )
+
 -- nvim-lualine/lualine.nvim
 -- -- The rose-pine theme does not set the terminal highlight
 -- local fixedRosePine = require( 'lualine.themes.rose-pine' )
@@ -1033,6 +1054,11 @@ require( 'lualine' ).setup( {
          },
       },
       lualine_z = {
+         {
+            'g:active_jobs',
+            icon = '',
+            cond = function() return vim.g.active_jobs > 0 end,
+         },
          "string.gmatch( vim.env.HOSTNAME, '([%a%d%-]+).*' )()",
       },
    },

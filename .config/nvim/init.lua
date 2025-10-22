@@ -605,6 +605,14 @@ require( 'lazy' ).setup( {
          config = function()
             require( 'nightfox' ).setup( {
                options = {
+                  colorblind = {
+                     enable = true,
+                     severity = {
+                        protan = 0.8,
+                        deutan = 0.3,
+                        tritan = 0.1,
+                     },
+                  },
                   styles = {
                      comments = "italic",
                      keywords = "bold",

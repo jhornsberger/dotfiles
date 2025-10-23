@@ -70,14 +70,6 @@ newdir() {
    echo -n "$1"
 }
 
-# Fzf
-export FZF_DEFAULT_OPTS="
-  --ansi
-  --color light
-  --bind alt-a:select-all
-  --bind alt-p:toggle-preview
-  --height 50%
-"
 export RIPGREP_CONFIG_PATH=~/.ripgreprc
 
 if command -v fzf >/dev/null; then

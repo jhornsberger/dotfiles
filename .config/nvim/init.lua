@@ -969,6 +969,9 @@ vim.keymap.set('n', '<Leader>af',
 
 -- Active job in lualine
 local function setActiveJobs()
+   if vim.fn.executable( 'job' ) == 0 then
+      return
+   end
    local cmdList = { 'job', '--info' }
    local results = vim.system( cmdList, { text = true }, function( context )
       vim.g.active_jobs =

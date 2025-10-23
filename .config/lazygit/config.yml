@@ -5,6 +5,8 @@ gui:
   filterMode: fuzzy
   expandFocusedSidePanel: true
   theme:
+    selectedLineBgColor:
+      - black
   commandLogSize: 15
   statusPanelView: allBranchesLog
 git:

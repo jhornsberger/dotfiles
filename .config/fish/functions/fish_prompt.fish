@@ -42,7 +42,7 @@ function fish_prompt --description 'Write out the prompt'
    or set -lx fish_prompt_pwd_dir_length 0
 
    set_color -b normal
-   printf '%s%s%s%s%s%s%s%s%s%s%s%s%s' (set_color blue) (date "+%H:%M:%S") (set_color black) '|' (set_color magenta) (prompt_hostname) $NSPATH (set_color black) '|' (set_color cyan) (prompt_pwd) (set_color black) $git_info (set_color black)
+   printf '%s%s%s%s%s%s%s%s%s%s%s%s%s' (set_color blue) (date "+%H:%M:%S") (set_color normal) '|' (set_color magenta) (prompt_hostname) $NSPATH (set_color normal) '|' (set_color cyan) (prompt_pwd) (set_color normal) $git_info (set_color normal)
    if test $laststatus -eq 0
       # printf "%s %s" (set_color -o green) (set_color black)
    else
@@ -50,7 +50,7 @@ function fish_prompt --description 'Write out the prompt'
    end
    switch $fish_bind_mode
       case default
-         set_color -b magenta white
+         set_color -b magenta black
       case insert
          set_color -b normal
       case replace
@@ -58,7 +58,7 @@ function fish_prompt --description 'Write out the prompt'
       case replace_one
          set_color -b cyan white
       case visual
-         set_color -b yellow
+         set_color -b yellow black
       case '*'
          echo "Mode: $fish_bind_mode⏐"
    end

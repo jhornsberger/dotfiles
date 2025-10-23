@@ -16,7 +16,7 @@ config.visual_bell = {
 }
 
 -- For example, changing the color scheme:
-config.color_scheme = 'dayfox'
+config.color_scheme = 'zenbones'
 
 -- Choose your favourite font, make sure it's installed on your machine
 -- config.font = wezterm.font({ family = 'JetBrains Mono' })

@@ -5,14 +5,7 @@ gui:
   filterMode: fuzzy
   expandFocusedSidePanel: true
   theme:
-    activeBorderColor:
-      - cyan
-      - bold
-    inactiveBorderColor:
-      - default
-    selectedLineBgColor:
-      - white
-  commandLogSize: 12
+  commandLogSize: 15
   statusPanelView: allBranchesLog
 git:
   mainBranches:

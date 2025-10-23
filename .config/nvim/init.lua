@@ -603,36 +603,49 @@ require( 'lazy' ).setup( {
       -- },
       -- A highly customizable theme for vim and neovim with support for lsp,
       -- treesitter and a variety of plugins.
-      { 'EdenEast/nightfox.nvim',
+      -- { 'EdenEast/nightfox.nvim',
+      --    lazy = false,
+      --    priority = 1000,
+      --    version = '*',
+      --    config = function()
+      --       require( 'nightfox' ).setup( {
+      --          options = {
+      --             colorblind = {
+      --                enable = true,
+      --                severity = {
+      --                   protan = 0.8,
+      --                   deutan = 0.3,
+      --                   tritan = 0.1,
+      --                },
+      --             },
+      --             styles = {
+      --                comments = "italic",
+      --                keywords = "bold",
+      --                types = "italic,bold",
+      --             }
+      --          },
+      --          groups = {
+      --             all = {
+      --                [ '@statement' ] = { link = 'Statement' },
+      --                [ '@structure' ] = { link = 'Structure' },
+      --             },
+      --          },
+      --       } )
+      --       vim.cmd.colorscheme 'dayfox'
+      --    end,
+      -- },
+      {
+         'zenbones-theme/zenbones.nvim',
+         -- Optionally install Lush. Allows for more configuration or extending the colorscheme
+         -- If you don't want to install lush, make sure to set g:zenbones_compat = 1
+         -- In Vim, compat mode is turned on as Lush only works in Neovim.
+         dependencies = 'rktjmp/lush.nvim',
          lazy = false,
          priority = 1000,
-         version = '*',
+         -- you can set set configuration options here
          config = function()
-            require( 'nightfox' ).setup( {
-               options = {
-                  colorblind = {
-                     enable = true,
-                     severity = {
-                        protan = 0.8,
-                        deutan = 0.3,
-                        tritan = 0.1,
-                     },
-                  },
-                  styles = {
-                     comments = "italic",
-                     keywords = "bold",
-                     types = "italic,bold",
-                  }
-               },
-               groups = {
-                  all = {
-                     [ '@statement' ] = { link = 'Statement' },
-                     [ '@structure' ] = { link = 'Structure' },
-                  },
-               },
-            } )
-            vim.cmd.colorscheme 'dayfox'
-         end,
+             vim.cmd.colorscheme( 'zenbones' )
+         end
       },
       -- -- A Git wrapper so awesome, it should be illegal
       -- 'tpope/vim-fugitive',
@@ -982,12 +995,16 @@ local res = jobDbWatch:start(
    end )
 
 -- nvim-lualine/lualine.nvim
--- -- The rose-pine theme does not set the terminal highlight
--- local fixedRosePine = require( 'lualine.themes.rose-pine' )
--- fixedRosePine.terminal = fixedRosePine.insert
+-- Some themes do not set everything they should
+local fixedTheme = require( 'lualine.themes.zenbones' )
+fixedTheme.insert.b = fixedTheme.insert.a
+fixedTheme.command.b = fixedTheme.command.a
+fixedTheme.visual.b = fixedTheme.visual.a
+fixedTheme.replace.b = fixedTheme.replace.a
+fixedTheme.terminal = fixedTheme.insert
 require( 'lualine' ).setup( {
    options = {
-      -- theme = fixedRosePine,
+      theme = fixedTheme,
       always_divide_middle = false,
       section_separators = { left = '', right = '' },
       component_separators = { left = '', right = '' },

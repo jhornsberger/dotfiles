@@ -647,12 +647,6 @@ require( 'lazy' ).setup( {
              vim.cmd.colorscheme( 'zenbones' )
          end
       },
-      -- -- A Git wrapper so awesome, it should be illegal
-      -- 'tpope/vim-fugitive',
-      -- -- A lightweight and powerful git branch viewer for vim
-      -- { 'rbong/vim-flog',
-      --    version = '*',
-      -- },
       -- Single tabpage interface for easily cycling through diffs for all modified files for any git rev.
       'sindrets/diffview.nvim',
       -- Add/change/delete surrounding delimiter pairs with ease

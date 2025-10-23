@@ -35,7 +35,6 @@ vim.o.lazyredraw = true
 vim.o.path = '**'
 vim.o.numberwidth = 1
 vim.o.previewheight = 20
-vim.o.termguicolors = true
 vim.o.winblend = 15
 vim.o.pumblend = 15
 vim.o.splitright = true

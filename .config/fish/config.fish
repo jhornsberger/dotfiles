@@ -4,6 +4,7 @@ if status is-interactive
    set -e VISUAL
    set -gx TZ 'America/Vancouver'
    set -gx TZDIR /usr/share/zoneinfo
+   set -gx COLORTERM truecolor
    set -gx EDITOR nvim
    set -gx NOTI_PB o.xXcIRDklt4berjLHFbbiwOe7f8QjRDml
    set -gx P4_AUTO_LOGIN 1

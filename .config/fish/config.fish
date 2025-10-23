@@ -39,6 +39,7 @@ if status is-interactive
    alias config='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
    # Fzf
+   set -gx FZF_DEFAULT_OPTS_FILE ~/.config/fzfrc
    if command -q fzf
       # Set up fzf key bindings
       fzf --fish | source

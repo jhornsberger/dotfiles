@@ -46,7 +46,7 @@ function fish_prompt --description 'Write out the prompt'
    if test $laststatus -eq 0
       # printf "%s %s" (set_color -o green) (set_color black)
    else
-      printf "%s %s" (set_color -o red) (set_color black)
+      printf "%s %s" (set_color -o red) (set_color normal)
    end
    switch $fish_bind_mode
       case default

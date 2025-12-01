@@ -15,9 +15,6 @@ config.visual_bell = {
   fade_out_duration_ms = 150,
 }
 
--- For example, changing the color scheme:
-config.color_scheme = 'zenbones'
-
 -- Choose your favourite font, make sure it's installed on your machine
 -- config.font = wezterm.font({ family = 'JetBrains Mono' })
 config.font = wezterm.font({ family = 'Maple Mono' })
@@ -56,13 +53,42 @@ config.window_close_confirmation = 'NeverPrompt'
 wezterm.on( 'toggle-tab-bar', function( window, pane )
   local config = window:effective_config()
   local overrides = window:get_config_overrides() or {}
-  if config.enable_tab_bar then
+  if window:is_focused() then
     overrides.enable_tab_bar = false
   else
     overrides.enable_tab_bar = true
   end
   window:set_config_overrides(overrides)
 end)
+
+wezterm.on( 'window-config-reloaded', function( window, pane )
+  -- Get the current system appearance
+  local appearance = wezterm.gui.get_appearance()
+
+  local colorsScheme = ( function()
+     if appearance:find 'Dark' then
+       return 'zenbones_dark'
+     else
+       return 'zenbones'
+     end
+  end )()
+
+  -- Set the color scheme based on the appearance
+  window:set_config_overrides( {
+    color_scheme = colorsScheme,
+  } )
+end)
+
+-- wezterm.on( 'window-focus-changed', function( window, pane )
+--   local config = window:effective_config()
+--   local overrides = window:get_config_overrides() or {}
+--   if config.enable_tab_bar then
+--     overrides.enable_tab_bar = false
+--   else
+--     overrides.enable_tab_bar = true
+--   end
+--   window:set_config_overrides(overrides)
+-- end)
 
 -- Extend Hyperlink rules
 config.hyperlink_rules = wezterm.default_hyperlink_rules()
@@ -78,8 +104,14 @@ table.insert( config.hyperlink_rules, {
 } )
 
 -- Bind keys
-config.leader = { key = 'b', mods = 'CTRL' }
+config.leader = { key = 'a', mods = 'CMD' }
 config.keys = {
+  -- CMD-p will show the command palette
+  {
+    key = 'p',
+    mods = 'CMD',
+    action = wezterm.action.ActivateCommandPalette
+  },
   -- CMD-` will switch back to the last active tab
   {
     key = '`',
@@ -106,6 +138,27 @@ config.keys = {
     key = 'PageDown',
     mods = 'CMD',
     action = wezterm.action.ActivateTabRelative(1),
+  },
+  -- Change CTRL-Shift-PageUp/PageDown to CMD-Shift-PageUp/PageDown for tab move
+  {
+    key = 'PageUp',
+    mods = 'CTRL | SHIFT',
+    action = wezterm.action.DisableDefaultAssignment,
+  },
+  {
+    key = 'PageDown',
+    mods = 'CTRL | SHIFT',
+    action = wezterm.action.DisableDefaultAssignment,
+  },
+  {
+    key = 'PageUp',
+    mods = 'CMD | SHIFT',
+    action = wezterm.action.MoveTabRelative(-1),
+  },
+  {
+    key = 'PageDown',
+    mods = 'CMD | SHIFT',
+    action = wezterm.action.MoveTabRelative(1),
   },
   -- LEADER-n will show tab navigator
   {

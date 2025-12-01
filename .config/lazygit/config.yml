@@ -262,7 +262,7 @@ customCommands:
         description: 'Diff gitarband topics'
         output: log
       - key: 'y'
-        command: printf '\e]52;c;%s\a' (printf %s (a git message --show --topic {{.SelectedLocalBranch.Name}}) | base64 | string join '') > /dev/tty
+        command: printf '\e]52;c;%s\a' (a git message --show --topic {{.SelectedLocalBranch.Name}} | base64 | string join '') > /dev/tty
         # command: 'printf "\033]52;c;$(a git message --show --topic {{.SelectedLocalBranch.Name}} | base64 -w 0)\a" > /dev/tty'
         context: 'localBranches'
         description: 'Copy gitarband topic message'

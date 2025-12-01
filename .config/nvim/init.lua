@@ -26,7 +26,6 @@ vim.o.virtualedit = 'all'
 vim.o.mouse='a'
 vim.o.directory = '/tmp'
 vim.o.foldenable = false
-vim.o.background = 'light'
 vim.o.visualbell = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
@@ -1004,136 +1003,145 @@ vim.api.nvim_create_autocmd( { 'FocusGained' },
    } )
 
 -- nvim-lualine/lualine.nvim
--- Some themes do not set everything they should
-local fixedTheme = require( 'lualine.themes.zenbones' )
-fixedTheme.insert.b = fixedTheme.insert.a
-fixedTheme.command.b = fixedTheme.command.a
-fixedTheme.visual.b = fixedTheme.visual.a
-fixedTheme.replace.b = fixedTheme.replace.a
-fixedTheme.terminal = fixedTheme.insert
-require( 'lualine' ).setup( {
-   options = {
-      theme = fixedTheme,
-      always_divide_middle = false,
-      section_separators = { left = '', right = '' },
-      component_separators = { left = '', right = '' },
-   },
-   tabline = {
-      lualine_a = {},
-      lualine_b = {
-         'progress',
-         {
-            'location',
-            cond = function() return not vim.b.bigFile end,
-         },
-         {
-            'diff',
-            colored = false,
-            symbols = {added = ' ', modified = ' ', removed = ' '},
-            source = function()
-               local gitsigns = vim.b.gitsigns_status_dict
-               if gitsigns then
-                  return {
-                     added = gitsigns.added,
-                     modified = gitsigns.changed,
-                     removed = gitsigns.removed
-                  }
-               end
-            end,
-         },
-         'branch',
+-- Setup in autocmd to adapt to background changing
+local function setupLualine()
+   -- Some themes do not set everything they should
+   local fixedTheme = require( 'lualine.themes.zenbones' )
+   fixedTheme.insert.b = fixedTheme.insert.a
+   fixedTheme.command.b = fixedTheme.command.a
+   fixedTheme.visual.b = fixedTheme.visual.a
+   fixedTheme.replace.b = fixedTheme.replace.a
+   fixedTheme.terminal = fixedTheme.insert
+
+   require( 'lualine' ).setup( {
+      options = {
+         theme = 'auto',
+         always_divide_middle = false,
+         section_separators = { left = '', right = '' },
+         component_separators = { left = '', right = '' },
       },
-      lualine_c = {
-         {
-            function()
-               return '󰀦 '
-            end,
-            cond = function() return vim.b.bigFile end,
+      tabline = {
+         lualine_a = {},
+         lualine_b = {
+            'progress',
+            {
+               'location',
+               cond = function() return not vim.b.bigFile end,
+            },
+            {
+               'diff',
+               colored = false,
+               symbols = {added = ' ', modified = ' ', removed = ' '},
+               source = function()
+                  local gitsigns = vim.b.gitsigns_status_dict
+                  if gitsigns then
+                     return {
+                        added = gitsigns.added,
+                        modified = gitsigns.changed,
+                        removed = gitsigns.removed
+                     }
+                  end
+               end,
+            },
+            'branch',
          },
-         {
-            'diagnostics',
-            colored = false, -- Displays diagnostics status in color if set to true.
-         },
-         {
-            'aerial',
-            colored = false,
-         },
-         {
-            'searchcount',
-            cond = function() return not vim.b.bigFile end,
-         },
-         {
-            'selectioncount',
-            cond = function() return not vim.b.bigFile end,
-         },
-      },
-      lualine_x = {},
-      lualine_y = {
-         {
-            'tabs',
-            use_mode_colors = true,
-            cond = function() return vim.fn.tabpagenr( '$' ) > 1 end,
-            mode = 0, -- Shows tab_nr
-            symbols = {
-               modified = '  ',
+         lualine_c = {
+            {
+               function()
+                  return '󰀦 '
+               end,
+               cond = function() return vim.b.bigFile end,
+            },
+            {
+               'diagnostics',
+               colored = false, -- Displays diagnostics status in color if set to true.
+            },
+            {
+               'aerial',
+               colored = false,
+            },
+            {
+               'searchcount',
+               cond = function() return not vim.b.bigFile end,
+            },
+            {
+               'selectioncount',
+               cond = function() return not vim.b.bigFile end,
             },
          },
-      },
-      lualine_z = {
-         {
-            'g:active_jobs',
-            icon = '',
-            cond = function() return vim.g.active_jobs > 0 end,
-         },
-         "string.gmatch( vim.env.HOSTNAME, '([%a%d%-]+).*' )()",
-      },
-   },
-   winbar = {},
-   inactive_winbar = {},
-   sections = {
-      lualine_a = {
-         {
-            'filename',
-            symbols = {
-               modified = ' ', -- Text to show when the file is modified.
-               readonly = ' ', -- Text to show when the file is non-modifiable or readonly.
-               unnamed = ' ', -- Text to show for unnamed buffers.
-               newfile = ' ', -- Text to show for newly created file before first write
+         lualine_x = {},
+         lualine_y = {
+            {
+               'tabs',
+               use_mode_colors = true,
+               cond = function() return vim.fn.tabpagenr( '$' ) > 1 end,
+               mode = 0, -- Shows tab_nr
+               symbols = {
+                  modified = '  ',
+               },
             },
          },
-      },
-      lualine_b = {},
-      lualine_c = {},
-      lualine_x = {},
-      lualine_y = {},
-      lualine_z = {},
-   },
-   inactive_sections = {
-      lualine_a = {
-         {
-            'filename',
-            symbols = {
-               modified = ' ', -- Text to show when the file is modified.
-               readonly = ' ', -- Text to show when the file is non-modifiable or readonly.
-               unnamed = ' ', -- Text to show for unnamed buffers.
-               newfile = ' ', -- Text to show for newly created file before first write
+         lualine_z = {
+            {
+               'g:active_jobs',
+               icon = '',
+               cond = function() return vim.g.active_jobs > 0 end,
             },
+            "string.gmatch( vim.env.HOSTNAME, '([%a%d%-]+).*' )()",
          },
       },
-      lualine_b = {},
-      lualine_c = {},
-      lualine_x = {},
-      lualine_y = {},
-      lualine_z = {},
-   },
-   extensions = {
-      -- 'fugitive',
-      'fzf',
-      'quickfix',
-      'lazy',
-      'aerial',
-   },
-} )
+      winbar = {},
+      inactive_winbar = {},
+      sections = {
+         lualine_a = {
+            {
+               'filename',
+               symbols = {
+                  modified = ' ', -- Text to show when the file is modified.
+                  readonly = ' ', -- Text to show when the file is non-modifiable or readonly.
+                  unnamed = ' ', -- Text to show for unnamed buffers.
+                  newfile = ' ', -- Text to show for newly created file before first write
+               },
+            },
+         },
+         lualine_b = {},
+         lualine_c = {},
+         lualine_x = {},
+         lualine_y = {},
+         lualine_z = {},
+      },
+      inactive_sections = {
+         lualine_a = {
+            {
+               'filename',
+               symbols = {
+                  modified = ' ', -- Text to show when the file is modified.
+                  readonly = ' ', -- Text to show when the file is non-modifiable or readonly.
+                  unnamed = ' ', -- Text to show for unnamed buffers.
+                  newfile = ' ', -- Text to show for newly created file before first write
+               },
+            },
+         },
+         lualine_b = {},
+         lualine_c = {},
+         lualine_x = {},
+         lualine_y = {},
+         lualine_z = {},
+      },
+      extensions = {
+         -- 'fugitive',
+         'fzf',
+         'quickfix',
+         'lazy',
+         'aerial',
+      },
+   } )
+end
+vim.api.nvim_create_autocmd( { 'OptionSet' },
+   { group = 'config',
+     pattern = 'background',
+     callback = setupLualine,
+   } )
 vim.o.showmode = false
 vim.opt.shortmess:append( 'S' )
 vim.o.showcmd = false

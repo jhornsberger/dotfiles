@@ -1150,6 +1150,21 @@ vim.o.ruler = false
 
 -- gitsigns.nvim
 require('gitsigns').setup( {
+   signs = {
+      add          = { text = '+' },
+      change       = { text = '±' },
+      delete       = { text = '_' },
+      topdelete    = { text = '‾' },
+      changedelete = { text = '±' },
+      untracked    = { text = '┆' },
+   },
+   signs_staged = {
+      add          = { text = '+' },
+      change       = { text = '±' },
+      delete       = { text = '_' },
+      topdelete    = { text = '‾' },
+      changedelete = { text = '±' },
+   },
    attach_to_untracked = true,
    worktrees = {
       {
@@ -1162,35 +1177,41 @@ require('gitsigns').setup( {
 
       vim.keymap.set( 'n', '<Leader>gt',
          gitsigns.toggle_signs, { noremap = true, buffer = bufnr } )
-      vim.keymap.set( 'n', '<Leader>gp',
-         gitsigns.preview_hunk,
-         { noremap = true, buffer = bufnr } )
-      vim.keymap.set( 'n', '<Leader>gd', ':Gitsigns diffthis<space>',
-         { noremap = true, buffer = bufnr } )
-      vim.keymap.set( {'n', 'x'}, '<Leader>gs',
+      vim.keymap.set( {'n', 'x'}, '<Leader>ga',
          gitsigns.stage_hunk, { noremap = true, buffer = bufnr } )
-      vim.keymap.set( {'n', 'x'}, '<Leader>gu',
+      vim.keymap.set( {'n', 'x'}, '<Leader>gA',
          gitsigns.undo_stage_hunk, { noremap = true, buffer = bufnr } )
       vim.keymap.set( {'n', 'x'}, '<Leader>gr',
          gitsigns.reset_hunk, { noremap = true, buffer = bufnr } )
-      vim.keymap.set( 'n', '<Leader>gc', ':Gitsigns change_base<space>',
-         { noremap = true, buffer = bufnr } )
       vim.keymap.set('n', '<Leader>gb',
-         gitsigns.blame_line, { noremap = true, buffer = bufnr })
-      -- vim.keymap( 'n', '<leader>gq', function()
-      --       gitsigns.setqflist( 'all' )
-      --    end, { noremap = true, buffer = bufnr } )
+         gitsigns.blame, { noremap = true, buffer = bufnr })
+      vim.keymap.set( 'n', '<Leader>gd', ':Gitsigns change_base<space>',
+         { noremap = true, buffer = bufnr } )
+      vim.keymap.set( 'n', '<Leader>gu', function()
+            gitsigns.toggle_deleted()
+            gitsigns.toggle_linehl()
+         end, { noremap = true, buffer = bufnr } )
+      vim.keymap.set( 'n', '<Leader>gs', function()
+            gitsigns.diffthis()
+         end, { noremap = true, buffer = bufnr } )
+      vim.keymap.set( 'n', '<leader>gq', function()
+            gitsigns.setqflist( 'all' )
+         end, { noremap = true, buffer = bufnr } )
       vim.keymap.set( {'n', 'x'}, ']c', function()
-         if vim.wo.diff then return ']c' end
-            vim.schedule( function() gitsigns.nav_hunk( 'next' ) end )
-            return '<Ignore>'
+         if vim.wo.diff then
+            return ']c'
+         end
+         vim.schedule( function() gitsigns.nav_hunk( 'next' ) end )
+         return '<Ignore>'
          end, { expr = true, buffer = bufnr } )
       vim.keymap.set( {'n', 'x'}, '[c', function()
-            if vim.wo.diff then return '[c' end
-               vim.schedule( function() gitsigns.nav_hunk( 'prev' ) end )
-            return '<Ignore>'
+         if vim.wo.diff then
+            return '[c'
+         end
+         vim.schedule( function() gitsigns.nav_hunk( 'prev' ) end )
+         return '<Ignore>'
          end, { expr = true, buffer = bufnr } )
-   end
+   end,
 } )
 require( 'scrollbar.handlers.gitsigns' ).setup()
 

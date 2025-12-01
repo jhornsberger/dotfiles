@@ -3,8 +3,9 @@ recentrepos:
     - /home/jeff
 startuppopupversion: 5
 didshowhunkstaginghint: true
-lastversion: 0.55.1
+lastversion: 0.56.0
 customcommandshistory:
+    - a git lint -f
     - git revert --abort
     - DiffviewOpen -C/src/FlowTracker
     - git cherry-pick 2274fad254c3

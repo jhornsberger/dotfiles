@@ -6,7 +6,7 @@ gui:
   expandFocusedSidePanel: true
   theme:
     selectedLineBgColor:
-      - black
+      - bold
   commandLogSize: 15
   statusPanelView: allBranchesLog
 git:

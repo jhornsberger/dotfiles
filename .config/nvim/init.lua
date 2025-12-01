@@ -987,7 +987,6 @@ end
 
 -- Initialization
 vim.g.active_jobs = 0
-setActiveJobs()
 
 -- Update on DB file changes
 local jobDbWatch = vim.uv.new_fs_event()
@@ -996,6 +995,13 @@ local res = jobDbWatch:start(
    function( err, filename, events )
       setActiveJobs()
    end )
+
+-- Sometimes Nvim seems to not get file events when unfocussed
+vim.api.nvim_create_autocmd( { 'FocusGained' },
+   { group = 'config',
+     pattern = '*',
+     callback = setActiveJobs,
+   } )
 
 -- nvim-lualine/lualine.nvim
 -- Some themes do not set everything they should

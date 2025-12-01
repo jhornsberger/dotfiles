@@ -699,8 +699,6 @@ require( 'lazy' ).setup( {
       { 'chentoast/marks.nvim',
          opts = { force_write_shada = true },
       },
-      -- Indent guides for Neovim
-      { 'lukas-reineke/indent-blankline.nvim', main = 'ibl', },
       -- Improved UI and workflow for the Neovim quickfix
       { 'stevearc/quicker.nvim',
          opts = {
@@ -725,12 +723,20 @@ require( 'lazy' ).setup( {
       },
       -- A collection of QoL plugins for Neovim
       { 'folke/snacks.nvim',
-        opts = {
-          input = {},
-          notifier = {
-             timeout = 10000,
-          },
-        },
+         opts = {
+            input = {},
+            notifier = {
+               timeout = 10000,
+            },
+            indent = {
+               indent = {
+                  only_current = true,
+               },
+               filter = function(buf, win)
+                  return not vim.b.bigFile and vim.bo[buf].buftype == ""
+               end,
+            },
+         },
       },
       -- -- Performant, batteries-included completion plugin for Neovim
       -- { 'saghen/blink.cmp',
@@ -1389,27 +1395,6 @@ vim.keymap.set( { 'n','x' }, 'P', '<Plug>(YankyPutBefore)' )
 vim.keymap.set( 'n', '<c-n>', '<Plug>(YankyCycleForward)' )
 vim.keymap.set( 'n', '<c-p>', '<Plug>(YankyCycleBackward)' )
 vim.keymap.set( 'n', '<Leader>yh', '<cmd>YankyRingHistory<cr>', { noremap = true } )
-
--- indent-blankline
-require( 'ibl' ).setup( {
-   indent = { char = '▏' },
-} )
--- Enable indent-blankline only on current window
-vim.api.nvim_create_autocmd( { 'VimEnter', 'WinEnter', 'BufWinEnter' },
-   { group = 'config',
-     pattern = '*',
-     callback = function()
-        if vim.b.bigFile then
-           return
-        end
-        require( 'ibl' ).setup_buffer( 0, { enabled = true, } )
-     end, } )
-vim.api.nvim_create_autocmd( { 'WinLeave' },
-   { group = 'config',
-     pattern = '*',
-     callback = function()
-        require( 'ibl' ).setup_buffer( 0, { enabled = false, } )
-     end, } )
 
 -- Open Lazygit in directory
 local function openLazygitDir( packageName )

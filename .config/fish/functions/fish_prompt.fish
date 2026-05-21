@@ -44,9 +44,9 @@ function fish_prompt --description 'Write out the prompt'
    set_color -b normal
    printf '%s%s%s%s%s%s%s%s%s%s%s%s%s' (set_color blue) (date "+%H:%M:%S") (set_color normal) '|' (set_color magenta) (prompt_hostname) $NSPATH (set_color normal) '|' (set_color cyan) (prompt_pwd) (set_color normal) $git_info (set_color normal)
    if test $laststatus -eq 0
-      # printf "%s %s" (set_color -o green) (set_color black)
+      # printf "%s✔ %s" (set_color -o green) (set_color black)
    else
-      printf "%s %s" (set_color -o red) (set_color normal)
+      printf "%s✖ %s" (set_color -o red) (set_color normal)
    end
    switch $fish_bind_mode
       case default
@@ -62,5 +62,5 @@ function fish_prompt --description 'Write out the prompt'
       case '*'
          echo "Mode: $fish_bind_mode⏐"
    end
-   printf " %s " (set_color normal)
+   printf "❯ %s " (set_color normal)
 end

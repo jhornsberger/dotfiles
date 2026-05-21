@@ -672,11 +672,13 @@ require( 'lazy' ).setup( {
          priority = 1000,
          -- you can set set configuration options here
          config = function()
-             vim.cmd.colorscheme( 'zenbones' )
+            vim.cmd.colorscheme( 'zenbones' )
+            vim.api.nvim_set_hl( 0, '@statement', { link = 'Statement' } )
+            vim.api.nvim_set_hl( 0, '@structure', { link = 'Structure' } )
          end
       },
       -- Single tabpage interface for easily cycling through diffs for all modified files for any git rev.
-      'sindrets/diffview.nvim',
+      'dlyongemallo/diffview.nvim',
       -- Add/change/delete surrounding delimiter pairs with ease
       { 'kylechui/nvim-surround', config = true },
       -- Helpers for UNIX
@@ -695,7 +697,7 @@ require( 'lazy' ).setup( {
       -- Extensible Neovim Scrollbar
       'petertriho/nvim-scrollbar',
       -- Neovim's answer to the mouse
-      'ggandor/leap.nvim',
+      'https://codeberg.org/andyg/leap.nvim.git',
       -- enable repeating supported plugin maps with "."
       'tpope/vim-repeat',
       -- Pairs of handy bracket mappings
@@ -708,9 +710,6 @@ require( 'lazy' ).setup( {
       },
       -- Nvim Treesitter configurations and abstraction layer
       'nvim-treesitter/nvim-treesitter',
-      -- Syntax aware text-objects, select, move, swap, and peek support
-      { 'rrethy/nvim-treesitter-textsubjects',
-         dependencies = 'nvim-treesitter/nvim-treesitter' },
       -- plugin for a code outline window
       'stevearc/aerial.nvim',
       -- lua `fork` of vim-web-devicons for neovim
@@ -766,41 +765,6 @@ require( 'lazy' ).setup( {
             },
          },
       },
-      -- -- Performant, batteries-included completion plugin for Neovim
-      -- { 'saghen/blink.cmp',
-      --    version = '*',
-      --    opts = {},
-      -- },
-      -- -- AI-powered coding, seamlessly in Neovim
-      -- { 'olimorris/codecompanion.nvim',
-      --    opts = {
-      --       strategies = {
-      --          chat = {
-      --             adapter = "gemini",
-      --          },
-      --          inline = {
-      --             adapter = "gemini",
-      --          },
-      --          cmd = {
-      --             adapter = "gemini",
-      --          }
-      --       },
-      --       adapters = {
-      --          gemini = function()
-      --             return require( 'codecompanion.adapters' ).extend( 'gemini', {
-      --                env = {
-      --                  api_key = 'cmd:cat ~/.gemini_api_key',
-      --                  -- model = 'gemini-2.5-pro-exp-03-25',
-      --                },
-      --             } )
-      --          end,
-      --       },
-      --    },
-      --    dependencies = {
-      --      'nvim-lua/plenary.nvim',
-      --      'nvim-treesitter/nvim-treesitter',
-      --    },
-      -- },
    },
    ui = {
       border = 'rounded',
@@ -825,18 +789,6 @@ vim.keymap.set( 'n', '*', '<Plug>(asterisk-z*)' )
 vim.keymap.set( 'n', '#', '<Plug>(asterisk-z#)' )
 vim.keymap.set( 'n', 'g*', '<Plug>(asterisk-gz*)' )
 vim.keymap.set( 'n', 'g#', '<Plug>(asterisk-gz#)' )
-
--- -- vim-fugitive plugin
--- -- vim.api.nvim_create_user_command(
--- --    'GitDir', 'silent cd <args> | topleft vertical Git | cd- | lcd <args>',
--- --    { nargs = 1 } )
--- vim.keymap.set( 'n', '<Leader>fs', '<cmd>topleft vertical Git<cr>' )
--- -- vim.keymap.set( 'n', '<Leader>gsd', ':GitDir<space>' )
--- -- vim.keymap.set( 'n', '<Leader>ge', ':Gedit<space>' )
--- -- vim.keymap.set( 'n', '<Leader>gd', ':Gdiffsplit<space>' )
--- -- vim.keymap.set( 'n', '<Leader>ged', '<cmd>Gedit | windo difft<cr>' )
--- -- vim.keymap.set( 'n', '<Leader>gc', ':Git commit<space>' )
--- -- vim.keymap.set( 'n', '<Leader>G', ':Git<space>' )
 
 -- fzf-lua plugin
 require( 'fzf-lua' ).setup( {
@@ -1250,7 +1202,6 @@ local leap = require('leap')
 leap.opts.safe_labels = {}
 leap.opts.labels = { 's', 'f', 'n', 'j', 'k', 'l', 'h', 'o', 'd', 'w', 'e',
    'i', 'm', 'b', 'u', 'y', 'v', 'r', 'g', 't', 'a', 'q', 'p', 'c', 'x', 'z' }
--- vim.api.nvim_set_hl( 0, 'LeapBackdrop', { link = 'Comment' } )
 vim.keymap.set( { 'n', 'x', 'o' }, 'f', '<Plug>(leap-forward)' )
 vim.keymap.set( { 'n', 'x', 'o' }, 'F', '<Plug>(leap-backward)' )
 vim.keymap.set( { 'n', 'x', 'o' }, 't', '<Plug>(leap-forward-till)' )
@@ -1359,13 +1310,6 @@ require( 'nvim-treesitter.configs' ).setup( {
    },
    indent = {
       enable = true
-   },
-   textsubjects = {
-      enable = true,
-      keymaps = {
-          ['ac'] = 'textsubjects-container-outer',
-          ['ic'] = 'textsubjects-container-inner',
-      },
    },
 } )
 

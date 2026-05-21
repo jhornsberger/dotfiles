@@ -217,7 +217,7 @@ vim.api.nvim_create_autocmd( 'FileType',
            local bufName = vim.fn.bufname()
            local tmpfile = vim.fn.tempname()
 
-           local tarExt = tarfile:match( '.tar.gz$' )
+           local tarExt = bufName:match( '.tar.gz$' )
            if tarExt == nil then
               print( 'Only extraction from .tar.gz files is supported' )
               return
@@ -225,7 +225,7 @@ vim.api.nvim_create_autocmd( 'FileType',
 
            -- Add any file extensions from fname to tmpfile so it will be
            -- treated correctly on opening
-           local ext = fname:match( '[^/]+(%.[^/]+)$' )
+           local ext = fname:match( '[^/](%.[^/]+)$' )
            if ext ~= nil then
               tmpfile = tmpfile .. ext
            end

@@ -587,7 +587,9 @@ local termShark = function()
 
    local fileName = vim.fn.bufname()
    if vim.fn.filereadable( fileName ) ~= 1 then
-      fileName = vim.fn.tempname() .. '.pcap'
+		components = vim.split( fileName, '/', { trimempty=true } )
+		baseName = components[ #components ]
+      fileName = vim.fn.tempname() .. '-' .. baseName
       vim.o.binary = true
       vim.cmd( 'write ' .. fileName )
    end

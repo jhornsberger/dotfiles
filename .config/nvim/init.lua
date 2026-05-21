@@ -1498,8 +1498,8 @@ local function lazyGitar()
 
    -- Invoke Lazygit
    -- Use git repo information from gitsigns if available
-   if vim.b[ 'gitsigns_status_dict' ] ~= nil then
-      openLazygitDir( vim.b.gitsigns_status_dict[ 'root' ] )
+   if vim.b.gitsigns_status_dict ~= nil then
+      openLazygitDir( vim.b.gitsigns_status_dict.root )
       return
    end
 

@@ -353,13 +353,15 @@ vim.keymap.set('n', '<Leader>er', function()
 vim.keymap.set('n', '<C-W><C-F>', '<C-W>vgf', { noremap = true })
 vim.keymap.set('n', '<Leader>j', '<cmd>pedit +$ `job -g <cword>`<cr>',
    { noremap = true })
-vim.keymap.set('n', '<Leader>J', '<cmd>edit +$ `job -g <cword>`<cr>',
+vim.keymap.set('n', '<Leader>j.', '<cmd>pedit +$ `job -g .`<cr>',
    { noremap = true })
 vim.keymap.set('n', '<Leader>jf',
    '<cmd>split | terminal less +F $(job -g <cword>)<cr>', { noremap = true })
-vim.keymap.set('n', '<Leader>JF', '<cmd>terminal less +F $(job -g <cword>)<cr>',
-   { noremap = true })
+vim.keymap.set('n', '<Leader>jf.',
+   '<cmd>split | terminal less +F $(job -g .)<cr>', { noremap = true })
 vim.keymap.set('n', '<Leader>cf',
+   '<cmd>cgetfile `job -g <cword>`<cr>', { noremap = true })
+vim.keymap.set('n', '<Leader>cf.',
    '<cmd>cgetfile `job -g .`<cr>', { noremap = true })
 -- Show hidden characters
 vim.keymap.set('n', '<Leader>H', function() vim.wo.list = not vim.wo.list end,

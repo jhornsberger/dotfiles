@@ -55,7 +55,7 @@ config.window_close_confirmation = 'NeverPrompt'
 wezterm.on( 'toggle-tab-bar', function( window, pane )
   local config = window:effective_config()
   local overrides = window:get_config_overrides() or {}
-  if window:is_focused() then
+  if config.enable_tab_bar then
     overrides.enable_tab_bar = false
   else
     overrides.enable_tab_bar = true
@@ -76,9 +76,10 @@ wezterm.on( 'window-config-reloaded', function( window, pane )
   end )()
 
   -- Set the color scheme based on the appearance
-  window:set_config_overrides( {
-    color_scheme = colorsScheme,
-  } )
+  local config = window:effective_config()
+  local overrides = window:get_config_overrides() or {}
+  overrides.color_scheme = colorsScheme
+  window:set_config_overrides( overrides )
 end)
 
 -- wezterm.on( 'window-focus-changed', function( window, pane )

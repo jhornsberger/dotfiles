@@ -100,6 +100,11 @@ table.insert( config.hyperlink_rules, {
   regex = [[\d{8}]],
   format = 'http://cl/$0',
 } )
+-- Matches: @\d+ changelist numbers
+table.insert( config.hyperlink_rules, {
+  regex = [[@(\d+)]],
+  format = 'http://cl/$1',
+} )
   -- Matches: 5-7 digit bug numbers
 table.insert( config.hyperlink_rules, {
   regex = [[\d{5,7}]],

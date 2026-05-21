@@ -3,8 +3,11 @@ recentrepos:
     - /home/jeff
 startuppopupversion: 5
 didshowhunkstaginghint: true
-lastversion: 0.56.0
+lastversion: 0.61.1
 customcommandshistory:
+    - git branch -f dut-num-mpls-swap.4 m/master
+    - git branch -f dut-num-mpls-swap.3 m/master
+    - git branch -f dut-num-mpls-swap.2 m/master
     - a git lint -f
     - git revert --abort
     - DiffviewOpen -C/src/FlowTracker
@@ -26,3 +29,4 @@ customcommandshistory:
     - pwd
     - a git status
 hidecommandlog: false
+githubPullRequests: {}

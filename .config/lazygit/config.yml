@@ -7,7 +7,8 @@ gui:
   theme:
     selectedLineBgColor:
       - bold
-  commandLogSize: 15
+  commandLogSize: 1000
+  showCommandLog: false
   statusPanelView: allBranchesLog
 git:
   mainBranches:
@@ -33,6 +34,8 @@ os:
   # copyToClipboardCmd: 'nvim --server "$NVIM" --remote-send "<c-\><c-n>:lua vim.fn.setreg( \"\", \""{{text}}"\" )<cr>i"'
 notARepository: skip
 keybinding:
+  status:
+    allBranchesLogGraphReverse: <disabled>
   universal:
     openFile: <disabled>
     openDiffTool: <disabled>
@@ -67,21 +70,27 @@ customCommands:
         description: 'Display gitarband status'
         output: log
       - key: 'l'
-        command: "{{.Form.Action}}"
+        command: 'a git launch --non-interactive'
+        context: 'status'
+        loadingText: 'Launching topics'
+        description: "Launch current topic and predecessors"
+        output: log
+      - key: 'P'
+        command: "a git push --non-interactive {{.Form.Options}}"
         context: 'status'
         prompts:
           - type: 'menu'
-            title: 'Action:'
-            key: 'Action'
+            title: 'Push options:'
+            key: 'Options'
             options:
-              - value: 'a git launch --non-interactive'
-                name: 'Launch'
-                description: 'Launch the current topic as a MUT'
-              - value: 'a git push --gerrit-only'
-                name: 'Push'
-                description: 'Only push to gerrit'
+              - value: '--no-build'
+                name: 'No build'
+                description: 'Push the current topic, but do not build'
+              - value: '--no-check --no-build'
+                name: 'No check, no build'
+                description: 'Push the current topic, but do not check or build'
         loadingText: 'Pushing topics'
-        description: 'Launch or push gitarband topics'
+        description: "Push current topic and predecessors"
         output: log
       - key: 'b'
         command: 'a git topic build --force{{.Form.Type}}'
@@ -119,7 +128,29 @@ customCommands:
         loadingText: 'Pulling changes'
         description: 'Pull source changes from remote gitarband repos'
         output: log
+      - key: 'L'
+        command: 'a git lint --fix'
+        context: 'status'
+        loadingText: 'Linting'
+        description: "Lint and fix current topic"
+        output: log
       #  Files
+      - key: 'd'
+        command: "a git diff{{.Form.Action}}"
+        context: 'files'
+        description: 'Git diff across packages'
+        output: log
+        prompts:
+          - type: 'menu'
+            title: 'Action:'
+            key: 'Action'
+            options:
+              - value: ''
+                name: 'Index'
+                description: 'View changes relative to the index'
+              - value: ' --staged'
+                name: 'Staged'
+                description: 'View staged changes relative to HEAD'
       - key: 'm'
         command: "{{.Form.Action}}"
         context: 'files'
@@ -167,7 +198,7 @@ customCommands:
         context: 'files'
         description: 'Open the index'
       - key: 'f'
-        command: 'git absorb --base m/master --one-fixup-per-commit --verbose'
+        command: 'git absorb --base m/master --one-fixup-per-commit'
         context: 'files'
         description: 'Automatically create fixup commits from staged changes (absorb)'
         output: log
@@ -326,8 +357,8 @@ customCommands:
         context: 'localBranches'
         prompts:
           - type: 'confirm'
-            body: "Are you sure you want to rebase {{.CheckedOutBranch.Name}} onto frozen {{.SelectedLocalBranch.Name}}?"
-        description: 'Rebase the current topic onto a frozen topic'
+            body: "Are you sure you want to freeze {{.SelectedLocalBranch.Name}}?"
+        description: 'Freeze the selected topic'
         output: log
       - key: 'a'
         command: 'a git abandon -y --topic {{.SelectedLocalBranch.Name}}'

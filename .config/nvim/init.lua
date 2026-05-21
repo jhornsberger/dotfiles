@@ -42,6 +42,7 @@ vim.o.fsync = false
 vim.o.spelllang = 'en_us'
 vim.o.winborder = 'rounded'
 vim.o.tabclose = 'uselast'
+vim.o.autocomplete = true
 vim.opt.diffopt:append( { 'vertical', 'algorithm:histogram', 'linematch:60' } )
 vim.opt.completeopt:append( 'fuzzy' )
 vim.g.mapleader = ' '
@@ -608,6 +609,9 @@ vim.api.nvim_create_autocmd( { 'BufNewFile', 'BufReadPost' },
         vim.schedule( termShark )
      end, } )
 
+-- Load non-default, builtin plugins
+vim.cmd.packadd( 'nvim.undotree' )
+
 -- Plugins via lazy.nvim
 require( 'lazy' ).setup( {
    spec = {
@@ -815,8 +819,24 @@ require( 'fzf-lua' ).setup( {
       },
    },
    quickfix = {
-      actions = { ["ctrl-o"] = function( selected )
+      actions = { [ 'ctrl-o' ] = function( selected )
             vim.cmd.copen()
+         end
+      },
+   },
+   builtin = {
+      actions = { [ 'enter' ] = function( selected )
+            local lcd = nil
+            if selected[ 1 ] and
+               vim.startswith( selected[ 1 ], 'git' ) and
+               vim.b.gitsigns_status_dict then
+               lcd = vim.b.gitsigns_status_dict.root
+               vim.cmd.lcd( lcd )
+            end
+            require( 'fzf-lua' ).actions.run_builtin( selected )
+            if lcd ~= nil then
+               vim.schedule( function() vim.cmd.lcd( '-' ) end )
+            end
          end
       },
    },
@@ -1050,7 +1070,9 @@ local function setupLualine()
                cond = function() return not vim.b.bigFile end,
             },
          },
-         lualine_x = {},
+         lualine_x = {
+            vim.ui.progress_status
+         },
          lualine_y = {
             {
                'tabs',
@@ -1265,6 +1287,13 @@ vim.lsp.config( 'ar-grok-ls', {
    on_attach = onAttachSymbols,
 } )
 vim.lsp.enable( 'ar-grok-ls' )
+
+vim.lsp.config( 'ar-p4annotate-ls', {
+   cmd = { 'ar-p4annotate-ls' },
+   root_dir = '/src',
+   settings = { debug = true },
+} )
+vim.lsp.enable( 'ar-p4annotate-ls' )
 
 -- Configure diagnostic signs to match lualine
 local lualineDiagConfig = require( 'lualine.components.diagnostics.config' )

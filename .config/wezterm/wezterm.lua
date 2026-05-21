@@ -17,10 +17,12 @@ config.visual_bell = {
 
 -- Choose your favourite font, make sure it's installed on your machine
 -- config.font = wezterm.font({ family = 'JetBrains Mono' })
-config.font = wezterm.font({ family = 'Maple Mono' })
+-- config.font = wezterm.font({ family = 'Maple Mono' })
+config.font = wezterm.font({ family = 'IosevkaTermSlab Nerd Font' })
+config.font_size = 14
 
 -- Disable ligatures in most fonts
-config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
+-- config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
 
 -- Controls the alignment of the terminal cells inside the window.
 config.window_content_alignment = {

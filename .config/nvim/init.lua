@@ -517,24 +517,49 @@ vim.keymap.set( 'n', '<leader>dm', '<cmd>DiffMods<cr>', { noremap = true } )
 -- vim.keymap.set( 'n', '<leader>aca', ':AGitCommit --amend<cr>' )
 
 -- Quicktrace file handling
-local qtCat = function()
-   if not vim.bo.modifiable then
-      return
-   end
-   vim.o.binary = true
-   vim.cmd( 'silent %!qtcat -f' )
-   vim.o.binary = false
-   vim.o.modified = false
-end
-
-vim.api.nvim_create_user_command(
-   'QtCat', qtCat, {} )
-
 vim.filetype.add( {
    pattern = {
       [ '.*%.qt' ] = 'qt',
       [ '.*%.qt%.%d' ] = 'qt',
    } } )
+
+local function qtCat()
+   if vim.fn.executable( 'qtcat' ) == 0 then
+      return
+   end
+   local fileName = vim.fn.bufname()
+   if vim.fn.filereadable( fileName ) ~= 1 then
+      return
+   end
+   if not vim.bo.modifiable then
+      return
+   end
+   local progress = {
+      kind = 'progress',
+      status = 'running',
+      percent = 0,
+      source = 'qt handler',
+      title = 'qtcat',
+   }
+   progress.id = vim.api.nvim_echo( { { 'decoding ' .. fileName .. '...' } }, true, progress )
+   local cmdList = { 'qtcat', '--files', fileName }
+   local bufNr = vim.api.nvim_get_current_buf()
+   local results = vim.system( cmdList, { text = true }, function( context )
+      vim.schedule( function()
+         progress.percent = 50
+         vim.api.nvim_echo( { { 'processing...' } }, true, progress  )
+         local lines = vim.split( context.stdout, '\n', { trimempty=true } )
+         vim.api.nvim_buf_set_lines( bufNr, 0, -1, true, lines )
+         vim.bo[ bufNr ].modified = false
+         progress.status = 'success'
+         progress.percent = 100
+         vim.api.nvim_echo( { { 'complete' } }, true, progress )
+      end )
+   end )
+end
+
+vim.api.nvim_create_user_command(
+   'QtCat', qtCat, {} )
 
 vim.api.nvim_create_autocmd( 'FileType',
    { group = 'config',

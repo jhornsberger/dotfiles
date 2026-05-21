@@ -5,7 +5,7 @@
 	logma = log --oneline --decorate --graph --branches --tags master~1..
 	loga = log --oneline --decorate --graph --branches --tags
 	logb = log --oneline --decorate --graph
-	cp = cherry-pick
+	alias = config --get-regexp alias
 [push]
 	default = simple
 #[notes]
@@ -23,7 +23,8 @@
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 [rebase]
-	autosquash = true
+	autoSquash = true
+	autoStash = true
 [diff]
 	algorithm = histogram
 [pull]

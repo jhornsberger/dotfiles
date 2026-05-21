@@ -9,6 +9,7 @@ if status is-interactive
    set -gx NOTI_PB o.xXcIRDklt4berjLHFbbiwOe7f8QjRDml
    set -gx P4_AUTO_LOGIN 1
    set -gx SKIPTACGO 1
+   set -gx BAT_THEME ansi
 
    function key_bindings
       fish_vi_key_bindings
